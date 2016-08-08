@@ -6,8 +6,8 @@ etc.
 
 ## Support
 
-| Clojure           | `cljseq`  | Remark   |
-|-------------------|:---------:|----------|
+| Clojure           | `cljseq`        | Remark                                     |
+|-------------------|:----------------|--------------------------------------------|
 | `distinct`        | `distinct`      |                                            |
 | `filter`          | -               | Use Python’s built-in `filter`.            |
 | `remove`          | `remove`        |                                            |
