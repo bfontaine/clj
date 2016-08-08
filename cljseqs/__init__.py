@@ -22,10 +22,6 @@ def remove(pred, coll):
     Return a generator of the items in ``coll`` for which ``pred(item)``
     returns a falsy value.
     """
-    if not callable(pred):
-        value = pred
-        pred = lambda v: v == value
-
     for e in coll:
         if not pred(e):
             yield e
