@@ -1,8 +1,8 @@
 # cljseqs
 
 `cljseqs` is a Python module for those times when you did too much Clojure and
-came back to Python thinking where are all these `group_by`, `first`, `take`,
-etc.
+came back to Python thinking where are all these `distinct`, `drop-while`,
+`cycle`, `first`, etc.
 
 ## Support
 
