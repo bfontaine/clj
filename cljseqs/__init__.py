@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
-from collections import deque
+import random
+from collections import deque, Iterable
 
 __version__ = "0.1.0"
 
@@ -199,6 +200,53 @@ def drop_last(n, coll):
 
         yield queue.popleft()
 
+def flatten(x):
+    """
+    Takes any nested combination of sequential things (``list``s, ``tuple``s,
+    etc.) and returns their contents as a single, flat sequence.
+    """
+    for e in x:
+        if isinstance(e, Iterable):
+            for sub_e in flatten(e):
+                yield sub_e
+        else:
+            yield e
+
+def shuffle(coll):
+    """
+    Return a random permutation of ``coll``. Not lazy.
+    """
+    coll = coll[:]
+    random.shuffle(coll)
+    return coll
+
+def split_at(n, coll):
+    """
+    Returns a tuple of ``(take(n, coll), drop(n coll))``.
+    """
+    return (
+        take(n, coll),
+        drop(n, coll),
+    )
+
+def split_with(pred, coll):
+    """
+    Returns a tuple of ``(take_while(pred, coll), drop_while(pred coll))``.
+    """
+    return (
+        take_while(pred, coll),
+        drop_while(pred, coll),
+    )
+
+def map_indexed(f, coll):
+    """
+    Returns a generator consisting of the result of applying ``f`` to ``0``
+    and the first item of ``coll``, followed by applying ``f`` to ``1`` and the
+    second item in ``coll``, etc, until ``coll`` is exhausted. Thus function
+    ``f`` should accept 2 arguments, ``index`` and ``item``.
+    """
+    return map(lambda pair: f(pair[0], pair[1]) for pair in enumerate(coll))
+
 def first(coll):
     """
     Returns the first item in the collection. If ``coll`` is ``None`` or empty,
@@ -207,6 +255,18 @@ def first(coll):
     if coll is None:
         return None
     return next(take(1, coll), None)
+
+def ffirst(x):
+    """
+    Same as ``first(first(x))``
+    """
+    return first(first(x))
+
+def nfirst(x):
+    """
+    Same as ``rest(first(x))``
+    """
+    return rest(first(x))
 
 def second(coll):
     """

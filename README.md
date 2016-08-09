@@ -33,37 +33,36 @@ came back to Python thinking where are all these `distinct`, `drop-while`,
 | `take-while`      | `take_while`    |                                            |
 | `butlast`         | `butlast`       |                                            |
 | `drop-last`       | `drop_last`     | Use `butlast` if `n` is 1.                 |
-| `flatten`         |                 |                                            |
-| `reverse`         |                 |                                            |
+| `flatten`         | `flatten`       |                                            |
+| `reverse`         | -               | Use Python’s built-in `reversed`           |
 | `sort`            | -               | Use Python’s built-in `sort`.              |
 | `sort-by`         | -               | Use Python’s built-in `sort` with a `key`. |
-| `shuffle`         |                 |                                            |
-| `split-at`        |                 |                                            |
-| `split-with`      |                 |                                            |
+| `shuffle`         | `shuffle`       | Use Pyton’s `random.shuffle` to shuffle in-place. |
+| `split-at`        | `split_at`      |                                            |
+| `split-with`      | `split_with`    |                                            |
 | `partition`       |                 |                                            |
 | `partition-all`   |                 |                                            |
 | `partition-by`    |                 |                                            |
 | `map`             | -               | Use Python’s built-in `map`.               |
-| `pmap`            |                 |                                            |
-| `mapcat`          |                 |                                            |
+| `pmap`            | -               |                                            |
 | `replace`         |                 |                                            |
 | `reductions`      |                 |                                            |
-| `map-indexed`     |                 |                                            |
-| `seque`           |                 |                                            |
+| `map-indexed`     | `map_indexed`   |                                            |
+| `seque`           | -               |                                            |
 | `first`           | `first`         |                                            |
-| `ffirst`          |                 |                                            |
-| `nfirst`          |                 |                                            |
+| `ffirst`          | `ffirst`        |                                            |
+| `nfirst`          | `nfirst`        |                                            |
 | `second`          | `second`        |                                            |
 | `nth`             | `nth`           |                                            |
-| `when-first`      |                 |                                            |
+| `when-first`      | -               |                                            |
 | `last`            | `last`          |                                            |
 | `rand-nth`        |                 |                                            |
 | `zipmap`          |                 |                                            |
 | `into`            |                 |                                            |
 | `reduce`          |                 |                                            |
-| `set`             |                 |                                            |
-| `vec`             |                 |                                            |
-| `into-array`      |                 |                                            |
+| `set`             | -               | Use Python’s `set`.                        |
+| `vec`             | -               | Use Python’s `list`.                       |
+| `into-array`      | -               | Use Python’s `list`.                       |
 | `to-array-2d`     |                 |                                            |
 | `frequencies`     |                 |                                            |
 | `group-by`        | `group_by`      |                                            |
@@ -83,21 +82,21 @@ came back to Python thinking where are all these `distinct`, `drop-while`,
 | `doall`           |                 |                                            |
 | `realized?`       |                 |                                            |
 | `seq`             |                 |                                            |
-| `vals`            | -               | Use Python’s `dict.values`                 |
-| `keys`            | -               | Use Python’s `dict.keys`                   |
+| `vals`            | -               | Use Python’s `dict.values`.                |
+| `keys`            | -               | Use Python’s `dict.keys`.                  |
 | `rseq`            |                 |                                            |
 | `subseq`          |                 |                                            |
 | `rsubseq`         |                 |                                            |
-| `lazy-seq`        |                 |                                            |
+| `lazy-seq`        | -               |                                            |
 | `repeatedly`      |                 |                                            |
 | `iterate`         |                 |                                            |
 | `repeat`          |                 |                                            |
 | `range`           |                 |                                            |
 | `line-seq`        |                 |                                            |
-| `resultset-seq`   |                 |                                            |
+| `resultset-seq`   | -               |                                            |
 | `re-seq`          |                 |                                            |
 | `tree-seq`        |                 |                                            |
-| `file-seq`        |                 |                                            |
-| `xml-seq`         |                 |                                            |
-| `iterator-seq`    |                 |                                            |
-| `enumeration-seq` |                 |                                            |
+| `file-seq`        | -               |                                            |
+| `xml-seq`         | -               |                                            |
+| `iterator-seq`    | -               |                                            |
+| `enumeration-seq` | -               |                                            |
