@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 import random
-from collections import deque, Iterable
+import collections
 
 __version__ = "0.1.0"
 
@@ -188,7 +188,7 @@ def drop_last(n, coll):
     """
     Return a generator of all but the last ``n`` items in ``coll``.
     """
-    queue = deque()
+    queue = collections.deque()
     size = 0
 
     for e in coll:
@@ -205,6 +205,9 @@ def flatten(x):
     Takes any nested combination of sequential things (``list``s, ``tuple``s,
     etc.) and returns their contents as a single, flat sequence.
     """
+    # Avoid lookup at each loop without leaking [Iterable] in the module scope
+    # by using [from collections import Iterable].
+    Iterable = collections.Iterable
     for e in x:
         if isinstance(e, Iterable):
             for sub_e in flatten(e):
@@ -306,6 +309,99 @@ def last(coll):
         pass
     return e
 
+def zipmap(keys, vals):
+    """
+    Return a ``dict`` with the keys mapped to the corresponding ``vals``.
+    """
+    return dict(zip(keys, vals))
+
+def frequencies(coll):
+    """
+    Return a ``dict`` from distinct items in ``coll`` to the number of times
+    they appear.
+    """
+    return dict(collections.Counter(coll))
+
+def group_by(f, coll):
+    """
+    Returns a ``dict`` of the elements of ``coll`` keyed by the result of ``f``
+    on each element. The value at each key will be a list of the corresponding
+    elements, in the order they appeared in ``coll``.
+    """
+    groups = collections.defaultdict(list)
+    for e in coll:
+        groups[f(e)].append(e)
+
+    return groups
+
+def _make_pred(pred):
+    if isinstance(pred, set):
+        p = pred
+        pred = lambda x: x in p
+    return pred
+
+def some(pred, coll):
+    """
+    Returns the first logical true value of ``pred(x)`` for any ``x`` in coll,
+    else ``None``.
+
+    In order to mirror Clojure's `some` it also accepts a `set` for its
+    predicate and will return the first element that’s present in it.::
+
+        >>> some({5, 3, 10, 2}, range(10))
+        2
+    """
+    pred = _make_pred(pred)
+
+    for e in coll:
+        if pred(e):
+            return e
+
+def is_seq(x):
+    """
+    Return ``True`` if ``x`` is a sequence.
+    """
+    return isinstance(x, collections.Sequence)
+
+def every(pred, coll):
+    """
+    Returns ``True`` if ``pred(x)`` is logical true for every ``x`` in
+    ``coll``, else i``False``.
+    """
+    pred = _make_pred(pred)
+
+    for e in coll:
+        if not pred(e):
+            return False
+
+    return True
+
+def not_every(pred, coll):
+    """
+    Returns ``False`` if ``pred(x)`` is logical true for every ``x`` in
+    ``coll``, else ``True``.
+    """
+    return not every(pred, coll)
+
+def not_any(pred, coll):
+    """
+    Return ``False`` if ``pred(x)`` is logical true for any ``x`` in ``coll``,
+    else ``True``.
+    """
+    pred = _make_pred(pred)
+    return every(lambda e: not pred(e), coll)
+
+def dorun(coll):
+    """
+    When generators are produced via functions that have side effects, any
+    effects other than those needed to produce the first element in the
+    sequence do not occur until it's consumed. ``dorun`` can be used to force
+    any effects. Walks through the successive nexts of the sequence, does not
+    retain the head and returns ``None``.
+    """
+    for _ in coll:
+        pass
+
 def vals(dic):
     """
     Returns an iterator over the ``dict``'s values.
@@ -317,3 +413,41 @@ def keys(dic):
     Returns an iterator over the ``dict``'s keys.
     """
     return dic.keys()
+
+def repeatedly(f, n=None):
+    """
+    Takes a function of no args, presumably with side effects, and returns an
+    infinite (or length ``n`` if supplied) lazy sequence of calls to it.
+    """
+    # Accept Clojure-like calls of [repeatedly(n, f)]
+    if callable(n):
+        f, n = n, f
+
+    if n is None:
+        n = -1
+
+    while n != 0:
+        yield f()
+        n -= 1
+
+def iterate(f, x):
+    """
+    Returns a generator of ``x``, ``f(x)``, ``f(f(x))``, etc.
+    """
+    while True:
+        yield x
+        x = f(x)
+
+def repeat(x, n=None):
+    """
+    Returns a generator that indefinitly yields ``x`` (or ``n`` times if ``n``
+    is supplied).
+    """
+    if n is None:
+        n = -1
+    elif n < 0:
+        n = 0
+
+    while n != 0:
+        yield x
+        n -= 1
