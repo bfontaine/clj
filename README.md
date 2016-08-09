@@ -6,7 +6,7 @@ came back to Python thinking where are all these `distinct`, `drop-while`,
 
 ## Support
 
-| Clojure           | `cljseq`        | Comment                          |
+| Clojure           | `cljseqs`       | Comment                          |
 |-------------------|:----------------|----------------------------------|
 | `distinct`        | `distinct`      |                                  |
 | `filter`          | -               | Use Python’s built-in `filter`.  |
