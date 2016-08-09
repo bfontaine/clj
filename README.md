@@ -54,7 +54,7 @@ came back to Python thinking where are all these `distinct`, `drop-while`,
 | `nfirst`          | `nfirst`        |                                  |
 | `second`          | `second`        |                                  |
 | `nth`             | `nth`           |                                  |
-| `when-first`      | -               |                                  |
+| `when-first`      | -               | (macro)                          |
 | `last`            | `last`          |                                  |
 | `rand-nth`        | -               | Use Python’s `random.choice`.    |
 | `zipmap`          | `zipmap`        |                                  |
@@ -84,7 +84,7 @@ came back to Python thinking where are all these `distinct`, `drop-while`,
 | `rseq`            | -               |                                  |
 | `subseq`          |                 |                                  |
 | `rsubseq`         |                 |                                  |
-| `lazy-seq`        | -               |                                  |
+| `lazy-seq`        | -               | (macro)                          |
 | `repeatedly`      | `repeatedly`    |                                  |
 | `iterate`         | `iterate`       |                                  |
 | `repeat`          | `repeat`        | `(repeat n x)` becomes `repeat(x, n)`|
