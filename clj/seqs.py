@@ -400,18 +400,6 @@ def dorun(coll):
     for _ in coll:
         pass
 
-def vals(dic):
-    """
-    Returns an iterator over the ``dict``'s values.
-    """
-    return dic.values()
-
-def keys(dic):
-    """
-    Returns an iterator over the ``dict``'s keys.
-    """
-    return dic.keys()
-
 def repeatedly(f, n=None):
     """
     Takes a function of no args, presumably with side effects, and returns an
