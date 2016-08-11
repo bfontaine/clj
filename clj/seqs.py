@@ -6,6 +6,9 @@ import collections
 # provided or not
 _nil = object()
 
+# The order of the functions here match the one in the Clojure docs:
+#     http://clojure.org/reference/sequences
+
 def distinct(coll):
     """
     Return a generator of the elements of ``coll`` with duplicates removed.
