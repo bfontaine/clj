@@ -1,12 +1,18 @@
-# cljseqs
+# clj
 
-`cljseqs` is a Python module for those times when you did too much Clojure and
+`clj` is a Python module for those times when you did too much Clojure and
 came back to Python thinking where are all these `distinct`, `drop-while`,
 `cycle`, `first`, etc.
 
 ## Support
 
-| Clojure           | `cljseqs`       | Comment                          |
+### `clj.seqs`: Sequences
+
+`clj.seqs` aim to implement all Clojure functions that operate on sequences.
+They all work on iterables and return generators by default (Python’s
+equivalent of lazy seqs).
+
+| Clojure           | `clj.seqs`      | Comment                          |
 |-------------------|:----------------|----------------------------------|
 | `distinct`        | `distinct`      |                                  |
 | `filter`          | -               | Use Python’s built-in `filter`.  |
