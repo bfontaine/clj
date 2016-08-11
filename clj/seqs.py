@@ -2,8 +2,6 @@
 import random
 import collections
 
-__version__ = "0.1.0"
-
 # We use this as a default value for some arguments in order to check if it was
 # provided or not
 _nil = object()
