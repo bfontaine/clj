@@ -105,12 +105,12 @@ equivalent of lazy seqs). We don’t support transducers.
 | `lazy-seq`        | -               | (macro)                          |
 | `repeatedly`      | `repeatedly`    |                                  |
 | `iterate`         | `iterate`       |                                  |
-| `repeat`          | `repeat`        | `(repeat n x)` becomes `repeat(x, n)`|
+| `repeat`          | `repeat`        | `(repeat n x)` becomes `repeat(x, n)`.|
 | `range`           |                 |                                  |
-| `line-seq`        |                 |                                  |
+| `line-seq`        | -               | Loop over an `io.BufferedReader`.|
 | `resultset-seq`   | -               |                                  |
-| `re-seq`          |                 |                                  |
-| `tree-seq`        |                 |                                  |
+| `re-seq`          | -               | Use Python’s `re.finditer`.      |
+| `tree-seq`        | -               |                                  |
 | `file-seq`        | -               |                                  |
 | `xml-seq`         | -               |                                  |
 | `iterator-seq`    | -               |                                  |
