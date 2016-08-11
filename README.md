@@ -4,6 +4,14 @@
 came back to Python thinking where are all these `distinct`, `drop-while`,
 `cycle`, `first`, etc.
 
+## Core Ideas
+
+* This is Python. We keep Python’s semantics instead of trying to reproduce
+  Clojure in Python.
+* Don’t Reinvent the Wheel. Python already provides things like `map` and
+  `filter`. We don’t reimplement them unless they miss something (e.g. Python’s
+  `range` can’t be called without argument to yield an infinite sequence).
+
 ## Support
 
 ### `clj.seqs`: Sequences
@@ -66,7 +74,7 @@ equivalent of lazy seqs).
 | `zipmap`          | `zipmap`        |                                  |
 | `into`            | -               |                                  |
 | `reduce`          | -               | Use Python’s built-in `reduce`.  |
-| `set`             | -               | Use Python’s built-in `set`.     |
+| `set`             | -               | Use Python’s `set`.              |
 | `vec`             | -               | Use Python’s `list`.             |
 | `into-array`      | -               | Use Python’s `list`.             |
 | `to-array-2d`     | -               |                                  |
