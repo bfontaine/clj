@@ -2,8 +2,8 @@
 import random
 import collections
 
-# We use this as a default value for some arguments in order to check if it was
-# provided or not
+# We use this as a default value for some arguments in order to check if they
+# were provided or not
 _nil = object()
 
 # The order of the functions here match the one in the Clojure docs:
@@ -242,6 +242,30 @@ def split_with(pred, coll):
         drop_while(pred, coll),
     )
 
+def replace(smap, coll):
+    """
+    Given a map of replacement pairs and a list/collection, yield a sequence
+    where any elements = a key in ``smap`` replaced with the corresponding val
+    in ``smap``.
+    """
+    for e in coll:
+        yield smap.get(e, e)
+
+def reductions(f, coll, init=_nil):
+    """
+    Yield the intermediate values of the reduction (as per ``reduce``) of
+    ``coll`` by ``f``, starting with ``init``.
+    """
+    if init is _nil:
+        init = first(coll)
+        coll = rest(coll)
+
+    yield init
+
+    for e in coll:
+        init = f(init, e)
+        yield init
+
 def map_indexed(f, coll):
     """
     Returns a generator consisting of the result of applying ``f`` to ``0``
@@ -289,7 +313,7 @@ def nth(coll, n, not_found=_nil):
         try:
             return coll[n]
         except IndexError as e:
-            if not_found == _nil:
+            if not_found is _nil:
                 raise e
             return not_found
 
@@ -297,10 +321,10 @@ def nth(coll, n, not_found=_nil):
         if i == n:
             return e
 
-    if not_found == _nil:
+    if not_found is _nil:
         raise IndexError("%s index out of range" % type(coll))
 
-    return _nil
+    return not_found
 
 def last(coll):
     """

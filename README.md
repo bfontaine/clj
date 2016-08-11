@@ -20,7 +20,7 @@ came back to Python thinking where are all these `distinct`, `drop-while`,
 `clj.seqs` aim to implement all Clojure functions that operate on sequences
 (see [the list here][seqs]).
 They all work on iterables and return generators by default (Python’s closest
-equivalent of lazy seqs).
+equivalent of lazy seqs). We don’t support transducers.
 
 [seqs]: http://clojure.org/reference/sequences
 
@@ -63,8 +63,8 @@ equivalent of lazy seqs).
 | `partition-by`    |                 |                                  |
 | `map`             | -               | Use Python’s built-in `map`.     |
 | `pmap`            | -               |                                  |
-| `replace`         |                 |                                  |
-| `reductions`      |                 |                                  |
+| `replace`         | `replace`       |                                  |
+| `reductions`      | `reductions`    | `(reductions f i c)` becomes `reductions(f, c, i)` |
 | `map-indexed`     | `map_indexed`   |                                  |
 | `seque`           | -               |                                  |
 | `first`           | `first`         |                                  |
