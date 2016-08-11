@@ -14,11 +14,14 @@ came back to Python thinking where are all these `distinct`, `drop-while`,
 
 ## Support
 
-### `clj.seqs`: Sequences
+### Sequences (`clj.seqs`)
 
-`clj.seqs` aim to implement all Clojure functions that operate on sequences.
-They all work on iterables and return generators by default (Python’s
+`clj.seqs` aim to implement all Clojure functions that operate on sequences
+(see [the list here][seqs]).
+They all work on iterables and return generators by default (Python’s closest
 equivalent of lazy seqs).
+
+[seqs]: http://clojure.org/reference/sequences
 
 | Clojure           | `clj.seqs`      | Comment                          |
 |-------------------|:----------------|----------------------------------|
