@@ -1,5 +1,13 @@
 # -*- coding: UTF-8 -*-
 
+# See http://clojure.org/reference/other_functions
+
+def identity(x):
+    """
+    Returns its argument.
+    """
+    return x
+
 def comp(*fns):
     """
     Takes a set of functions and returns a function that is the composition of

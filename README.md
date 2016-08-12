@@ -106,7 +106,7 @@ equivalent of lazy seqs). We don’t support transducers.
 | `repeatedly`      | `repeatedly`    |                                  |
 | `iterate`         | `iterate`       |                                  |
 | `repeat`          | `repeat`        | `(repeat n x)` becomes `repeat(x, n)`.|
-| `range`           |                 |                                  |
+| `range`           | `range`         | Prefer Python’s `range` for everything but infinite generators.|
 | `line-seq`        | -               | Loop over an `io.BufferedReader`.|
 | `resultset-seq`   | -               |                                  |
 | `re-seq`          | -               | Use Python’s `re.finditer`.      |
@@ -118,10 +118,12 @@ equivalent of lazy seqs). We don’t support transducers.
 
 ### Functions (`clj.fns`)
 
-`clj.fns` defines functions that work on functions.
+`clj.fns` defines miscellaneous functions as well as functions that work on
+functions.
 
 | Clojure           | `clj.fns`       | Comment                          |
 |-------------------|:----------------|----------------------------------|
+| `identity`        | `identity`      |                                  |
 | `partial`         | -               | Use Python’s `functools.partial` |
 | `comp`            | `comp`          |                                  |
 | `complement`      | `complement`    |                                  |

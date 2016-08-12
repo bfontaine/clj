@@ -6,6 +6,12 @@ import collections
 # were provided or not
 _nil = object()
 
+# We redefine `range` below so keep a reference to the original one here
+try:
+    _range = xrange  # Python 2
+except NameError:
+    _range = range
+
 # The order of the functions here match the one in the Clojure docs:
 #     http://clojure.org/reference/sequences
 
@@ -464,3 +470,28 @@ def repeat(x, n=None):
     while n != 0:
         yield x
         n -= 1
+
+
+def range(*args):
+    """
+    Usage: range()
+           range(end)
+           range(start, end)
+           range(start, end, step)
+
+    Returns a generator of numbers from ``start`` (inclusive) to ``end``
+    (exclusive), by ``step``, where ``start`` defaults to ``0``, ``step`` to
+    ``1``, and ``end`` to infinity. When ``step`` is equal to ``0``, returns an
+    infinite sequence of ``start``.
+
+    Note that this delegates to Python’s built-in ``range`` (or ``xrange`` in
+    Python 2) if there are arguments.
+    """
+    if args:
+        for e in _range(*args):
+            yield e
+
+    n = 0
+    while True:
+        yield n
+        n += 1
