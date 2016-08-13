@@ -126,6 +126,9 @@ def drop(n, coll):
     """
     Returns a generator of all but the first ``n`` items in ``coll``.
     """
+    if coll is None:
+        return
+
     for i, e in enumerate(coll):
         if i >= n:
             yield e
@@ -222,7 +225,7 @@ def flatten(x):
     # by using [from collections import Iterable].
     Iterable = collections.Iterable
     for e in x:
-        if isinstance(e, Iterable):
+        if isinstance(e, Iterable) and not isinstance(e, (bytes, str)):
             for sub_e in flatten(e):
                 yield sub_e
         else:
@@ -285,7 +288,7 @@ def map_indexed(f, coll):
     second item in ``coll``, etc, until ``coll`` is exhausted. Thus function
     ``f`` should accept 2 arguments, ``index`` and ``item``.
     """
-    return map(lambda pair: f(pair[0], pair[1]) for pair in enumerate(coll))
+    return map(lambda pair: f(pair[0], pair[1]), enumerate(coll))
 
 def first(coll):
     """
