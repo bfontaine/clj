@@ -1,10 +1,10 @@
 # -*- coding: UTF-8 -*-
 
-from base import TestCase
+import unittest
 
 from clj import seqs as s
 
-class TestSeqs(TestCase):
+class TestSeqs(unittest.TestCase):
 
     def test_distinct(self):
         self.assertEquals([], list(s.distinct([])))

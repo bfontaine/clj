@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 import sys
+import unittest
 from os.path import dirname
-from base import unittest, TestCase
 
 if __name__ == "__main__":
     here = dirname(__file__)
@@ -9,7 +9,7 @@ if __name__ == "__main__":
 
 import clj
 
-class TestClj(TestCase):
+class TestClj(unittest.TestCase):
     def test_version(self):
         self.assertRegexpMatches(clj.__version__, r"^\d+\.\d+\.\d+")
 
