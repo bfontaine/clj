@@ -50,7 +50,7 @@ equivalent of lazy seqs). We don’t support transducers.
 | `take-nth`        | `take_nth`      |                                  |
 | `take-while`      | `take_while`    |                                  |
 | `butlast`         | `butlast`       |                                  |
-| `drop-last`       | `drop_last`     | Use `butlast` if `n` is 1.       |
+| `drop-last`       | `drop_last`     |                                  |
 | `flatten`         | `flatten`       |                                  |
 | `reverse`         | -               | Use Python’s `reversed`.         |
 | `sort`            | -               | Use Python’s built-in `sort`.    |
