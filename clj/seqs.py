@@ -76,8 +76,8 @@ def mapcat(f, *colls):
     result of applying ``map`` to ``f`` and ``colls``. Thus function ``f``
     should return a collection.
     """
-    for coll in colls:
-        for e in map(f, coll):
+    for coll in map(f, *colls):
+        for e in coll:
             yield e
 
 def cycle(coll):
@@ -93,12 +93,13 @@ def interleave(*colls):
     """
     Returns a generator of the first item in each coll, then the second etc.
     """
-    iterators = map(iter, colls)
+    iterators = [iter(coll) for coll in colls]
 
     try:
         while True:
-            for it in iterators:
-                yield next(it)
+            vals = [next(it) for it in iterators]
+            for v in vals:
+                yield v
     except StopIteration:
         pass
 
@@ -195,6 +196,11 @@ def drop_last(n, coll):
     """
     Return a generator of all but the last ``n`` items in ``coll``.
     """
+    if n == 1:
+        for e in butlast(coll):
+            yield e
+        return
+
     queue = collections.deque()
     size = 0
 
