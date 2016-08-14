@@ -82,7 +82,7 @@ equivalent of lazy seqs). We don’t support transducers.
 | `vec`             | -               | Use Python’s `list`.             |
 | `into-array`      | -               | Use Python’s `list`.             |
 | `to-array-2d`     | -               |                                  |
-| `frequencies`     | `frequencies`   |                                  |
+| `frequencies`     | `frequencies`   | Use Python’s `collections.Counter`.|
 | `group-by`        | `group_by`      |                                  |
 | `apply`           | -               | Use the `f(*args)` construct.    |
 | `not-empty`       | -               |                                  |

@@ -356,13 +356,6 @@ def zipmap(keys, vals):
     """
     return dict(zip(keys, vals))
 
-def frequencies(coll):
-    """
-    Return a ``dict`` from distinct items in ``coll`` to the number of times
-    they appear.
-    """
-    return dict(collections.Counter(coll))
-
 def group_by(f, coll):
     """
     Returns a ``dict`` of the elements of ``coll`` keyed by the result of ``f``
