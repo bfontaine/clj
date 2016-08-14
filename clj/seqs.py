@@ -498,3 +498,18 @@ def range(*args):
     while True:
         yield n
         n += 1
+
+# Not listed in http://clojure.org/reference/sequences but useful for
+# generators
+def count(coll):
+    """
+    Returns the number of items in the collection. ``count(None)`` returns
+    ``0``. Also works on strings.
+    """
+    if hasattr(coll, "__len__"):
+        return len(coll)
+
+    n = 0
+    for _ in coll:
+        n += 1
+    return n

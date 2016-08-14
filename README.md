@@ -8,7 +8,7 @@ came back to Python thinking where are all these `distinct`, `drop-while`,
 
 * This is Python. We keep Python’s semantics instead of trying to reproduce
   Clojure in Python (e.g. `0` and `[]` are logically true in Clojure but false
-  in Python).
+  in Python; `None` is not equivalent to an empty collection).
 * Don’t Reinvent the Wheel. Python already provides things like `map` and
   `filter`. We don’t reimplement them unless they miss something (e.g. Python’s
   `range` can’t be called without argument to yield an infinite sequence).
@@ -115,6 +115,9 @@ equivalent of lazy seqs). We don’t support transducers.
 | `xml-seq`         | -               |                                  |
 | `iterator-seq`    | -               |                                  |
 | `enumeration-seq` | -               |                                  |
+
+We also implemented `count`, which uses Python’s `len` when possible and
+fallbacks on a `for` loop for other cases.
 
 ### Functions (`clj.fns`)
 
