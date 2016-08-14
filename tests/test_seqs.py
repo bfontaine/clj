@@ -232,3 +232,73 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals({"a": 1}, s.zipmap(("a",), [1]))
         self.assertEquals({"a": 1, "b": 2},
                           s.zipmap(["b", "a"], [2, 1]))
+
+    def test_group_by(self):
+        self.assertEquals({}, s.group_by(lambda e: e % 10, []))
+        self.assertEquals({1: [1]}, s.group_by(lambda e: e % 10, [1]))
+        self.assertEquals({1: [1, 5001], 3: [3]},
+                          s.group_by(lambda e: e % 10, [1, 5001, 3]))
+
+    def test_some(self):
+        self.assertEquals(None, s.some(lambda e: True, []))
+        self.assertEquals(None, s.some(lambda e: False, []))
+        self.assertEquals(None, s.some({5}, []))
+        self.assertEquals(None, s.some(lambda e: False, [1, 2, 3]))
+        self.assertEquals(None, s.some({4, 5, 6}, [1, 2, 3]))
+        self.assertEquals(2, s.some({4, 5, 6, 2}, [1, 2, 3]))
+        self.assertEquals(None, s.some(lambda e: e > 4, [1, 2, 3]))
+        self.assertEquals(2, s.some(lambda e: e > 1, [1, 2, 3]))
+
+    def test_is_seq(self):
+        self.assertFalse(s.is_seq(None))
+        self.assertFalse(s.is_seq(42))
+        self.assertFalse(s.is_seq(True))
+
+        self.assertFalse(s.is_seq({42}))
+        self.assertFalse(s.is_seq({42: 1}))
+        self.assertFalse(s.is_seq(s.range()))
+
+        self.assertTrue(s.is_seq([]))
+        self.assertTrue(s.is_seq(()))
+
+    def test_every(self):
+        self.assertTrue(s.every(lambda e: e < 5, []))
+        self.assertTrue(s.every(lambda e: e < 5, [1, 2, 3, 4]))
+        self.assertFalse(s.every(lambda e: e < 5, [1, 2, 3, 4, 5]))
+
+        self.assertTrue(s.every({1, 2, 3}, [1, 1, 3, 2, 3, 1, 2]))
+        self.assertFalse(s.every({1, 2, 3}, [1, 1, 3, 4, 3, 1, 2]))
+
+    def test_not_every(self):
+        self.assertFalse(s.not_every(lambda e: e < 5, []))
+        self.assertFalse(s.not_every(lambda e: e < 5, [1, 2, 3, 4]))
+        self.assertTrue(s.not_every(lambda e: e < 5, [1, 2, 3, 4, 5]))
+
+        self.assertFalse(s.not_every({1, 2, 3}, [1, 1, 3, 2, 3, 1, 2]))
+        self.assertTrue(s.not_every({1, 2, 3}, [1, 1, 3, 4, 3, 1, 2]))
+
+    def test_not_any(self):
+        self.assertTrue(s.not_any(lambda e: e < 5, []))
+        self.assertTrue(s.not_any(lambda e: e < 5, [6, 7, 8]))
+        self.assertFalse(s.not_any(lambda e: e < 5, [6, 7, 8, 1]))
+
+    def test_dorun(self):
+        els = []
+
+        def _gen():
+            for x in range(10):
+                els.append(x)
+                yield x
+
+        self.assertEquals(els, [])
+        self.assertEquals(None, s.dorun(_gen()))
+        self.assertEquals(els, list(range(10)))
+
+    def test_repeatedly(self):
+        els = []
+
+        def add_el():
+            els.append(42)
+
+        s.dorun(s.take(3, s.repeatedly(add_el)))
+        self.assertEquals([42, 42, 42], els)
