@@ -302,3 +302,7 @@ class TestSeqs(unittest.TestCase):
 
         s.dorun(s.take(3, s.repeatedly(add_el)))
         self.assertEquals([42, 42, 42], els)
+
+        els = []
+        s.dorun(s.repeatedly(add_el, 2))
+        self.assertEquals([42, 42], els)
