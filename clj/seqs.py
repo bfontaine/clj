@@ -345,8 +345,9 @@ def last(coll):
     """
     Return the last item in ``coll``, in linear time.
     """
-    for i, e in enumerate(coll):
-        pass
+    e = None
+    for item in coll:
+        e = item
     return e
 
 def zipmap(keys, vals):
