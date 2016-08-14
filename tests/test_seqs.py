@@ -191,3 +191,33 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals([], list(s.nfirst([None])))
         self.assertEquals([], list(s.nfirst([[]])))
         self.assertEquals([2, 3], list(s.nfirst([[1, 2, 3], 4])))
+
+    def test_second(self):
+        self.assertEquals(None, s.second(None))
+        self.assertEquals(None, s.second([]))
+        self.assertEquals(None, s.second([42]))
+        self.assertEquals(1, s.second([42, 1, 2, 3]))
+
+    def test_nth(self):
+        nope = object()
+        self.assertEquals(nope, s.nth([], 0, nope))
+        self.assertEquals(nope, s.nth([], -1, nope))
+        self.assertEquals(nope, s.nth([], 1, nope))
+
+        self.assertEquals(1, s.nth([42, 1, 2, 3], 1))
+        self.assertEquals(7, s.nth([42, 1, 2, 3], 6, 7))
+
+        self.assertEquals(20, s.nth(s.range(), 20))
+
+    def test_last(self):
+        self.assertEquals(None, s.last([]))
+        self.assertEquals(1, s.last([1]))
+        self.assertEquals(2, s.last([1, 2]))
+
+    def test_zipmap(self):
+        self.assertEquals({}, s.zipmap([], []))
+        self.assertEquals({}, s.zipmap([], s.range()))
+        self.assertEquals({}, s.zipmap(s.range(), []))
+        self.assertEquals({"a": 1}, s.zipmap(("a",), [1]))
+        self.assertEquals({"a": 1, "b": 2},
+                          s.zipmap(["b", "a"], [2, 1]))
