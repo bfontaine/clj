@@ -152,10 +152,13 @@ def take(n, coll):
     Returns a generator of the first ``n`` items in ``coll``, or all items if
     there are fewer than ``n``.
     """
+    if n <= 0:
+        return
+
     for i, e in enumerate(coll):
-        if i >= n:
-            break
         yield e
+        if i+1 >= n:
+            break
 
 def take_nth(n, coll):
     """

@@ -99,6 +99,17 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals([1, 2, 3], list(s.take(3, [1, 2, 3])))
         self.assertEquals([1, 2, 3], list(s.take(4, [1, 2, 3])))
 
+        els = []
+        def _gen():
+            for x in range(10):
+                els.append(x)
+                yield x
+
+        s.dorun(s.take(0, _gen()))
+        self.assertEquals([], els)
+
+        self.assertEquals(els, list(s.take(5, _gen())))
+
     def test_take_nth(self):
         ls = [42, 25, 17, 1, 34, 87]
         self.assertEquals([1, 1, 1], list(s.take(3, s.take_nth(0, [1, 2]))))
