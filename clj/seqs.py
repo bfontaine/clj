@@ -369,7 +369,7 @@ def group_by(f, coll):
     for e in coll:
         groups[f(e)].append(e)
 
-    return groups
+    return dict(groups)
 
 def _make_pred(pred):
     if isinstance(pred, set):
@@ -445,7 +445,7 @@ def repeatedly(f, n=None):
     infinite (or length ``n`` if supplied) lazy sequence of calls to it.
     """
     # Accept Clojure-like calls of [repeatedly(n, f)]
-    if callable(n):
+    if callable(n) and isinstance(f, int):
         f, n = n, f
 
     if n is None:
