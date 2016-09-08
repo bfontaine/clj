@@ -504,7 +504,8 @@ def range(*args):
         n += 1
 
 # Not listed in http://clojure.org/reference/sequences but useful for
-# generators
+# generators to avoid doing e.g. len(list(gen)) that loads everything in
+# memory.
 def count(coll):
     """
     Returns the number of items in the collection. ``count(None)`` returns
