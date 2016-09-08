@@ -6,6 +6,8 @@ came back to Python thinking where are all these `distinct`, `drop-while`,
 
 ## Core Ideas
 
+* Lazy by default. All the functions should work on arbitrary iterators and
+  return generators.
 * This is Python. We keep Python’s semantics instead of trying to reproduce
   Clojure in Python (e.g. `0` and `[]` are logically true in Clojure but false
   in Python; `None` is not equivalent to an empty collection).
