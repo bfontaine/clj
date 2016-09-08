@@ -496,6 +496,7 @@ def range(*args):
     if args:
         for e in _range(*args):
             yield e
+        return
 
     n = 0
     while True:
