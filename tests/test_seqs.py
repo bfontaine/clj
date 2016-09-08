@@ -306,3 +306,27 @@ class TestSeqs(unittest.TestCase):
         els = []
         s.dorun(s.repeatedly(add_el, 2))
         self.assertEquals([42, 42], els)
+
+    def test_iterate(self):
+        inc = lambda x: x+1
+        self.assertEquals(10, s.nth(s.iterate(inc, 0), 10))
+
+    def test_repeat(self):
+        self.assertEquals([2, 2, 2], list(s.take(3, s.repeat(2))))
+        self.assertEquals([2, 2, 2], list(s.repeat(2, 3)))
+        self.assertEquals([], list(s.repeat(2, 0)))
+        self.assertEquals([], list(s.repeat(2, -1)))
+
+    def test_range(self):
+        self.assertEquals([], list(s.range(2, 1)))
+        self.assertEquals([2], list(s.range(2, 1, -1)))
+        self.assertEquals([0, 1, 2, 3], list(s.range(4)))
+        self.assertEquals([0, 1, 2, 3], list(s.take(4, s.range())))
+
+    def test_count(self):
+        self.assertEquals(10, s.count("qwertyuiop"))
+        self.assertEquals(0, s.count([]))
+        self.assertEquals(0, s.count(()))
+        self.assertEquals(0, s.count({}))
+        self.assertEquals(1, s.count({"foo": "bar"}))
+        self.assertEquals(10, s.count(s.take(10, s.range())))
