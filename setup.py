@@ -1,7 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-import setuptools
-from distutils.core import setup
+from setuptools import setup
 
 # http://stackoverflow.com/a/7071358/735926
 import re
