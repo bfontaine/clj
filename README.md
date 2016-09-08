@@ -4,6 +4,10 @@
 came back to Python thinking where are all these `distinct`, `drop-while`,
 `cycle`, `first`, etc.
 
+## Install
+
+    pip install clj
+
 ## Core Ideas
 
 * Lazy by default. All the functions should work on arbitrary iterators and
@@ -19,7 +23,7 @@ came back to Python thinking where are all these `distinct`, `drop-while`,
 
 ### Sequences (`clj.seqs`)
 
-`clj.seqs` aim to implement all Clojure functions that operate on sequences
+`clj.seqs` aims to implement all Clojure functions that operate on sequences
 (see [the list here][seqs]).
 They all work on iterables and return generators by default (Python’s closest
 equivalent of lazy seqs). We don’t support transducers.
