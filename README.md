@@ -27,7 +27,7 @@ from clj.seqs import count, distinct
 inc = lambda e: e+1
 even = lambda e: ~e&1
 
-println(count(distinct(filter(even, map(inc, coll)))))
+print(count(distinct(filter(even, map(inc, coll)))))
 ```
 
 Note that `count()` works on both sequences in generators; in the latter case
@@ -35,7 +35,7 @@ it doesn’t load everything in memory like e.g. `len(list(g))` would do.
 
 ## Core Ideas
 
-* Lazy by default. All the functions should work on arbitrary iterators and
+* Lazy by default. All functions should work on arbitrary iterators and
   return generators.
 * This is Python. We keep Python’s semantics instead of trying to reproduce
   Clojure in Python (e.g. `0` and `[]` are logically true in Clojure but false
