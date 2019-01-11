@@ -82,11 +82,16 @@ def mapcat(f, *colls):
 
 def cycle(coll):
     """
-    Returns a(n infinite!) generator which yields repetitions of the items in
+    Returns a (infinite!) generator which yields repetitions of the items in
     ``coll``.
     """
+    els = []
+    for e in coll:
+        yield e
+        els.append(e)
+
     while True:
-        for e in coll:
+        for e in els:
             yield e
 
 def interleave(*colls):

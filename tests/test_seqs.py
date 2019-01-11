@@ -53,6 +53,8 @@ class TestSeqs(unittest.TestCase):
     def test_cycle(self):
         self.assertEqual([1, 2, 3, 1, 2, 3, 1, 2],
                          list(s.take(8, s.cycle([1, 2, 3]))))
+        self.assertEqual([1, 2, 1, 2],
+                list(s.take(4, s.cycle(x for x in range(1, 3)))))
 
     def test_interleave(self):
         self.assertEqual([1, 2, 3, 1, 2, 3, 1],
