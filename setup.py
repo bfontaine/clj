@@ -1,11 +1,11 @@
 # -*- coding: UTF-8 -*-
-
+from io import open
 from setuptools import setup
 
 # http://stackoverflow.com/a/7071358/735926
 import re
 VERSIONFILE='clj/__init__.py'
-verstrline = open(VERSIONFILE, 'rt').read()
+verstrline = open(VERSIONFILE, 'rt', encoding='utf-8').read()
 VSRE = r'^__version__\s+=\s+[\'"]([^\'"]+)[\'"]'
 mo = re.search(VSRE, verstrline, re.M)
 if mo:
@@ -20,9 +20,9 @@ setup(
     author_email='b@ptistefontaine.fr',
     packages=['clj'],
     url='https://github.com/bfontaine/clj',
-    license=open('LICENSE', 'r').read(),
+    license=open('LICENSE', 'r', encoding='utf-8').read(),
     description='Clojure-like utilities',
-    long_description=open('README.md', 'r').read(),
+    long_description=open('README.md', 'r', encoding='utf-8').read(),
     classifiers=[
         'Intended Audience :: Developers',
         'Operating System :: OS Independent',
