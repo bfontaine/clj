@@ -162,6 +162,7 @@ functions.
 | `comp`            | `comp`          |                                  |
 | `complement`      | `complement`    |                                  |
 | `constantly`      | `constantly`    |                                  |
+| `juxt`            | `juxt`          |                                  |
 
 | Clojure           | `clj.fns`       | Comment                          |
 |-------------------|:----------------|----------------------------------|
