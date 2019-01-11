@@ -23,8 +23,8 @@ are in `clj.fns`.
 ```python
 # Python
 from clj.seqs import count, distinct
+from clj.fns import inc
 
-inc = lambda e: e+1
 even = lambda e: ~e&1
 
 print(count(distinct(filter(even, map(inc, coll)))))
@@ -162,3 +162,8 @@ functions.
 | `comp`            | `comp`          |                                  |
 | `complement`      | `complement`    |                                  |
 | `constantly`      | `constantly`    |                                  |
+
+| Clojure           | `clj.fns`       | Comment                          |
+|-------------------|:----------------|----------------------------------|
+| `inc`             | `inc`           |                                  |
+| `dec`             | `dec`           |                                  |

@@ -10,12 +10,20 @@ class TestFns(unittest.TestCase):
         for e in (True, None, [3], {4: 2}, (24,), 1, -1, 1e9, object(), "a"):
             self.assertEquals(e, f.identity(e))
 
-    def test_comp(self):
-        inc = lambda n: n + 1
-        twice = lambda n: n * 2
-        dec = lambda n: n - 1
+    def test_inc(self):
+        self.assertEquals(2, f.inc(1))
+        self.assertEquals(2.0, f.inc(1.0))
+        self.assertEquals(0, f.inc(-1))
 
-        fn = f.comp(inc, twice, dec, twice)
+    def test_dec(self):
+        self.assertEquals(1, f.dec(2))
+        self.assertEquals(1.0, f.dec(2.0))
+        self.assertEquals(-2, f.dec(-1))
+
+    def test_comp(self):
+        twice = lambda n: n * 2
+
+        fn = f.comp(f.inc, twice, f.dec, twice)
         self.assertEquals(3, fn(1))
         self.assertEquals(7, fn(2))
         self.assertEquals(27, fn(7))

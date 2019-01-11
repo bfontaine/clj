@@ -8,6 +8,18 @@ def identity(x):
     """
     return x
 
+def inc(x):
+    """
+    Returns a number one greater than num.
+    """
+    return x + 1
+
+def dec(x):
+    """
+    Returns a number one less than num.
+    """
+    return x - 1
+
 def comp(*fns):
     """
     Takes a set of functions and returns a function that is the composition of
