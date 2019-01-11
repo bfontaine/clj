@@ -42,3 +42,9 @@ class TestFns(unittest.TestCase):
 
         self.assertEquals(x, fn())
         self.assertEquals(x, fn(1, 2, 3, 4, 5, a=1, foo=3))
+
+    def test_juxt(self):
+        fn = f.juxt(f.inc, f.identity, f.dec)
+        self.assertEquals([3, 2, 1], fn(2))
+
+        self.assertEquals([43], f.juxt(f.inc)(42))

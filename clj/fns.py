@@ -59,3 +59,19 @@ def constantly(x):
         return x
 
     return _fn
+
+def juxt(*fns):
+    """
+    Takes a set of functions and returns a function that is the juxtaposition
+    of those functions. The returned function takes a variable number of
+    arguments, and returns a list containing the result of applying each
+    function to the arguments (left-to-right).
+
+        juxt(a, b, c)(x) # => [a(x), b(x), c(x)]
+    """
+    # Note we accept zero argument while Clojure wants at least one.
+
+    def _fn(*args, **kw):
+        return [f(*args, **kw) for f in fns]
+
+    return _fn
