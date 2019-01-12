@@ -75,11 +75,11 @@ equivalent of lazy seqs). We don’t support transducers.
 | `fnext`           | -               | Use `second`.                    |
 | `nnext`           | -               | Use `rest(rest(…))`              |
 | `drop`            | `drop`          |                                  |
-| `drop-while`      | `drop_while`    |                                  |
+| `drop-while`      | `drop_while`    | Deprecated. Use Python’s `itertools.dropwhile` |
 | `nthnext`         | -               |                                  |
 | `take`            | `take`          |                                  |
 | `take-nth`        | `take_nth`      |                                  |
-| `take-while`      | `take_while`    |                                  |
+| `take-while`      | `take_while`    | Deprecated. Use Python’s `itertools.takewhile` |
 | `butlast`         | `butlast`       |                                  |
 | `drop-last`       | `drop_last`     |                                  |
 | `flatten`         | `flatten`       |                                  |

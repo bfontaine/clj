@@ -10,9 +10,12 @@ _nil = object()
 
 # We redefine `range` below so keep a reference to the original one here
 try:
-    _range = xrange  # Python 2
+    # Python2
+    _range = xrange
+    _filterfalse = itertools.ifilterfalse
 except NameError:
     _range = range
+    _filterfalse = itertools.filterfalse
 
 # The order of the functions here match the one in the Clojure docs:
 #     http://clojure.org/reference/sequences
@@ -32,9 +35,7 @@ def remove(pred, coll):
     Return a generator of the items in ``coll`` for which ``pred(item)``
     returns a falsy value.
     """
-    for e in coll:
-        if not pred(e):
-            yield e
+    return _filterfalse(pred, coll)
 
 def keep(f, coll):
     """
@@ -144,15 +145,10 @@ def drop_while(pred, coll):
     """
     Returns a generator of the items in ``coll`` starting from the first item
     for which ``pred(item)`` returns a falsy value.
-    """
-    drop = True
-    for e in coll:
-        if drop:
-            if pred(e):
-                continue
-            drop = False
 
-        yield e
+    Deprecated in 0.1.2. Use Python’s ``itertools.dropwhile`` instead.
+    """
+    return itertools.dropwhile(pred, coll)
 
 def take(n, coll):
     """
@@ -184,11 +180,10 @@ def take_while(pred, coll):
     """
     Returns a generator of successive items from ``coll`` while ``pred(item)``
     returns a truthy value.
+
+    Deprecated in 0.1.2. Use Python’s ``itertools.takewhile`` instead.
     """
-    for e in coll:
-        if not pred(e):
-            break
-        yield e
+    return itertools.takewhile(pred, coll)
 
 def butlast(coll):
     """
