@@ -2,6 +2,8 @@
 import random
 import collections
 
+import itertools
+
 # We use this as a default value for some arguments in order to check if they
 # were provided or not
 _nil = object()
@@ -65,10 +67,10 @@ def concat(*xs):
     """
     Returns a generator representing the concatenation of the elements in the
     supplied colls.
+
+    Deprecated in 0.1.2. Use Python’s ``itertools.chain`` instead.
     """
-    for coll in xs:
-        for e in coll:
-            yield e
+    return itertools.chain(*xs)
 
 def mapcat(f, *colls):
     """

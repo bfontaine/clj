@@ -64,8 +64,8 @@ equivalent of lazy seqs). We don’t support transducers.
 | `keep`            | `keep`          |                                  |
 | `keep-indexed`    | `keep_indexed`  |                                  |
 | `cons`            | `cons`          |                                  |
-| `concat`          | `concat`        |                                  |
-| `lazy-cat`        | -               | Use `concat`.                    |
+| `concat`          | `concat`        | Deprecated. Use Python’s `itertools.chain` |
+| `lazy-cat`        | -               | Use Python’s `itertools.chain`   |
 | `mapcat`          | `mapcat`        |                                  |
 | `cycle`           | `cycle`         |                                  |
 | `interleave`      | `interleave`    |                                  |
