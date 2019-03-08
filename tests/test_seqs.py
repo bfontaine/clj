@@ -362,3 +362,8 @@ class TestSeqs(unittest.TestCase):
         for e in ([], (), {}, set(), defaultdict(), deque(), Counter(),
                 OrderedDict()):
             self.assertEquals(e, c.empty(e))
+
+        import re
+
+        for x in (0, 42, None, True, False, lambda: 1, re, self):
+            self.assertIsNone(c.empty(x))
