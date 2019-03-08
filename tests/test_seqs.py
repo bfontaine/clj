@@ -3,6 +3,7 @@
 import unittest
 
 from clj import seqs as s
+from clj import fns
 
 class TestSeqs(unittest.TestCase):
 
@@ -332,3 +333,18 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals(0, s.count({}))
         self.assertEquals(1, s.count({"foo": "bar"}))
         self.assertEquals(10, s.count(s.take(10, s.range())))
+
+    def test_tree_seq(self):
+        def boom(_):
+            raise RuntimeError("boom!")
+
+        self.assertEquals([42],
+                list(s.tree_seq(lambda _: False, boom, 42)))
+
+        t = [[1, 2, [3]], [4]]
+        self.assertEquals([t, [1, 2, [3]], 1, 2, [3], 3, [4], 4],
+                list(s.tree_seq(s.is_seq, fns.identity, t)))
+
+        t = ["C", ["l", ["o"], ["j"]], ["u", ["r"]], ["e"]]
+        self.assertEquals(["C", "l", "o", "j", "u", "r", "e"],
+                list(map(s.first, s.tree_seq(s.rest, s.rest, t))))

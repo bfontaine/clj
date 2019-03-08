@@ -141,7 +141,7 @@ equivalent of lazy seqs). We don’t support transducers.
 | `line-seq`        | -               | Loop over an `io.BufferedReader`.|
 | `resultset-seq`   | -               |                                  |
 | `re-seq`          | -               | Use Python’s `re.finditer`.      |
-| `tree-seq`        | -               |                                  |
+| `tree-seq`        | `tree_seq`      | *Available in the next release.* |
 | `file-seq`        | -               |                                  |
 | `xml-seq`         | -               |                                  |
 | `iterator-seq`    | -               |                                  |

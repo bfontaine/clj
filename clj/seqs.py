@@ -505,6 +505,21 @@ def range(*args):
         yield n
         n += 1
 
+def tree_seq(has_branch, get_children, root):
+    """
+    Returns a generator of the nodes in a tree, via a depth-first walk.
+    ``has_branch`` must be a function of one argument that returns ``True`` if
+    passed a node that can have children (but may not). ``get_children`` must
+    be a function of one argument that returns an iterable of the children.
+    Will only be called on nodes for which ``has_branch`` returns true.
+    ``root`` is the root node of the tree.
+    """
+    yield root
+    if has_branch(root):
+        for child in get_children(root):
+            for subchild in tree_seq(has_branch, get_children, child):
+                yield subchild
+
 # Not listed in http://clojure.org/reference/sequences but useful for
 # generators to avoid doing e.g. len(list(gen)) that loads everything in
 # memory.

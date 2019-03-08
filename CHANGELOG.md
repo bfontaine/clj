@@ -1,5 +1,9 @@
 # clj Changelog
 
+## Unreleased
+
+* Add `seqs.tree_seq`
+
 ## 0.1.1 (2018/01/12)
 
 * Add `fns.juxt`, `fns.inc`, `fns.dec`
