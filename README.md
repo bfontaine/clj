@@ -122,7 +122,7 @@ equivalent of lazy seqs). We don’t support transducers.
 | `every?`          | `every`         |                                  |
 | `not-every?`      | `not_every`     |                                  |
 | `not-any?`        | `not_any`       |                                  |
-| `empty?`          | -               |                                  |
+| `empty?`          | `empty`         | *Available in the next release.* |
 | `doseq`           | -               | Use `for … in`                   |
 | `dorun`           | `dorun`         |                                  |
 | `doall`           | -               | Use Python’s `list`.             |

@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 import unittest
+from collections import OrderedDict, Counter, deque, defaultdict
 
 import clj as c
 
@@ -347,3 +348,17 @@ class TestSeqs(unittest.TestCase):
         t = ["C", ["l", ["o"], ["j"]], ["u", ["r"]], ["e"]]
         self.assertEquals(["C", "l", "o", "j", "u", "r", "e"],
                 list(map(c.first, c.tree_seq(c.rest, c.rest, t))))
+
+    def test_empty(self):
+        self.assertEquals([], c.empty([]))
+        self.assertEquals([], c.empty([1, 2, 3]))
+        self.assertEquals((), c.empty(()))
+        self.assertEquals((), c.empty((1, 2, 3)))
+        self.assertEquals({}, c.empty({}))
+        self.assertEquals({}, c.empty({"a": 42}))
+        self.assertEquals(set(), c.empty(set()))
+        self.assertEquals(set(), c.empty(set([1, 2])))
+
+        for e in ([], (), {}, set(), defaultdict(), deque(), Counter(),
+                OrderedDict()):
+            self.assertEquals(e, c.empty(e))

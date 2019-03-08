@@ -17,6 +17,12 @@ except NameError:
     _range = range
     _filterfalse = itertools.filterfalse
 
+try:
+    # Python <3.7
+    from collections import Sequence, Collection
+except NameError:
+    from collections.abc import Sequence, Collection
+
 # The order of the functions here match the one in the Clojure docs:
 #     http://clojure.org/reference/sequences
 
@@ -400,7 +406,7 @@ def is_seq(x):
     """
     Return ``True`` if ``x`` is a sequence.
     """
-    return isinstance(x, collections.Sequence)
+    return isinstance(x, Sequence)
 
 def every(pred, coll):
     """
@@ -519,6 +525,13 @@ def tree_seq(has_branch, get_children, root):
         for child in get_children(root):
             for subchild in tree_seq(has_branch, get_children, child):
                 yield subchild
+
+def empty(coll):
+    """
+    Returns an empty collection of the same type as ``coll``, or ``None``.
+    """
+    if isinstance(coll, Collection):
+        return type(coll)()
 
 # Not listed in http://clojure.org/reference/sequences but useful for
 # generators to avoid doing e.g. len(list(gen)) that loads everything in
