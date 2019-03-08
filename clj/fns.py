@@ -75,3 +75,11 @@ def juxt(*fns):
         return [f(*args, **kw) for f in fns]
 
     return _fn
+
+def is_distinct(*args):
+    s = set()
+    for arg in args:
+        if arg in s:
+            return False
+        s.add(arg)
+    return True

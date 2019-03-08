@@ -48,3 +48,10 @@ class TestFns(unittest.TestCase):
         self.assertEquals([3, 2, 1], fn(2))
 
         self.assertEquals([43], c.juxt(c.inc)(42))
+
+    def test_is_distinct(self):
+        self.assertTrue(c.is_distinct(42))
+        self.assertTrue(c.is_distinct(1, 2))
+        self.assertTrue(c.is_distinct(1, 2, 3))
+        self.assertFalse(c.is_distinct(1, 2, 3, 3))
+        self.assertFalse(c.is_distinct(1, 2, 1))

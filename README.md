@@ -46,6 +46,9 @@ it doesn’t load everything in memory like e.g. `len(list(g))` would do.
 
 ## Support
 
+The general naming scheme is: use underscores instead of hyphens; start the
+function with `is_` if its Clojure counterparts ends with a `?`.
+
 ### Sequences (`clj.seqs`)
 
 `clj.seqs` aims to implement all Clojure functions that operate on sequences
@@ -163,6 +166,7 @@ functions.
 | `complement`      | `complement`    |                                  |
 | `constantly`      | `constantly`    |                                  |
 | `juxt`            | `juxt`          |                                  |
+| `distinct?`       | `is_distinct`   | *Available in the next release.* |
 
 | Clojure           | `clj.fns`       | Comment                          |
 |-------------------|:----------------|----------------------------------|
