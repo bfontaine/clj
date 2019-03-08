@@ -3,6 +3,8 @@
 ## Unreleased
 
 * Add `seqs.tree_seq`
+* Import everything in `clj` as well so one can use `clj.inc` or `clj.first`;
+  no need to import sub-modules anymore.
 
 ## 0.1.1 (2018/01/12)
 

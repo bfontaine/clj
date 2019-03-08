@@ -2,28 +2,28 @@
 
 import unittest
 
-from clj import fns as f
+import clj as c
 
 class TestFns(unittest.TestCase):
 
     def test_identity(self):
         for e in (True, None, [3], {4: 2}, (24,), 1, -1, 1e9, object(), "a"):
-            self.assertEquals(e, f.identity(e))
+            self.assertEquals(e, c.identity(e))
 
     def test_inc(self):
-        self.assertEquals(2, f.inc(1))
-        self.assertEquals(2.0, f.inc(1.0))
-        self.assertEquals(0, f.inc(-1))
+        self.assertEquals(2, c.inc(1))
+        self.assertEquals(2.0, c.inc(1.0))
+        self.assertEquals(0, c.inc(-1))
 
     def test_dec(self):
-        self.assertEquals(1, f.dec(2))
-        self.assertEquals(1.0, f.dec(2.0))
-        self.assertEquals(-2, f.dec(-1))
+        self.assertEquals(1, c.dec(2))
+        self.assertEquals(1.0, c.dec(2.0))
+        self.assertEquals(-2, c.dec(-1))
 
     def test_comp(self):
         twice = lambda n: n * 2
 
-        fn = f.comp(f.inc, twice, f.dec, twice)
+        fn = c.comp(c.inc, twice, c.dec, twice)
         self.assertEquals(3, fn(1))
         self.assertEquals(7, fn(2))
         self.assertEquals(27, fn(7))
@@ -31,20 +31,20 @@ class TestFns(unittest.TestCase):
 
     def test_complement(self):
         odd = lambda e: e & 1
-        even = f.complement(odd)
+        even = c.complement(odd)
 
         self.assertTrue(even(2))
         self.assertFalse(even(41))
 
     def test_constantly(self):
         x = object()
-        fn = f.constantly(x)
+        fn = c.constantly(x)
 
         self.assertEquals(x, fn())
         self.assertEquals(x, fn(1, 2, 3, 4, 5, a=1, foo=3))
 
     def test_juxt(self):
-        fn = f.juxt(f.inc, f.identity, f.dec)
+        fn = c.juxt(c.inc, c.identity, c.dec)
         self.assertEquals([3, 2, 1], fn(2))
 
-        self.assertEquals([43], f.juxt(f.inc)(42))
+        self.assertEquals([43], c.juxt(c.inc)(42))
