@@ -149,6 +149,15 @@ equivalent of lazy seqs). We don’t support transducers.
 | `xml-seq`         | -               |                                  |
 | `iterator-seq`    | -               |                                  |
 | `enumeration-seq` | -               |                                  |
+| `hash-map`        | -               | Use Python’s `dict`.             |
+| `array-map`       | -               | Use Python’s `dict`.             |
+| `sorted-map`      | -               | Use `collections.OrderedDict`.   |
+| `sorted-map-by`   |                 |                                  |
+| `hash-set`        | -               | Use Python’s `set`.              |
+| `set`             | -               | Use Python’s `set`.              |
+| `sorted-set`      |                 |                                  |
+| `sorted-set-by`   |                 |                                  |
+| `dedupe`          |                 |                                  |
 
 We also implemented `count`, which uses Python’s `len` when possible and
 fallbacks on a `for` loop for other cases.
