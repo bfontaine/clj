@@ -1,6 +1,8 @@
 # clj Changelog
 
-## Unreleased
+No change is breaking unless explicitely stated.
+
+## 0.1.2 (2019/03/08)
 
 * Add `seqs.tree_seq`, `seqs.empty`
 * Import everything in `clj` as well so one can use `clj.inc` or `clj.first`;

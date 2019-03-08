@@ -10,9 +10,6 @@ came back to Python thinking where are all these `distinct`, `drop-while`,
 
 ## Usage
 
-Functions on sequences are in `clj.seqs`; functions that operate on functions
-are in `clj.fns`.
-
 ### Example
 
 ```clojure
@@ -22,8 +19,7 @@ are in `clj.fns`.
 
 ```python
 # Python
-from clj.seqs import count, distinct
-from clj.fns import inc
+from clj import count, distinct, inc
 
 even = lambda e: ~e&1
 
@@ -49,16 +45,16 @@ it doesn’t load everything in memory like e.g. `len(list(g))` would do.
 The general naming scheme is: use underscores instead of hyphens; start the
 function with `is_` if its Clojure counterparts ends with a `?`.
 
-### Sequences (`clj.seqs`)
+### Sequences
 
-`clj.seqs` aims to implement all Clojure functions that operate on sequences
+We aim to implement all Clojure functions that operate on sequences
 (see [the list here][seqs]).
 They all work on iterables and return generators by default (Python’s closest
 equivalent of lazy seqs). We don’t support transducers.
 
 [seqs]: http://clojure.org/reference/sequences
 
-| Clojure           | `clj.seqs`      | Comment                          |
+| Clojure           | `clj`           | Comment                          |
 |-------------------|:----------------|----------------------------------|
 | `distinct`        | `distinct`      |                                  |
 | `filter`          | -               | Use Python’s built-in `filter`.  |
@@ -125,8 +121,9 @@ equivalent of lazy seqs). We don’t support transducers.
 | `every?`          | `every`         |                                  |
 | `not-every?`      | `not_every`     |                                  |
 | `not-any?`        | `not_any`       |                                  |
-| `empty?`          | `empty`         | *Available in the next release.* |
-| `doseq`           | -               | Use `for … in`                   |
+| `empty?`          | -               |                                  |
+| `empty`           | `empty`         |                                  |
+| `doseq`           | -               | Use `for … in`.                  |
 | `dorun`           | `dorun`         |                                  |
 | `doall`           | -               | Use Python’s `list`.             |
 | `realized?`       | -               |                                  |
@@ -144,7 +141,7 @@ equivalent of lazy seqs). We don’t support transducers.
 | `line-seq`        | -               | Loop over an `io.BufferedReader`.|
 | `resultset-seq`   | -               |                                  |
 | `re-seq`          | -               | Use Python’s `re.finditer`.      |
-| `tree-seq`        | `tree_seq`      | *Available in the next release.* |
+| `tree-seq`        | `tree_seq`      |                                  |
 | `file-seq`        | -               |                                  |
 | `xml-seq`         | -               |                                  |
 | `iterator-seq`    | -               |                                  |
@@ -162,12 +159,12 @@ equivalent of lazy seqs). We don’t support transducers.
 We also implemented `count`, which uses Python’s `len` when possible and
 fallbacks on a `for` loop for other cases.
 
-### Functions (`clj.fns`)
+### Functions
 
-`clj.fns` defines miscellaneous functions as well as functions that work on
+We also provide miscellaneous functions as well as functions that work on
 functions.
 
-| Clojure           | `clj.fns`       | Comment                          |
+| Clojure           | `clj`           | Comment                          |
 |-------------------|:----------------|----------------------------------|
 | `identity`        | `identity`      |                                  |
 | `partial`         | -               | Use Python’s `functools.partial` |
@@ -175,9 +172,9 @@ functions.
 | `complement`      | `complement`    |                                  |
 | `constantly`      | `constantly`    |                                  |
 | `juxt`            | `juxt`          |                                  |
-| `distinct?`       | `is_distinct`   | *Available in the next release.* |
+| `distinct?`       | `is_distinct`   |                                  |
 
-| Clojure           | `clj.fns`       | Comment                          |
+| Clojure           | `clj`           | Comment                          |
 |-------------------|:----------------|----------------------------------|
 | `inc`             | `inc`           |                                  |
 | `dec`             | `dec`           |                                  |
