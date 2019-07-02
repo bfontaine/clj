@@ -254,10 +254,29 @@ def shuffle(coll):
     random.shuffle(coll)
     return coll
 
+def _iter(coll, n=0):
+    if isinstance(coll, collections.Iterator):
+        return coll
+    return coll[n:]
+
 def split_at(n, coll):
     """
     Returns a tuple of ``(take(n, coll), drop(n coll))``.
     """
+    if n <= 0:
+        return ([], coll)
+
+    if coll is None:
+        return ([], [])
+
+    taken = []
+    for i, e in enumerate(coll):
+        taken.append(e)
+        if i+1 >= n:
+            break
+
+    return (taken, _iter(coll, n))
+
     return (
         take(n, coll),
         drop(n, coll),
@@ -268,6 +287,7 @@ def split_with(pred, coll):
     Returns a tuple of ``(take_while(pred, coll), drop_while(pred coll))``.
     """
     return (
+        # FIXME this consumes the generator twice. See split_at.
         take_while(pred, coll),
         drop_while(pred, coll),
     )

@@ -161,6 +161,9 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals([[], []], list(map(list, c.split_at(1, []))))
         self.assertEquals([[1], [2, 3]], list(map(list, c.split_at(1, [1, 2, 3]))))
 
+        gen = (e for e in range(1, 7))
+        self.assertEquals([[1,2,3], [4,5,6]], list(map(list, c.split_at(3, gen))))
+
     def test_split_with(self):
         self.assertEquals([[], []],
                           list(map(list, c.split_with(lambda _: True, []))))
