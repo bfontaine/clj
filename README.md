@@ -91,7 +91,7 @@ equivalent of lazy seqs). We don’t support transducers.
 | `partition`       |                 |                                  |
 | `partition-all`   |                 |                                  |
 | `partition-by`    |                 |                                  |
-| `map`             | -               | Use Python’s built-in `map`.     |
+| `map`             | `map`           |                                  |
 | `pmap`            | -               |                                  |
 | `replace`         | `replace`       |                                  |
 | `reductions`      | `reductions`    | `(reductions f i c)` becomes `reductions(f, c, i)` |

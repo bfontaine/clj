@@ -87,6 +87,21 @@ def concat(*xs):
     """
     return itertools.chain(*xs)
 
+if isinstance(map(lambda e: e, []), list):
+    # Python2: not-lazy map
+    def map(f, *colls):
+        """
+        Returns a generator consisting of the result of applying ``f`` to the
+        set of first items of each coll, followed by applying ``f`` to the set
+        of second items in each coll, until any one of the ``colls`` is
+        exhausted. Any remaining items in other colls are ignored. Function f
+        should accept number-of-colls arguments.
+        """
+        for xs in zip(*colls):
+            yield f(*xs)
+else:
+    map = map
+
 def mapcat(f, *colls):
     """
     Returns a generator representing the result of applying concat to the
@@ -581,8 +596,7 @@ def empty(coll):
 # memory.
 def count(coll):
     """
-    Returns the number of items in the collection. ``count(None)`` returns
-    ``0``. Also works on strings.
+    Returns the number of items in the collection. Also works on strings.
     """
     if hasattr(coll, "__len__"):
         return len(coll)

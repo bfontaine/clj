@@ -64,6 +64,10 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals([1, 2], list(c.concat([1, 2], [])))
         self.assertEquals([1, 2, 3], list(c.concat([1, 2], [3])))
 
+    def test_map(self):
+        self.assertIsNotNone(c.map(lambda e: e, test_infinite_range()))
+        self.assertEqual([1,2,3], list(c.map(lambda e: e+1, range(3))))
+
     def test_mapcat(self):
         f = lambda s: s.split(",")
         self.assertEquals(["a", "b", "c", "d"],
@@ -224,7 +228,7 @@ class TestSeqs(unittest.TestCase):
                                                  "b": "c"}, ["a"])))
 
     def test_map_indexed(self):
-        self.assertIsNotNone(c.map_indexed(lambda e: e, test_infinite_range()))
+        self.assertIsNotNone(c.map_indexed(lambda i, e: e, test_infinite_range()))
         self.assertEquals([], list(c.map_indexed(lambda i, e: 42, [])))
         self.assertEquals([0, 1, 2],
                           list(c.map_indexed(lambda i, e: i, [5, 3, 1])))
