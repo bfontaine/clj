@@ -59,7 +59,6 @@ equivalent of lazy seqs). We don’t support transducers.
 | `distinct`        | `distinct`      |                                  |
 | `filter`          | -               | Use Python’s built-in `filter`.  |
 | `remove`          | `remove`        |                                  |
-| `for`             | -               | Use `for … in`.                  |
 | `keep`            | `keep`          |                                  |
 | `keep-indexed`    | `keep_indexed`  |                                  |
 | `cons`            | `cons`          |                                  |
@@ -75,7 +74,7 @@ equivalent of lazy seqs). We don’t support transducers.
 | `nnext`           | -               | Use `rest(rest(…))`              |
 | `drop`            | `drop`          |                                  |
 | `drop-while`      | `drop_while`    | Deprecated. Use Python’s `itertools.dropwhile` |
-| `nthnext`         | -               |                                  |
+| `nthnext`         | -               | Use `drop`.                      |
 | `take`            | `take`          |                                  |
 | `take-nth`        | `take_nth`      |                                  |
 | `take-while`      | `take_while`    | Deprecated. Use Python’s `itertools.takewhile` |
@@ -102,7 +101,6 @@ equivalent of lazy seqs). We don’t support transducers.
 | `nfirst`          | `nfirst`        |                                  |
 | `second`          | `second`        |                                  |
 | `nth`             | `nth`           |                                  |
-| `when-first`      | -               | (macro)                          |
 | `last`            | `last`          |                                  |
 | `rand-nth`        | -               | Use Python’s `random.choice`.    |
 | `zipmap`          | `zipmap`        |                                  |
@@ -133,7 +131,6 @@ equivalent of lazy seqs). We don’t support transducers.
 | `rseq`            | -               |                                  |
 | `subseq`          |                 |                                  |
 | `rsubseq`         |                 |                                  |
-| `lazy-seq`        | -               | (macro)                          |
 | `repeatedly`      | `repeatedly`    |                                  |
 | `iterate`         | `iterate`       |                                  |
 | `repeat`          | `repeat`        | `(repeat n x)` becomes `repeat(x, n)`.|
