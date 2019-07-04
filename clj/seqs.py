@@ -27,6 +27,10 @@ def _is_collection_abc(x):
     return isinstance(x, collections_abc.Sized) and \
             isinstance(x, collections_abc.Iterable)
 
+def _make_gen(g):
+    for e in g:
+        yield e
+
 # The order of the functions here match the one in the Clojure docs:
 #     http://clojure.org/reference/sequences
 
@@ -269,6 +273,9 @@ def split_at(n, coll):
     if coll is None:
         return ([], [])
 
+    # Unfortunately we must consume all elements for the first case because
+    # unlike Clojure's lazy lists, Python's generators yield their elements
+    # only once.
     taken = []
     for i, e in enumerate(coll):
         taken.append(e)
@@ -286,11 +293,23 @@ def split_with(pred, coll):
     """
     Returns a tuple of ``(take_while(pred, coll), drop_while(pred coll))``.
     """
-    return (
-        # FIXME this consumes the generator twice. See split_at.
-        take_while(pred, coll),
-        drop_while(pred, coll),
-    )
+    # See note in split_at.
+    taken = []
+    for i, e in enumerate(coll):
+        if pred(e):
+            taken.append(e)
+        else:
+            middle = e
+            break
+    else:
+        return (taken, [])
+
+    def dropped_while():
+        yield middle
+        for e in _iter(coll, i+1):
+            yield e
+
+    return (taken, dropped_while())
 
 def replace(smap, coll):
     """
