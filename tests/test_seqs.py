@@ -25,6 +25,9 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals([1, 2, 3, 4], list(c.distinct([1, 2, 3, 4])))
         self.assertEquals([2, 1, 3], list(c.distinct([2, 1, 3, 1, 2, 3])))
 
+    def test_filter(self):
+        self.assertIsNotNone(c.filter(lambda _: True, test_infinite_range()))
+
     def test_remove(self):
         self.assertIsNotNone(c.remove(lambda _: False, test_infinite_range()))
         self.assertEquals([], list(c.remove(lambda _: True, [])))
@@ -67,6 +70,9 @@ class TestSeqs(unittest.TestCase):
     def test_map(self):
         self.assertIsNotNone(c.map(lambda e: e, test_infinite_range()))
         self.assertEqual([1,2,3], list(c.map(lambda e: e+1, range(3))))
+        def plus(*xs):
+            return sum(xs)
+        self.assertEqual([9, 12], list(c.map(plus, [1, 2, 3], [2, 3, 4, 5], [6, 7])))
 
     def test_mapcat(self):
         f = lambda s: s.split(",")

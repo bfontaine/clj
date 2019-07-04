@@ -19,7 +19,7 @@ came back to Python thinking where are all these `distinct`, `drop-while`,
 
 ```python
 # Python
-from clj import count, distinct, inc
+from clj import count, distinct, filter, inc, map
 
 even = lambda e: ~e&1
 
@@ -36,9 +36,10 @@ it doesn’t load everything in memory like e.g. `len(list(g))` would do.
 * This is Python. We keep Python’s semantics instead of trying to reproduce
   Clojure in Python (e.g. `0` and `[]` are logically true in Clojure but false
   in Python; `None` is not equivalent to an empty collection).
-* Don’t Reinvent the Wheel. Python already provides things like `map` and
-  `filter`. We don’t reimplement them unless they miss something (e.g. Python’s
-  `range` can’t be called without argument to yield an infinite sequence).
+* Don’t Reinvent the Wheel. We don’t reimplement built-in functions
+  unless they miss something: `range` because it can’t be called without
+  argument to yield an infinite sequence; `map` and `filter` in Python 2
+  because they aren’t lazy.
 
 ## Support
 
@@ -57,7 +58,7 @@ equivalent of lazy seqs). We don’t support transducers.
 | Clojure           | `clj`           | Comment                          |
 |-------------------|:----------------|----------------------------------|
 | `distinct`        | `distinct`      |                                  |
-| `filter`          | -               | Use Python’s built-in `filter`.  |
+| `filter`          | `filter`        |                                  |
 | `remove`          | `remove`        |                                  |
 | `keep`            | `keep`          |                                  |
 | `keep-indexed`    | `keep_indexed`  |                                  |

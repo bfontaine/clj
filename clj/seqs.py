@@ -44,6 +44,21 @@ def distinct(coll):
             seen.add(e)
             yield e
 
+if isinstance(filter(lambda e: e, []), list):
+    # Python2: not-lazy filter
+    def filter(f, coll):
+        """
+        Returns an iterator of the items in ``coll`` for which ``f(coll)``
+        returns a truthy value.
+        """
+        for e in coll:
+            if f(e):
+                yield e
+
+else:
+    # Python 3
+    filter = filter
+
 def remove(pred, coll):
     """
     Return a generator of the items in ``coll`` for which ``pred(item)``
