@@ -140,7 +140,7 @@ equivalent of lazy seqs). We don’t support transducers.
 | `resultset-seq`   | -               |                                  |
 | `re-seq`          | -               | Use Python’s `re.finditer`.      |
 | `tree-seq`        | `tree_seq`      |                                  |
-| `file-seq`        | -               |                                  |
+| `file-seq`        | -               | Use Python’s `os.walk`.          |
 | `xml-seq`         | -               |                                  |
 | `iterator-seq`    | -               |                                  |
 | `enumeration-seq` | -               |                                  |

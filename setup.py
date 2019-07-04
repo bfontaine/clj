@@ -20,9 +20,10 @@ setup(
     author_email='b@ptistefontaine.fr',
     packages=['clj'],
     url='https://github.com/bfontaine/clj',
-    license=open('LICENSE', 'r', encoding='utf-8').read(),
+    license='MIT License',
     description='Clojure-like utilities',
     long_description=open('README.md', 'r', encoding='utf-8').read(),
+    long_description_content_type='text/markdown',
     classifiers=[
         'Intended Audience :: Developers',
         'Operating System :: OS Independent',
