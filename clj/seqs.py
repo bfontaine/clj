@@ -314,10 +314,6 @@ def split_at(n, coll):
 
     return (taken, _iter(coll, n))
 
-    return (
-        take(n, coll),
-        drop(n, coll),
-    )
 
 def split_with(pred, coll):
     """
