@@ -23,13 +23,16 @@ try:
 except ImportError:
     import collections as collections_abc
 
+
 def _is_collection_abc(x):
     return isinstance(x, collections_abc.Sized) and \
             isinstance(x, collections_abc.Iterable)
 
+
 def _make_gen(g):
     for e in g:
         yield e
+
 
 # The order of the functions here match the one in the Clojure docs:
 #     http://clojure.org/reference/sequences
@@ -43,6 +46,7 @@ def distinct(coll):
         if e not in seen:
             seen.add(e)
             yield e
+
 
 if isinstance(filter(lambda e: e, []), list):
     # Python2: not-lazy filter
@@ -59,6 +63,7 @@ else:
     # Python 3
     filter = filter
 
+
 def remove(pred, coll):
     """
     Return a generator of the items in ``coll`` for which ``pred(item)``
@@ -66,12 +71,14 @@ def remove(pred, coll):
     """
     return _filterfalse(pred, coll)
 
+
 def keep(f, coll):
     """
     Returns a generator of the non-``None`` results of ``f(item)``. Note, this
     means ``False`` return values will be included.
     """
     return keep_indexed(lambda _, e: f(e), coll)
+
 
 def keep_indexed(f, coll):
     """
@@ -83,6 +90,7 @@ def keep_indexed(f, coll):
         if res is not None:
             yield res
 
+
 def cons(x, seq):
     """
     Return a generator where ``x`` is the first element and ``seq`` is the
@@ -93,6 +101,7 @@ def cons(x, seq):
     for e in seq:
         yield e
 
+
 def concat(*xs):
     """
     Returns a generator representing the concatenation of the elements in the
@@ -101,6 +110,7 @@ def concat(*xs):
     Deprecated in 0.1.2. Use Python’s ``itertools.chain`` instead.
     """
     return itertools.chain(*xs)
+
 
 if isinstance(map(lambda e: e, []), list):
     # Python2: not-lazy map
@@ -117,6 +127,7 @@ if isinstance(map(lambda e: e, []), list):
 else:
     map = map
 
+
 def mapcat(f, *colls):
     """
     Returns a generator representing the result of applying concat to the
@@ -126,6 +137,7 @@ def mapcat(f, *colls):
     for coll in map(f, *colls):
         for e in coll:
             yield e
+
 
 def cycle(coll):
     """
@@ -141,6 +153,7 @@ def cycle(coll):
         for e in els:
             yield e
 
+
 def interleave(*colls):
     """
     Returns a generator of the first item in each coll, then the second etc.
@@ -149,11 +162,12 @@ def interleave(*colls):
 
     try:
         while True:
-            vals = [next(it) for it in iterators]
-            for v in vals:
+            values = [next(it) for it in iterators]
+            for v in values:
                 yield v
     except StopIteration:
         pass
+
 
 def interpose(sep, coll):
     """
@@ -168,11 +182,13 @@ def interpose(sep, coll):
 
         yield e
 
+
 def rest(coll):
     """
     Returns a possibly empty generator of the items after the first.
     """
     return drop(1, coll)
+
 
 def drop(n, coll):
     """
@@ -185,6 +201,7 @@ def drop(n, coll):
         if i >= n:
             yield e
 
+
 def drop_while(pred, coll):
     """
     Returns a generator of the items in ``coll`` starting from the first item
@@ -193,6 +210,7 @@ def drop_while(pred, coll):
     Deprecated in 0.1.2. Use Python’s ``itertools.dropwhile`` instead.
     """
     return itertools.dropwhile(pred, coll)
+
 
 def take(n, coll):
     """
@@ -207,6 +225,7 @@ def take(n, coll):
         if i+1 >= n:
             break
 
+
 def take_nth(n, coll):
     """
     Returns a generator of every ``n``th item in ``coll``.
@@ -220,6 +239,7 @@ def take_nth(n, coll):
         if i % n == 0:
             yield e
 
+
 def take_while(pred, coll):
     """
     Returns a generator of successive items from ``coll`` while ``pred(item)``
@@ -228,6 +248,7 @@ def take_while(pred, coll):
     Deprecated in 0.1.2. Use Python’s ``itertools.takewhile`` instead.
     """
     return itertools.takewhile(pred, coll)
+
 
 def butlast(coll):
     """
@@ -243,6 +264,7 @@ def butlast(coll):
 
         yield last_e
         last_e = e
+
 
 def drop_last(n, coll):
     """
@@ -265,6 +287,7 @@ def drop_last(n, coll):
 
         yield queue.popleft()
 
+
 def flatten(x):
     """
     Takes any nested combination of sequential things (``list``s, ``tuple``s,
@@ -280,6 +303,7 @@ def flatten(x):
         else:
             yield e
 
+
 def shuffle(coll):
     """
     Return a random permutation of ``coll``. Not lazy.
@@ -288,20 +312,22 @@ def shuffle(coll):
     random.shuffle(coll)
     return coll
 
+
 def _iter(coll, n=0):
     if isinstance(coll, collections.Iterator):
         return coll
     return coll[n:]
+
 
 def split_at(n, coll):
     """
     Returns a tuple of ``(take(n, coll), drop(n coll))``.
     """
     if n <= 0:
-        return ([], coll)
+        return [], coll
 
     if coll is None:
-        return ([], [])
+        return [], []
 
     # Unfortunately we must consume all elements for the first case because
     # unlike Clojure's lazy lists, Python's generators yield their elements
@@ -312,7 +338,7 @@ def split_at(n, coll):
         if i+1 >= n:
             break
 
-    return (taken, _iter(coll, n))
+    return taken, _iter(coll, n)
 
 
 def split_with(pred, coll):
@@ -328,14 +354,15 @@ def split_with(pred, coll):
             middle = e
             break
     else:
-        return (taken, [])
+        return taken, []
 
     def dropped_while():
         yield middle
         for e in _iter(coll, i+1):
             yield e
 
-    return (taken, dropped_while())
+    return taken, dropped_while()
+
 
 def replace(smap, coll):
     """
@@ -345,6 +372,7 @@ def replace(smap, coll):
     """
     for e in coll:
         yield smap.get(e, e)
+
 
 def reductions(f, coll, init=_nil):
     """
@@ -361,6 +389,7 @@ def reductions(f, coll, init=_nil):
         init = f(init, e)
         yield init
 
+
 def map_indexed(f, coll):
     """
     Returns a generator consisting of the result of applying ``f`` to ``0``
@@ -369,6 +398,7 @@ def map_indexed(f, coll):
     ``f`` should accept 2 arguments, ``index`` and ``item``.
     """
     return map(lambda pair: f(pair[0], pair[1]), enumerate(coll))
+
 
 def first(coll):
     """
@@ -379,11 +409,13 @@ def first(coll):
         return None
     return next(take(1, coll), None)
 
+
 def ffirst(x):
     """
     Same as ``first(first(x))``
     """
     return first(first(x))
+
 
 def nfirst(x):
     """
@@ -391,11 +423,13 @@ def nfirst(x):
     """
     return rest(first(x))
 
+
 def second(coll):
     """
     Same as ``first(rest(coll))``.
     """
     return first(rest(coll))
+
 
 def nth(coll, n, not_found=_nil):
     """
@@ -421,6 +455,7 @@ def nth(coll, n, not_found=_nil):
 
     return not_found
 
+
 def last(coll):
     """
     Return the last item in ``coll``, in linear time.
@@ -430,11 +465,13 @@ def last(coll):
         e = item
     return e
 
+
 def zipmap(keys, vals):
     """
     Return a ``dict`` with the keys mapped to the corresponding ``vals``.
     """
     return dict(zip(keys, vals))
+
 
 def group_by(f, coll):
     """
@@ -448,11 +485,16 @@ def group_by(f, coll):
 
     return dict(groups)
 
+
 def _make_pred(pred):
     if isinstance(pred, set):
         p = pred
-        pred = lambda x: x in p
+
+        def pred(x):
+            return x in p
+
     return pred
+
 
 def some(pred, coll):
     """
@@ -471,11 +513,13 @@ def some(pred, coll):
         if pred(e):
             return e
 
+
 def is_seq(x):
     """
     Return ``True`` if ``x`` is a sequence.
     """
     return isinstance(x, collections_abc.Sequence)
+
 
 def every(pred, coll):
     """
@@ -490,12 +534,14 @@ def every(pred, coll):
 
     return True
 
+
 def not_every(pred, coll):
     """
     Returns ``False`` if ``pred(x)`` is logical true for every ``x`` in
     ``coll``, else ``True``.
     """
     return not every(pred, coll)
+
 
 def not_any(pred, coll):
     """
@@ -504,6 +550,7 @@ def not_any(pred, coll):
     """
     pred = _make_pred(pred)
     return every(lambda e: not pred(e), coll)
+
 
 def dorun(coll):
     """
@@ -515,6 +562,7 @@ def dorun(coll):
     """
     for _ in coll:
         pass
+
 
 def repeatedly(f, n=None):
     """
@@ -532,6 +580,7 @@ def repeatedly(f, n=None):
         yield f()
         n -= 1
 
+
 def iterate(f, x):
     """
     Returns a generator of ``x``, ``f(x)``, ``f(f(x))``, etc.
@@ -539,6 +588,7 @@ def iterate(f, x):
     while True:
         yield x
         x = f(x)
+
 
 def repeat(x, n=None):
     """
@@ -580,6 +630,7 @@ def range(*args):
         yield n
         n += 1
 
+
 def tree_seq(has_branch, get_children, root):
     """
     Returns a generator of the nodes in a tree, via a depth-first walk.
@@ -595,12 +646,14 @@ def tree_seq(has_branch, get_children, root):
             for subchild in tree_seq(has_branch, get_children, child):
                 yield subchild
 
+
 def empty(coll):
     """
     Returns an empty collection of the same type as ``coll``, or ``None``.
     """
     if _is_collection_abc(coll):
         return type(coll)()
+
 
 # Not listed in http://clojure.org/reference/sequences but useful for
 # generators to avoid doing e.g. len(list(gen)) that loads everything in
