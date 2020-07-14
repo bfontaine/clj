@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 
 from clj.seqs import (
     butlast, concat, cons, count, cycle, distinct, dorun, drop, drop_last, drop_while, empty, every, ffirst, filter,
