@@ -304,6 +304,14 @@ def flatten(x):
             yield e
 
 
+def reverse(coll):
+    """
+    Return an iterator of the items in ``coll`` in reverse order. Not lazy.
+    """
+    for e in reversed(list(coll)):
+        yield e
+
+
 def shuffle(coll):
     """
     Return a random permutation of ``coll``. Not lazy.

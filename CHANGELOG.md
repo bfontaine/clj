@@ -1,6 +1,10 @@
 # clj Changelog
 
-No change is breaking unless explicitely stated.
+No change is breaking unless explicitly stated.
+
+## 0.1.4 (2020/07/14)
+
+* Add `reverse`
 
 ## 0.1.3 (2019/07/04)
 

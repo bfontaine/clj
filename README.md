@@ -84,7 +84,7 @@ equivalent of lazy seqs). We don’t support transducers.
 | `butlast`         | `butlast`       |                                  |
 | `drop-last`       | `drop_last`     |                                  |
 | `flatten`         | `flatten`       |                                  |
-| `reverse`         | -               | Use Python’s `reversed`.         |
+| `reverse`         | `reverse`       |                                  |
 | `sort`            | -               | Use Python’s built-in `sort`.    |
 | `sort-by`         | -               | Use `sort(…, key=your_function)`.|
 | `shuffle`         | `shuffle`       |                                  |

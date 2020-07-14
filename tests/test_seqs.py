@@ -190,6 +190,11 @@ class TestSeqs(unittest.TestCase):
                           list(c.flatten([[], [1, [[[], [2, 3]], []], 4]])))
         self.assertEquals(["foo", "bar"], list(c.flatten(["foo", "bar"])))
 
+    def test_reverse(self):
+        self.assertEquals([], list(c.reverse([])))
+        self.assertEquals([3, 2, 1], list(c.reverse([1, 2, 3])))
+        self.assertEquals([2, 1, 0], list(c.reverse(c.range(3))))
+
     def test_shuffle(self):
         self.assertEquals([], list(c.shuffle([])))
 
