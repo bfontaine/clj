@@ -655,6 +655,19 @@ def tree_seq(has_branch, get_children, root):
                 yield subchild
 
 
+def dedupe(coll):
+    """
+    Returns a generator of the elements of coll with consecutive duplicates removed.
+    """
+    initial = True
+    prev = None
+    for e in coll:
+        if initial or e != prev:
+            initial = False
+            yield e
+        prev = e
+
+
 def empty(coll):
     """
     Returns an empty collection of the same type as ``coll``, or ``None``.

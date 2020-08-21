@@ -154,7 +154,7 @@ equivalent of lazy seqs). We don’t support transducers.
 | `set`             | -               | Use Python’s `set`.              |
 | `sorted-set`      |                 |                                  |
 | `sorted-set-by`   |                 |                                  |
-| `dedupe`          |                 |                                  |
+| `dedupe`          | `dedupe`        |                                  |
 
 We also implemented `count`, which uses Python’s `len` when possible and
 fallbacks on a `for` loop for other cases.

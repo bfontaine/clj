@@ -411,6 +411,14 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals(["C", "l", "o", "j", "u", "r", "e"],
                 list(map(c.first, c.tree_seq(c.rest, c.rest, t))))
 
+    def test_dedupe(self):
+        self.assertEquals([], list(c.dedupe([])))
+        self.assertEquals([1], list(c.dedupe([1])))
+        self.assertEquals([1, 2], list(c.dedupe([1, 2])))
+        self.assertEquals([1], list(c.dedupe([1, 1])))
+        self.assertEquals([1], list(c.dedupe([1, 1, 1])))
+        self.assertEquals([1, 2, 1], list(c.dedupe([1, 1, 2, 2, 1])))
+
     def test_empty(self):
         self.assertEquals([], c.empty([]))
         self.assertEquals([], c.empty([1, 2, 3]))
