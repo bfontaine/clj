@@ -8,17 +8,20 @@ def identity(x):
     """
     return x
 
+
 def inc(x):
     """
     Returns a number one greater than num.
     """
     return x + 1
 
+
 def dec(x):
     """
     Returns a number one less than num.
     """
     return x - 1
+
 
 def comp(*fns):
     """
@@ -40,25 +43,30 @@ def comp(*fns):
 
     return _comp
 
+
 def complement(f):
     """
     Takes a function ``f`` and returns a function that takes the same arguments
     as ``f``, has the same effects, if any, and returns the opposite truth
     value.
     """
+
     def _f(*args, **kw):
         return not f(*args, **kw)
 
     return _f
 
+
 def constantly(x):
     """
     Returns a function that takes any number of arguments and returns ``x``.
     """
+
     def _fn(*args, **kw):
         return x
 
     return _fn
+
 
 def juxt(*fns):
     """
@@ -69,12 +77,14 @@ def juxt(*fns):
 
         juxt(a, b, c)(x) # => [a(x), b(x), c(x)]
     """
+
     # Note we accept zero argument while Clojure wants at least one.
 
     def _fn(*args, **kw):
         return [f(*args, **kw) for f in fns]
 
     return _fn
+
 
 def is_distinct(*args):
     s = set()

@@ -26,7 +26,7 @@ except ImportError:
 
 def _is_collection_abc(x):
     return isinstance(x, collections_abc.Sized) and \
-            isinstance(x, collections_abc.Iterable)
+           isinstance(x, collections_abc.Iterable)
 
 
 def _make_gen(g):
@@ -173,10 +173,10 @@ def interpose(sep, coll):
     """
     Returns a generator of the elements of ``coll`` separated by ``sep``.
     """
-    first = True
+    first_ = True
     for e in coll:
-        if first:
-            first = False
+        if first_:
+            first_ = False
         else:
             yield sep
 
@@ -222,7 +222,7 @@ def take(n, coll):
 
     for i, e in enumerate(coll):
         yield e
-        if i+1 >= n:
+        if i + 1 >= n:
             break
 
 
@@ -254,12 +254,12 @@ def butlast(coll):
     """
     Return a generator of all but the last item in ``coll``, in linear time.
     """
-    first = True
+    first_ = True
     last_e = None
     for e in coll:
-        if first:
+        if first_:
             last_e = e
-            first = False
+            first_ = False
             continue
 
         yield last_e
@@ -295,9 +295,9 @@ def flatten(x):
     """
     # Avoid lookup at each loop without leaking [Iterable] in the module scope
     # by using [from collections import Iterable].
-    Iterable = collections.Iterable
+    iterable_class = collections.Iterable
     for e in x:
-        if isinstance(e, Iterable) and not isinstance(e, (bytes, str)):
+        if isinstance(e, iterable_class) and not isinstance(e, (bytes, str)):
             for sub_e in flatten(e):
                 yield sub_e
         else:
@@ -343,7 +343,7 @@ def split_at(n, coll):
     taken = []
     for i, e in enumerate(coll):
         taken.append(e)
-        if i+1 >= n:
+        if i + 1 >= n:
             break
 
     return taken, _iter(coll, n)
@@ -366,8 +366,8 @@ def split_with(pred, coll):
 
     def dropped_while():
         yield middle
-        for e in _iter(coll, i+1):
-            yield e
+        for el in _iter(coll, i + 1):
+            yield el
 
     return taken, dropped_while()
 
