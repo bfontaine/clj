@@ -63,7 +63,7 @@ equivalent of lazy seqs). We don’t support transducers.
 | `filter`          | `filter`        |                                  |
 | `remove`          | `remove`        |                                  |
 | `keep`            | `keep`          |                                  |
-| `keep-indexed`    | `keep_indexed`  |                                  |
+| `keep-indexed`    | `keep_indexed`  |                                  |
 | `cons`            | `cons`          |                                  |
 | `concat`          | `concat`        | Deprecated. Use Python’s `itertools.chain` |
 | `lazy-cat`        | -               | Use Python’s `itertools.chain`   |
@@ -90,16 +90,16 @@ equivalent of lazy seqs). We don’t support transducers.
 | `shuffle`         | `shuffle`       |                                  |
 | `split-at`        | `split_at`      |                                  |
 | `split-with`      | `split_with`    |                                  |
-| `partition`       |                 |                                  |
-| `partition-all`   |                 |                                  |
-| `partition-by`    |                 |                                  |
+| `partition`       |                 |                                  |
+| `partition-all`   |                 |                                  |
+| `partition-by`    |                 |                                  |
 | `map`             | `map`           |                                  |
 | `pmap`            | -               |                                  |
 | `replace`         | `replace`       |                                  |
 | `reductions`      | `reductions`    | `(reductions f i c)` becomes `reductions(f, c, i)` |
 | `map-indexed`     | `map_indexed`   |                                  |
 | `seque`           | -               |                                  |
-| `first`           | `first`         |                                  |
+| `first`           | `first`         |                                  |
 | `ffirst`          | `ffirst`        |                                  |
 | `nfirst`          | `nfirst`        |                                  |
 | `second`          | `second`        |                                  |
@@ -132,8 +132,8 @@ equivalent of lazy seqs). We don’t support transducers.
 | `vals`            | -               | Use Python’s `dict.values`.      |
 | `keys`            | -               | Use Python’s `dict.keys`.        |
 | `rseq`            | -               |                                  |
-| `subseq`          |                 |                                  |
-| `rsubseq`         |                 |                                  |
+| `subseq`          |                 |                                  |
+| `rsubseq`         |                 |                                  |
 | `repeatedly`      | `repeatedly`    |                                  |
 | `iterate`         | `iterate`       |                                  |
 | `repeat`          | `repeat`        | `(repeat n x)` becomes `repeat(x, n)`.|
