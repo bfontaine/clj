@@ -686,3 +686,44 @@ def count(coll):
     for _ in coll:
         n += 1
     return n
+
+
+def partition(coll, n, step=None, pad=None):
+    """
+    Returns a generator of lists of ``n`` items each, at offsets ``step`` apart. If ``step`` is not supplied, defaults
+    to ``n``, i.e. the partitions do not overlap. If a ``pad`` collection is supplied, use its elements as necessary to
+    complete last partition up to ``n`` items. In case there are not enough padding elements, return a partition with
+    fewer than ``n`` items.
+
+    Note: ``step!=n`` is not supported for now.
+
+    Note: in Clojure, ``(partition 0 [1 2 3])`` returns an infinite lazy sequence of empty lists. To avoid issues this
+    Python implementation returns an empty generator if called with n≤0.
+    """
+    if n <= 0:
+        return
+
+    if step is not None and step != n:
+        # TODO
+        raise NotImplementedError("Step != n is not supported for now.")
+
+    current_partition = []
+    partition_index = 0
+    partition_end = n
+
+    for element in coll:
+        current_partition.append(element)
+        partition_index += 1
+        if partition_index == partition_end:
+            yield current_partition
+            current_partition = []
+            partition_index = 0
+            partition_end = n
+
+    if pad is not None and 0 < partition_index < partition_end:
+        for element in pad:
+            current_partition.append(element)
+            if partition_index == partition_end:
+                break
+
+        yield current_partition

@@ -440,7 +440,7 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals({}, c.empty({}))
         self.assertEquals({}, c.empty({"a": 42}))
         self.assertEquals(set(), c.empty(set()))
-        self.assertEquals(set(), c.empty(set([1, 2])))
+        self.assertEquals(set(), c.empty({1, 2}))
 
         for e in ([], (), {}, set(), defaultdict(), deque(), Counter(),
                   OrderedDict()):
@@ -450,3 +450,24 @@ class TestSeqs(unittest.TestCase):
 
         for x in (0, 42, None, True, False, lambda: 1, re, self):
             self.assertIsNone(c.empty(x))
+
+    def test_partition(self):
+        for n in (1, 2, 1000, -3, 0):
+            self.assertSequenceEqual([], list(c.partition([], n)))
+
+        for n in (0, -1, -200):
+            self.assertSequenceEqual([], list(c.partition([1, 2, 3, 4], n)))
+
+        self.assertSequenceEqual([[1], [2], [3]], list((c.partition([1, 2, 3], 1))))
+        self.assertSequenceEqual([[1, 2]], list((c.partition([1, 2, 3], 2))))
+        self.assertSequenceEqual([[1, 2], [3, 4]], list((c.partition([1, 2, 3, 4], 2))))
+        self.assertSequenceEqual([[1, 2, 3]], list((c.partition([1, 2, 3], 3))))
+
+        # pad
+        self.assertSequenceEqual([[1], [2], [3]], list((c.partition([1, 2, 3], 1, pad=[4]))))
+        self.assertSequenceEqual([[1, 2], [3, 4]], list((c.partition([1, 2, 3], 2, pad=[4]))))
+        self.assertSequenceEqual([[1, 2], [3, 4]], list((c.partition([1, 2, 3, 4], 2, pad=[5]))))
+        self.assertSequenceEqual([[1, 2, 3]], list((c.partition([1, 2, 3], 3, pad=[4]))))
+
+        self.assertSequenceEqual([[1, 2, 3], [4, 5]], list((c.partition([1, 2, 3, 4], 3, pad=[5]))))
+        self.assertSequenceEqual([[1, 2, 3], [4, 5, 6]], list((c.partition([1, 2, 3, 4], 3, pad=[5, 6]))))

@@ -90,13 +90,13 @@ equivalent of lazy seqs). We don’t support transducers.
 | `shuffle`         | `shuffle`       |                                  |
 | `split-at`        | `split_at`      |                                  |
 | `split-with`      | `split_with`    |                                  |
-| `partition`       |                 |                                  |
+| `partition`       | `partition`     | `(partition n step pad coll)` becomes `partition(coll, n, step, pad)`. The support for a `step` different from `n` is not implemented for now. |
 | `partition-all`   |                 |                                  |
 | `partition-by`    |                 |                                  |
 | `map`             | `map`           |                                  |
 | `pmap`            | -               |                                  |
 | `replace`         | `replace`       |                                  |
-| `reductions`      | `reductions`    | `(reductions f i c)` becomes `reductions(f, c, i)` |
+| `reductions`      | `reductions`    | `(reductions f i c)` becomes `reductions(f, c, i)`. |
 | `map-indexed`     | `map_indexed`   |                                  |
 | `seque`           | -               |                                  |
 | `first`           | `first`         |                                  |
