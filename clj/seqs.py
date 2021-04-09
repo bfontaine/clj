@@ -107,7 +107,7 @@ def concat(*xs):
     Returns a generator representing the concatenation of the elements in the
     supplied colls.
 
-    Deprecated in 0.1.2. Use Python’s ``itertools.chain`` instead.
+    This is equivalent to ``itertools.chain``.
     """
     return itertools.chain(*xs)
 
@@ -141,8 +141,7 @@ def mapcat(f, *colls):
 
 def cycle(coll):
     """
-    Returns a (infinite!) generator which yields repetitions of the items in
-    ``coll``.
+    Returns a (infinite!) generator which yields repetitions of the items in ``coll``.
     """
     els = []
     for e in coll:
@@ -207,7 +206,7 @@ def drop_while(pred, coll):
     Returns a generator of the items in ``coll`` starting from the first item
     for which ``pred(item)`` returns a falsy value.
 
-    Deprecated in 0.1.2. Use Python’s ``itertools.dropwhile`` instead.
+    This is equivalent to ``itertools.dropwhile``.
     """
     return itertools.dropwhile(pred, coll)
 
@@ -245,7 +244,7 @@ def take_while(pred, coll):
     Returns a generator of successive items from ``coll`` while ``pred(item)``
     returns a truthy value.
 
-    Deprecated in 0.1.2. Use Python’s ``itertools.takewhile`` instead.
+    This is equivalent to ``itertools.takewhile``.
     """
     return itertools.takewhile(pred, coll)
 

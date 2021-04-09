@@ -65,8 +65,8 @@ equivalent of lazy seqs). We don’t support transducers.
 | `keep`            | `keep`          |                                  |
 | `keep-indexed`    | `keep_indexed`  |                                  |
 | `cons`            | `cons`          |                                  |
-| `concat`          | `concat`        | Deprecated. Use Python’s `itertools.chain` |
-| `lazy-cat`        | -               | Use Python’s `itertools.chain`   |
+| `concat`          | `concat`        | Equivalent to `itertools.chain`. |
+| `lazy-cat`        | -               | Use Python’s `itertools.chain`.  |
 | `mapcat`          | `mapcat`        |                                  |
 | `cycle`           | `cycle`         |                                  |
 | `interleave`      | `interleave`    |                                  |
@@ -76,11 +76,11 @@ equivalent of lazy seqs). We don’t support transducers.
 | `fnext`           | -               | Use `second`.                    |
 | `nnext`           | -               | Use `rest(rest(…))`              |
 | `drop`            | `drop`          |                                  |
-| `drop-while`      | `drop_while`    | Deprecated. Use Python’s `itertools.dropwhile` |
+| `drop-while`      | `drop_while`    | Equivalent to `itertools.dropwhile`. |
 | `nthnext`         | -               | Use `drop`.                      |
 | `take`            | `take`          |                                  |
 | `take-nth`        | `take_nth`      |                                  |
-| `take-while`      | `take_while`    | Deprecated. Use Python’s `itertools.takewhile` |
+| `take-while`      | `take_while`    | Equivalent to `itertools.takewhile`. |
 | `butlast`         | `butlast`       |                                  |
 | `drop-last`       | `drop_last`     |                                  |
 | `flatten`         | `flatten`       |                                  |
@@ -136,7 +136,7 @@ equivalent of lazy seqs). We don’t support transducers.
 | `rsubseq`         |                 |                                  |
 | `repeatedly`      | `repeatedly`    |                                  |
 | `iterate`         | `iterate`       |                                  |
-| `repeat`          | `repeat`        | `(repeat n x)` becomes `repeat(x, n)`.|
+| `repeat`          | `repeat`        | `(repeat n x)` becomes `repeat(x, n)`. Equivalent to `itertools.repeat`.|
 | `range`           | `range`         | Prefer Python’s `range` for everything but infinite generators.|
 | `line-seq`        | -               | Loop over an `io.BufferedReader`.|
 | `resultset-seq`   | -               |                                  |
