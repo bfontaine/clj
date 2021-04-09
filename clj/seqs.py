@@ -600,17 +600,14 @@ def iterate(f, x):
 
 def repeat(x, n=None):
     """
-    Returns a generator that indefinitly yields ``x`` (or ``n`` times if ``n``
-    is supplied).
-    """
-    if n is None:
-        n = -1
-    elif n < 0:
-        n = 0
+    Returns a generator that indefinitely yields ``x`` (or ``n`` times if ``n`` is supplied).
 
-    while n != 0:
-        yield x
-        n -= 1
+    This is equivalent to ``itertools.repeat``.
+    """
+    kwargs = {}
+    if n is not None:
+        kwargs["times"] = n
+    return itertools.repeat(x, **kwargs)
 
 
 def range(*args):
