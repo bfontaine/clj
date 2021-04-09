@@ -5,6 +5,7 @@ from collections import OrderedDict, Counter, deque, defaultdict
 
 import clj as c
 
+
 def test_infinite_range():
     """
     Test generator that fails if its 10k-th element is consumed.
@@ -33,7 +34,7 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals([], list(c.remove(lambda _: True, [])))
         self.assertEquals([], list(c.remove(lambda _: True, [1, 2, 3, 4])))
         self.assertEquals([1, 2, 3], list(c.remove(lambda _: False, [1, 2, 3])))
-        self.assertEquals([1, 3], list(c.remove(lambda x: x==2, [1, 2, 3])))
+        self.assertEquals([1, 3], list(c.remove(lambda x: x == 2, [1, 2, 3])))
 
     def test_keep(self):
         self.assertIsNotNone(c.keep(lambda _: False, test_infinite_range()))
@@ -46,7 +47,7 @@ class TestSeqs(unittest.TestCase):
     def test_keep_indexed(self):
         self.assertIsNotNone(c.keep_indexed(lambda a, b: False, test_infinite_range()))
 
-        f = lambda i,e: e if i % 2 == 0 else None
+        f = lambda i, e: e if i % 2 == 0 else None
         self.assertEquals(["a", "c"],
                           list(c.keep_indexed(f, ["a", "b", "c", "d"])))
 
@@ -69,9 +70,11 @@ class TestSeqs(unittest.TestCase):
 
     def test_map(self):
         self.assertIsNotNone(c.map(lambda e: e, test_infinite_range()))
-        self.assertEqual([1,2,3], list(c.map(lambda e: e+1, range(3))))
+        self.assertEqual([1, 2, 3], list(c.map(lambda e: e + 1, range(3))))
+
         def plus(*xs):
             return sum(xs)
+
         self.assertEqual([9, 12], list(c.map(plus, [1, 2, 3], [2, 3, 4, 5], [6, 7])))
 
     def test_mapcat(self):
@@ -87,7 +90,7 @@ class TestSeqs(unittest.TestCase):
         self.assertEqual([1, 2, 3, 1, 2, 3, 1, 2],
                          list(c.take(8, c.cycle([1, 2, 3]))))
         self.assertEqual([1, 2, 1, 2],
-                list(c.take(4, c.cycle(x for x in range(1, 3)))))
+                         list(c.take(4, c.cycle(x for x in range(1, 3)))))
         self.assertIsNotNone(c.cycle(test_infinite_range()))
 
     def test_interleave(self):
@@ -143,6 +146,7 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals([1, 2, 3], list(c.take(4, [1, 2, 3])))
 
         els = []
+
         def _gen():
             for x in range(10):
                 els.append(x)
@@ -209,7 +213,7 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals([[1], [2, 3]], list(map(list, c.split_at(1, [1, 2, 3]))))
 
         gen = (e for e in range(1, 7))
-        self.assertEquals([[1,2,3], [4,5,6]], list(map(list, c.split_at(3, gen))))
+        self.assertEquals([[1, 2, 3], [4, 5, 6]], list(map(list, c.split_at(3, gen))))
         self.assertEquals([0, 1], list(c.split_at(2, test_infinite_range())[0]))
 
     def test_split_with(self):
@@ -218,15 +222,15 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals([[], []],
                           list(map(list, c.split_with(lambda _: False, []))))
         self.assertEquals([[1, 2], [3, 4, 3, 2, 1]],
-                          list(map(list, c.split_with(lambda n: n<3,
+                          list(map(list, c.split_with(lambda n: n < 3,
                                                       [1, 2, 3, 4, 3, 2, 1]))))
 
         gen = (e for e in range(1, 5))
         self.assertEquals([[1], [2, 3, 4]],
                           list(map(list, c.split_with(lambda n: n % 2 == 1, gen))))
 
-        self.assertEquals([0, 1], list(c.split_with(lambda n: n<2,
-            test_infinite_range())[0]))
+        self.assertEquals([0, 1], list(c.split_with(lambda n: n < 2,
+                                                    test_infinite_range())[0]))
 
     def test_replace(self):
         self.assertIsNotNone(c.replace({0: 1}, test_infinite_range()))
@@ -244,7 +248,7 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals([0, 1, 2],
                           list(c.map_indexed(lambda i, e: i, [5, 3, 1])))
         self.assertEquals([5, 4, 3],
-                          list(c.map_indexed(lambda i, e: i+e, [5, 3, 1])))
+                          list(c.map_indexed(lambda i, e: i + e, [5, 3, 1])))
 
     def test_first(self):
         self.assertEquals(None, c.first(None))
@@ -373,7 +377,7 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals([42, 42], els)
 
     def test_iterate(self):
-        inc = lambda x: x+1
+        inc = lambda x: x + 1
         self.assertEquals(10, c.nth(c.iterate(inc, 0), 10))
 
     def test_repeat(self):
@@ -396,20 +400,29 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals(1, c.count({"foo": "bar"}))
         self.assertEquals(10, c.count(c.take(10, test_infinite_range())))
 
+        class Uniterable:
+            def __iter__(self):
+                raise RuntimeError("boom!")
+
+            def __len__(self):
+                return 42
+
+        self.assertEquals(42, c.count(Uniterable()))
+
     def test_tree_seq(self):
         def boom(_):
             raise RuntimeError("boom!")
 
         self.assertEquals([42],
-                list(c.tree_seq(lambda _: False, boom, 42)))
+                          list(c.tree_seq(lambda _: False, boom, 42)))
 
         t = [[1, 2, [3]], [4]]
         self.assertEquals([t, [1, 2, [3]], 1, 2, [3], 3, [4], 4],
-                list(c.tree_seq(c.is_seq, c.identity, t)))
+                          list(c.tree_seq(c.is_seq, c.identity, t)))
 
         t = ["C", ["l", ["o"], ["j"]], ["u", ["r"]], ["e"]]
         self.assertEquals(["C", "l", "o", "j", "u", "r", "e"],
-                list(map(c.first, c.tree_seq(c.rest, c.rest, t))))
+                          list(map(c.first, c.tree_seq(c.rest, c.rest, t))))
 
     def test_dedupe(self):
         self.assertEquals([], list(c.dedupe([])))
@@ -430,7 +443,7 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals(set(), c.empty(set([1, 2])))
 
         for e in ([], (), {}, set(), defaultdict(), deque(), Counter(),
-                OrderedDict()):
+                  OrderedDict()):
             self.assertEquals(e, c.empty(e))
 
         import re
