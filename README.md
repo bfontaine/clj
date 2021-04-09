@@ -2,9 +2,10 @@
 
 `clj` is a collection of functions to work with lazy iterators in Python.
 
-It’s a module for those times when you did too much Clojure and came back
-to Python wondering where are all these `distinct`, `drop-while`, `cycle`,
-`first`, etc.
+It’s a module for those times when you did too much Clojure and came back to Python wondering where are all these
+`distinct`, `drop-while`, `cycle`, `first`, etc.
+
+The library is oriented toward laziness and performance. Functions are  implemented with as little overhead as possible.
 
 ## Install
 

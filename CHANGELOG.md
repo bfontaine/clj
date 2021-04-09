@@ -2,6 +2,11 @@
 
 No change is breaking unless explicitly stated.
 
+## 0.1.6 (2021/04/09)
+
+* Add `partition` (partial implementation)
+* Remove deprecation notices.
+
 ## 0.1.5 (2020/08/21)
 
 * Add `dedupe` (contributed by @jaihindhreddy)
