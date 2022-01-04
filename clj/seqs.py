@@ -292,6 +292,10 @@ def flatten(x):
     Takes any nested combination of sequential things (``list``s, ``tuple``s,
     etc.) and returns their contents as a single, flat sequence.
     """
+    # FIXME:
+    #   > RecursionError: maximum recursion depth exceeded in comparison
+    #   When called with a very deep list (~1000 levels of depth)
+
     # Avoid lookup at each loop without leaking [Iterable] in the module scope
     # by using [from collections import Iterable].
     iterable_class = collections.Iterable

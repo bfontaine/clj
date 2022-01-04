@@ -194,6 +194,24 @@ class TestSeqs(unittest.TestCase):
                           list(c.flatten([[], [1, [[[], [2, 3]], []], 4]])))
         self.assertEquals(["foo", "bar"], list(c.flatten(["foo", "bar"])))
 
+        self.assertEquals([0, 1, 2],
+                          list(c.take(3, c.flatten(c.range()))),
+                          "infinite generator")
+        self.assertEquals([0, 1, 2],
+                          list(c.take(3, c.flatten(c.range() for _ in c.range()))),
+                          "infinite generator of infinite generators")
+        self.assertEquals([1, 0, 1],
+                          list(c.take(3, c.flatten([[1], c.range(), 42, c.range()]))),
+                          "mix of single elements and infinite generators")
+
+        """
+        deep_list = ["foo"]
+        for _ in range(200):
+            deep_list = [[[[[deep_list]]]]]
+
+        self.assertEquals(["foo"], list(c.flatten(deep_list)), "deep list")
+        """
+
     def test_reverse(self):
         self.assertEquals([], list(c.reverse([])))
         self.assertEquals([3, 2, 1], list(c.reverse([1, 2, 3])))
