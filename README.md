@@ -11,6 +11,8 @@ The library is oriented toward laziness and performance. Functions are implement
 
     pip install clj
 
+Since 0.2.0, only Python 3.7+ is supported.
+
 ## Usage
 
 ### Example
