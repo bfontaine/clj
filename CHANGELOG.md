@@ -2,6 +2,11 @@
 
 No change is breaking unless explicitly stated.
 
+## 0.2.1 (2022/02/14)
+
+* Add `clj/py.typed` to indicate we support type checking (PEP 561)
+* Fix the version in `pyproject.toml`
+
 ## 0.2.0 (2022/02/14)
 
 ### Breaking changes
@@ -16,6 +21,7 @@ No change is breaking unless explicitly stated.
 * Add `is_even` and `is_odd`
 * Make `shuffle` work on all iterables, not just lists
 * Document the behavior of `last` on empty iterables
+* Add `pyproject.toml` to the package
 
 ## 0.1.6 (2021/04/09)
 
