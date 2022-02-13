@@ -47,7 +47,8 @@ class TestSeqs(unittest.TestCase):
     def test_keep_indexed(self):
         self.assertIsNotNone(c.keep_indexed(lambda a, b: False, test_infinite_range()))
 
-        f = lambda i, e: e if i % 2 == 0 else None
+        def f(i, e): return e if i % 2 == 0 else None
+
         self.assertEquals(["a", "c"],
                           list(c.keep_indexed(f, ["a", "b", "c", "d"])))
 
@@ -78,7 +79,8 @@ class TestSeqs(unittest.TestCase):
         self.assertEqual([9, 12], list(c.map(plus, [1, 2, 3], [2, 3, 4, 5], [6, 7])))
 
     def test_mapcat(self):
-        f = lambda s: s.split(",")
+        def f(s): return s.split(",")
+
         self.assertEquals(["a", "b", "c", "d"],
                           list(c.mapcat(f, ["a,b", "c,d"])))
 
@@ -271,28 +273,22 @@ class TestSeqs(unittest.TestCase):
                           list(c.map_indexed(lambda i, e: i + e, [5, 3, 1])))
 
     def test_first(self):
-        self.assertEquals(None, c.first(None))
         self.assertEquals(None, c.first([]))
         self.assertEquals(42, c.first([42]))
         self.assertEquals(42, c.first([42, 1, 2, 3]))
         self.assertEquals(0, c.first(test_infinite_range()))
 
     def test_ffirst(self):
-        self.assertEquals(None, c.ffirst(None))
-        self.assertEquals(None, c.ffirst([None]))
         self.assertEquals(None, c.ffirst([]))
         self.assertEquals(None, c.ffirst([[]]))
         self.assertEquals(42, c.ffirst([[42, 1], 2]))
 
     def test_nfirst(self):
-        self.assertEquals([], list(c.nfirst(None)))
         self.assertEquals([], list(c.nfirst([])))
-        self.assertEquals([], list(c.nfirst([None])))
         self.assertEquals([], list(c.nfirst([[]])))
         self.assertEquals([2, 3], list(c.nfirst([[1, 2, 3], 4])))
 
     def test_second(self):
-        self.assertEquals(None, c.second(None))
         self.assertEquals(None, c.second([]))
         self.assertEquals(None, c.second([42]))
         self.assertEquals(1, c.second([42, 1, 2, 3]))
@@ -397,7 +393,8 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals([42, 42], els)
 
     def test_iterate(self):
-        inc = lambda x: x + 1
+        def inc(x): return x + 1
+
         self.assertEquals(10, c.nth(c.iterate(inc, 0), 10))
 
     def test_repeat(self):

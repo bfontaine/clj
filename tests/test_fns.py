@@ -4,8 +4,8 @@ import unittest
 
 import clj as c
 
-class TestFns(unittest.TestCase):
 
+class TestFns(unittest.TestCase):
     def test_identity(self):
         for e in (True, None, [3], {4: 2}, (24,), 1, -1, 1e9, object(), "a"):
             self.assertEquals(e, c.identity(e))
