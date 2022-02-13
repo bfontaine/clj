@@ -642,8 +642,8 @@ def range(*args) -> Iterator[int]:
         n += 1
 
 
-def tree_seq(has_branch: Callable[[T], Any], get_children: Callable[[T], Iterable[T]], root: T) \
-        -> Iterable[T]:
+def tree_seq(has_branch: Callable[[Any], Any], get_children: Callable[[Any], Iterable], root: Any) \
+        -> Iterable:
     """
     Returns a generator of the nodes in a tree, via a depth-first walk.
     ``has_branch`` must be a function of one argument that returns ``True`` if
