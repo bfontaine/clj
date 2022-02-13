@@ -1,29 +1,33 @@
 # -*- coding: UTF-8 -*-
 
 # See http://clojure.org/reference/other_functions
+from typing import TypeVar, Union, Callable, Hashable
 
-def identity(x):
+T = TypeVar('T')
+
+
+def identity(x: T) -> T:
     """
     Returns its argument.
     """
     return x
 
 
-def inc(x):
+def inc(x: Union[int, float]):
     """
     Returns a number one greater than num.
     """
     return x + 1
 
 
-def dec(x):
+def dec(x: Union[int, float]):
     """
     Returns a number one less than num.
     """
     return x - 1
 
 
-def comp(*fns):
+def comp(*fns) -> Callable:
     """
     Takes a set of functions and returns a function that is the composition of
     those functions. The returned function takes a variable number of args,
@@ -44,7 +48,7 @@ def comp(*fns):
     return _comp
 
 
-def complement(f):
+def complement(f: Callable) -> Callable[..., bool]:
     """
     Takes a function ``f`` and returns a function that takes the same arguments
     as ``f``, has the same effects, if any, and returns the opposite truth
@@ -57,18 +61,18 @@ def complement(f):
     return _f
 
 
-def constantly(x):
+def constantly(x: T) -> Callable[..., T]:
     """
     Returns a function that takes any number of arguments and returns ``x``.
     """
 
-    def _fn(*args, **kw):
+    def _fn(*_args, **_kw):
         return x
 
     return _fn
 
 
-def juxt(*fns):
+def juxt(*fns) -> Callable[..., list]:
     """
     Takes a set of functions and returns a function that is the juxtaposition
     of those functions. The returned function takes a variable number of
@@ -86,7 +90,7 @@ def juxt(*fns):
     return _fn
 
 
-def is_distinct(*args):
+def is_distinct(*args: Hashable):
     s = set()
     for arg in args:
         if arg in s:

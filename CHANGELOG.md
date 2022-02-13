@@ -2,6 +2,14 @@
 
 No change is breaking unless explicitly stated.
 
+## 0.2.0 (unreleased)
+
+* Drop support for Python 2.x
+* Drop support for Python 3.6 and below
+* Add type hints to most functions
+* Make `shuffle` work on all iterables, not just lists
+* Document the behavior of `last` on empty iterables
+
 ## 0.1.6 (2021/04/09)
 
 * Add `partition` (partial implementation)

@@ -1,27 +1,20 @@
 # -*- coding: UTF-8 -*-
 import random
 import collections
-
 import itertools
+import collections.abc as collections_abc
 
 # We use this as a default value for some arguments in order to check if they
 # were provided or not
+from typing import Iterable, TypeVar, Any, Callable, Iterator, Union, Tuple, Dict, Optional, List, Set, cast, Deque
+
 _nil = object()
 
 # We redefine `range` below so keep a reference to the original one here
-try:
-    # Python2
-    _range = xrange
-    _filterfalse = itertools.ifilterfalse
-except NameError:
-    _range = range
-    _filterfalse = itertools.filterfalse
+_range = range
 
-try:
-    # Python >=3.7
-    import collections.abc as collections_abc
-except ImportError:
-    import collections as collections_abc
+T = TypeVar('T')
+T2 = TypeVar('T2')
 
 
 def _is_collection_abc(x):
@@ -29,7 +22,7 @@ def _is_collection_abc(x):
            isinstance(x, collections_abc.Iterable)
 
 
-def _make_gen(g):
+def _make_gen(g: Iterable[T]) -> Iterator[T]:
     for e in g:
         yield e
 
@@ -37,7 +30,7 @@ def _make_gen(g):
 # The order of the functions here match the one in the Clojure docs:
 #     http://clojure.org/reference/sequences
 
-def distinct(coll):
+def distinct(coll: Iterable[T]) -> Iterable[T]:
     """
     Return a generator of the elements of ``coll`` with duplicates removed.
     """
@@ -48,31 +41,19 @@ def distinct(coll):
             yield e
 
 
-if isinstance(filter(lambda e: e, []), list):
-    # Python2: not-lazy filter
-    def filter(f, coll):
-        """
-        Returns an iterator of the items in ``coll`` for which ``f(coll)``
-        returns a truthy value.
-        """
-        for e in coll:
-            if f(e):
-                yield e
-
-else:
-    # Python 3
-    filter = filter
+# alias
+filter = filter
 
 
-def remove(pred, coll):
+def remove(pred: Callable[[T], Any], coll: Iterable[T]) -> Iterable[T]:
     """
     Return a generator of the items in ``coll`` for which ``pred(item)``
     returns a falsy value.
     """
-    return _filterfalse(pred, coll)
+    return itertools.filterfalse(pred, coll)
 
 
-def keep(f, coll):
+def keep(f: Callable[[T], Any], coll: Iterable[T]) -> Iterable[T]:
     """
     Returns a generator of the non-``None`` results of ``f(item)``. Note, this
     means ``False`` return values will be included.
@@ -80,7 +61,7 @@ def keep(f, coll):
     return keep_indexed(lambda _, e: f(e), coll)
 
 
-def keep_indexed(f, coll):
+def keep_indexed(f: Callable[[int, T], Any], coll: Iterable[T]) -> Iterable[T]:
     """
     Returns a generator of the non-``None`` results of ``f(index, item)``.
     Note, this means ``False`` return values will be included.
@@ -91,7 +72,7 @@ def keep_indexed(f, coll):
             yield res
 
 
-def cons(x, seq):
+def cons(x: T2, seq: Iterable[T]) -> Iterable[Union[T, T2]]:
     """
     Return a generator where ``x`` is the first element and ``seq`` is the
     rest. Note, this differs from Clojure’s ``cons`` which returns a non-lazy
@@ -112,23 +93,11 @@ def concat(*xs):
     return itertools.chain(*xs)
 
 
-if isinstance(map(lambda e: e, []), list):
-    # Python2: not-lazy map
-    def map(f, *colls):
-        """
-        Returns a generator consisting of the result of applying ``f`` to the
-        set of first items of each coll, followed by applying ``f`` to the set
-        of second items in each coll, until any one of the ``colls`` is
-        exhausted. Any remaining items in other colls are ignored. Function f
-        should accept number-of-colls arguments.
-        """
-        for xs in zip(*colls):
-            yield f(*xs)
-else:
-    map = map
+# alias
+map = map
 
 
-def mapcat(f, *colls):
+def mapcat(f: Callable[[Any], Iterable], *colls):
     """
     Returns a generator representing the result of applying concat to the
     result of applying ``map`` to ``f`` and ``colls``. Thus function ``f``
@@ -139,7 +108,7 @@ def mapcat(f, *colls):
             yield e
 
 
-def cycle(coll):
+def cycle(coll: Iterable[T]) -> Iterable[T]:
     """
     Returns a (infinite!) generator which yields repetitions of the items in ``coll``.
     """
@@ -153,7 +122,7 @@ def cycle(coll):
             yield e
 
 
-def interleave(*colls):
+def interleave(*colls) -> Iterable:
     """
     Returns a generator of the first item in each coll, then the second etc.
     """
@@ -168,7 +137,7 @@ def interleave(*colls):
         pass
 
 
-def interpose(sep, coll):
+def interpose(sep: T2, coll: Iterable[T]) -> Iterable[Union[T, T2]]:
     """
     Returns a generator of the elements of ``coll`` separated by ``sep``.
     """
@@ -182,14 +151,14 @@ def interpose(sep, coll):
         yield e
 
 
-def rest(coll):
+def rest(coll: Iterable[T]) -> Iterable[T]:
     """
     Returns a possibly empty generator of the items after the first.
     """
     return drop(1, coll)
 
 
-def drop(n, coll):
+def drop(n: int, coll: Iterable[T]) -> Iterable[T]:
     """
     Returns a generator of all but the first ``n`` items in ``coll``.
     """
@@ -201,7 +170,7 @@ def drop(n, coll):
             yield e
 
 
-def drop_while(pred, coll):
+def drop_while(pred: Callable[[T], Any], coll: Iterable[T]) -> Iterable[T]:
     """
     Returns a generator of the items in ``coll`` starting from the first item
     for which ``pred(item)`` returns a falsy value.
@@ -211,7 +180,7 @@ def drop_while(pred, coll):
     return itertools.dropwhile(pred, coll)
 
 
-def take(n, coll):
+def take(n: int, coll: Iterable[T]) -> Iterable[T]:
     """
     Returns a generator of the first ``n`` items in ``coll``, or all items if
     there are fewer than ``n``.
@@ -225,7 +194,7 @@ def take(n, coll):
             break
 
 
-def take_nth(n, coll):
+def take_nth(n: int, coll: Iterable[T]) -> Iterable[T]:
     """
     Returns a generator of every ``n``th item in ``coll``.
     """
@@ -239,7 +208,7 @@ def take_nth(n, coll):
             yield e
 
 
-def take_while(pred, coll):
+def take_while(pred: Callable[[T], Any], coll: Iterable[T]) -> Iterable[T]:
     """
     Returns a generator of successive items from ``coll`` while ``pred(item)``
     returns a truthy value.
@@ -249,23 +218,23 @@ def take_while(pred, coll):
     return itertools.takewhile(pred, coll)
 
 
-def butlast(coll):
+def butlast(coll: Iterable[T]) -> Iterable[T]:
     """
     Return a generator of all but the last item in ``coll``, in linear time.
     """
     first_ = True
-    last_e = None
+    last_e: Optional[T] = None
     for e in coll:
         if first_:
             last_e = e
             first_ = False
             continue
 
-        yield last_e
+        yield cast(T, last_e)
         last_e = e
 
 
-def drop_last(n, coll):
+def drop_last(n: int, coll: Iterable[T]) -> Iterable[T]:
     """
     Return a generator of all but the last ``n`` items in ``coll``.
     """
@@ -274,7 +243,7 @@ def drop_last(n, coll):
             yield e
         return
 
-    queue = collections.deque()
+    queue: Deque[T] = collections.deque()
     size = 0
 
     for e in coll:
@@ -287,7 +256,7 @@ def drop_last(n, coll):
         yield queue.popleft()
 
 
-def flatten(x):
+def flatten(x: Iterable) -> Iterable:
     """
     Takes any nested combination of sequential things (``list``s, ``tuple``s,
     etc.) and returns their contents as a single, flat sequence.
@@ -307,7 +276,7 @@ def flatten(x):
             yield e
 
 
-def reverse(coll):
+def reverse(coll: Iterable[T]) -> Iterable[T]:
     """
     Return an iterator of the items in ``coll`` in reverse order. Not lazy.
     """
@@ -315,11 +284,11 @@ def reverse(coll):
         yield e
 
 
-def shuffle(coll):
+def shuffle(coll: Iterable[T]) -> Iterable[T]:
     """
     Return a random permutation of ``coll``. Not lazy.
     """
-    coll = coll[:]
+    coll = list(coll)
     random.shuffle(coll)
     return coll
 
@@ -330,7 +299,7 @@ def _iter(coll, n=0):
     return coll[n:]
 
 
-def split_at(n, coll):
+def split_at(n: int, coll: Iterable[T]) -> Tuple[Iterable[T], Iterable[T]]:
     """
     Returns a tuple of ``(take(n, coll), drop(n coll))``.
     """
@@ -352,7 +321,7 @@ def split_at(n, coll):
     return taken, _iter(coll, n)
 
 
-def split_with(pred, coll):
+def split_with(pred: Callable[[T], Any], coll: Iterable[T]) -> Tuple[Iterable[T], Iterable[T]]:
     """
     Returns a tuple of ``(take_while(pred, coll), drop_while(pred coll))``.
     """
@@ -375,33 +344,45 @@ def split_with(pred, coll):
     return taken, dropped_while()
 
 
-def replace(smap, coll):
+def replace(smap: Dict[T, T2], coll: Iterable[T]) -> Iterable[Union[T, T2]]:
     """
     Given a map of replacement pairs and a list/collection, yield a sequence
-    where any elements = a key in ``smap`` replaced with the corresponding val
+    where any element = a key in ``smap`` replaced with the corresponding val
     in ``smap``.
     """
     for e in coll:
         yield smap.get(e, e)
 
 
-def reductions(f, coll, init=_nil):
+def reductions(f: Callable, coll: Iterable[T], init: Any = _nil) -> Iterable:
     """
     Yield the intermediate values of the reduction (as per ``reduce``) of
     ``coll`` by ``f``, starting with ``init``.
     """
-    if init is _nil:
-        init = first(coll)
-        coll = rest(coll)
+    first_value, is_empty = _first(coll)
+    if is_empty:
+        if init is _nil:
+            yield None
+        else:
+            yield init
+        return
 
-    yield init
+    first_value = cast(T, first_value)
+
+    if init is _nil:
+        init_value = first_value
+    else:
+        coll = cons(first_value, coll)
+        init_value = init
+
+    yield init_value
 
     for e in coll:
-        init = f(init, e)
-        yield init
+        init_value = f(init_value, e)
+        yield init_value
 
 
-def map_indexed(f, coll):
+def map_indexed(f: Callable[[int, T], T2], coll: Iterable[T]) -> Iterable[T2]:
     """
     Returns a generator consisting of the result of applying ``f`` to ``0``
     and the first item of ``coll``, followed by applying ``f`` to ``1`` and the
@@ -411,31 +392,51 @@ def map_indexed(f, coll):
     return map(lambda pair: f(pair[0], pair[1]), enumerate(coll))
 
 
-def first(coll):
+def _first(coll: Iterable[T]) -> Tuple[Optional[T], bool]:
     """
-    Returns the first item in the collection. If ``coll`` is ``None`` or empty,
-    returns ``None``.
+    Like first(coll), but return a tuple of ``(first, is_empty)`` where `first` is either the first
+    element of the collection or ``None`` and ``is_empty`` is a boolean that is ``True`` if the collection
+    is empty.
     """
     if coll is None:
-        return None
-    return next(take(1, coll), None)
+        return None, True
+
+    _flag = object()
+    first_value: Union[T, object] = next(_make_gen(take(1, coll)), _flag)
+    if first_value is _flag:
+        return None, True
+    return cast(Optional[T], first_value), False
 
 
-def ffirst(x):
+def first(coll: Iterable[T]) -> Optional[T]:
+    """
+    Returns the first item in the collection. If ``coll`` is empty, returns ``None``.
+    """
+    first_value: Optional[T] = _first(coll)[0]
+    return first_value
+
+
+def ffirst(x: Iterable[Iterable[T]]) -> Optional[T]:
     """
     Same as ``first(first(x))``
     """
-    return first(first(x))
+    f = first(x)
+    if f is None:
+        return None
+    return first(f)
 
 
-def nfirst(x):
+def nfirst(x: Iterable[Iterable[T]]) -> Iterable[T]:
     """
     Same as ``rest(first(x))``
     """
-    return rest(first(x))
+    f = first(x)
+    if f is None:
+        return []
+    return rest(f)
 
 
-def second(coll):
+def second(coll: Iterable[T]) -> Optional[T]:
     """
     Same as ``first(rest(coll))``.
     """
@@ -452,10 +453,10 @@ def nth(coll, n, not_found=_nil):
     if hasattr(coll, "__getitem__"):
         try:
             return coll[n]
-        except IndexError as e:
-            if not_found is _nil:
-                raise e
-            return not_found
+        except IndexError:
+            if not_found is not _nil:
+                return not_found
+            raise
 
     for i, e in enumerate(coll):
         if i == n:
@@ -467,9 +468,9 @@ def nth(coll, n, not_found=_nil):
     return not_found
 
 
-def last(coll):
+def last(coll: Iterable[T]) -> Optional[T]:
     """
-    Return the last item in ``coll``, in linear time.
+    Return the last item in ``coll``, in linear time. Return ``None`` if ``coll`` is empty.
     """
     e = None
     for item in coll:
@@ -477,14 +478,14 @@ def last(coll):
     return e
 
 
-def zipmap(keys, vals):
+def zipmap(keys: Iterable[T], vals: Iterable[T2]) -> Dict[T, T2]:
     """
     Return a ``dict`` with the keys mapped to the corresponding ``vals``.
     """
     return dict(zip(keys, vals))
 
 
-def group_by(f, coll):
+def group_by(f: Callable[[T], T2], coll: Iterable[T]) -> Dict[T2, List[T]]:
     """
     Returns a ``dict`` of the elements of ``coll`` keyed by the result of ``f``
     on each element. The value at each key will be a list of the corresponding
@@ -497,23 +498,20 @@ def group_by(f, coll):
     return dict(groups)
 
 
-def _make_pred(pred):
+def _make_pred(pred: Union[Callable[[T], T2], Set[T]]) -> Callable[[T], Union[T2, bool]]:
     if isinstance(pred, set):
-        p = pred
-
-        def pred(x):
-            return x in p
+        return lambda x: x in cast(Set[T], pred)
 
     return pred
 
 
-def some(pred, coll):
+def some(pred: Union[Callable[[T], Any], Set[T]], coll: Iterable[T]) -> Optional[T]:
     """
     Returns the first logical true value of ``pred(x)`` for any ``x`` in coll,
     else ``None``.
 
-    In order to mirror Clojure's `some` it also accepts a `set` for its
-    predicate and will return the first element that’s present in it.::
+    In order to mirror Clojure's ``some`` it also accepts a `set` for its
+    predicate and will return the first element that’s present in it.
 
         >>> some({5, 3, 10, 2}, range(10))
         2
@@ -523,6 +521,7 @@ def some(pred, coll):
     for e in coll:
         if pred(e):
             return e
+    return None
 
 
 def is_seq(x):
@@ -532,21 +531,21 @@ def is_seq(x):
     return isinstance(x, collections_abc.Sequence)
 
 
-def every(pred, coll):
+def every(pred: Union[Callable[[T], Any], Set[T]], coll: Iterable[T]) -> bool:
     """
     Returns ``True`` if ``pred(x)`` is logical true for every ``x`` in
     ``coll``, else i``False``.
     """
-    pred = _make_pred(pred)
+    pred2 = _make_pred(pred)
 
     for e in coll:
-        if not pred(e):
+        if not pred2(e):
             return False
 
     return True
 
 
-def not_every(pred, coll):
+def not_every(pred: Union[Callable[[T], Any], Set[T]], coll: Iterable[T]) -> bool:
     """
     Returns ``False`` if ``pred(x)`` is logical true for every ``x`` in
     ``coll``, else ``True``.
@@ -554,16 +553,16 @@ def not_every(pred, coll):
     return not every(pred, coll)
 
 
-def not_any(pred, coll):
+def not_any(pred: Union[Callable[[T], Any], Set[T]], coll: Iterable[T]) -> bool:
     """
     Return ``False`` if ``pred(x)`` is logical true for any ``x`` in ``coll``,
     else ``True``.
     """
-    pred = _make_pred(pred)
-    return every(lambda e: not pred(e), coll)
+    pred2 = _make_pred(pred)
+    return every(lambda e: not pred2(e), coll)
 
 
-def dorun(coll):
+def dorun(coll: Iterable) -> None:
     """
     When generators are produced via functions that have side effects, any
     effects other than those needed to produce the first element in the
@@ -575,7 +574,8 @@ def dorun(coll):
         pass
 
 
-def repeatedly(f, n=None):
+def repeatedly(f: Union[Callable[[], T2], int], n: Optional[Union[int, Callable[[], T2]]] = None) \
+        -> Iterable[T2]:
     """
     Takes a function of no args, presumably with side effects, and returns an
     infinite (or length ``n`` if supplied) lazy sequence of calls to it.
@@ -587,12 +587,15 @@ def repeatedly(f, n=None):
     if n is None:
         n = -1
 
+    f = cast(Callable[[], T2], f)
+    n = cast(int, n)
+
     while n != 0:
         yield f()
         n -= 1
 
 
-def iterate(f, x):
+def iterate(f: Callable, x) -> Iterable:
     """
     Returns a generator of ``x``, ``f(x)``, ``f(f(x))``, etc.
     """
@@ -601,7 +604,7 @@ def iterate(f, x):
         x = f(x)
 
 
-def repeat(x, n=None):
+def repeat(x: T, n: Optional[int] = None) -> Iterable[T]:
     """
     Returns a generator that indefinitely yields ``x`` (or ``n`` times if ``n`` is supplied).
 
@@ -613,7 +616,7 @@ def repeat(x, n=None):
     return itertools.repeat(x, **kwargs)
 
 
-def range(*args):
+def range(*args) -> Iterator[int]:
     """
     Usage: range()
            range(end)
@@ -639,7 +642,8 @@ def range(*args):
         n += 1
 
 
-def tree_seq(has_branch, get_children, root):
+def tree_seq(has_branch: Callable[[T], Any], get_children: Callable[[T], Iterable[T]], root: T) \
+        -> Iterable[T]:
     """
     Returns a generator of the nodes in a tree, via a depth-first walk.
     ``has_branch`` must be a function of one argument that returns ``True`` if
@@ -655,7 +659,7 @@ def tree_seq(has_branch, get_children, root):
                 yield subchild
 
 
-def dedupe(coll):
+def dedupe(coll: Iterable[T]) -> Iterable[T]:
     """
     Returns a generator of the elements of coll with consecutive duplicates removed.
     """
@@ -668,23 +672,24 @@ def dedupe(coll):
         prev = e
 
 
-def empty(coll):
+def empty(coll: T) -> Optional[T]:
     """
     Returns an empty collection of the same type as ``coll``, or ``None``.
     """
     if _is_collection_abc(coll):
         return type(coll)()
+    return None
 
 
 # Not listed in http://clojure.org/reference/sequences but useful for
 # generators to avoid doing e.g. len(list(gen)) that loads everything in
 # memory.
-def count(coll):
+def count(coll: Iterable) -> int:
     """
     Returns the number of items in the collection. Also works on strings.
     """
     if hasattr(coll, "__len__"):
-        return len(coll)
+        return len(cast(list, coll))
 
     n = 0
     for _ in coll:
@@ -692,7 +697,8 @@ def count(coll):
     return n
 
 
-def partition(coll, n, step=None, pad=None):
+def partition(coll: Iterable[T], n: int, step: Optional[int] = None, pad: Optional[Iterable[T2]] = None) \
+        -> Iterator[List[Union[T, T2]]]:
     """
     Returns a generator of lists of ``n`` items each, at offsets ``step`` apart. If ``step`` is not supplied, defaults
     to ``n``, i.e. the partitions do not overlap. If a ``pad`` collection is supplied, use its elements as necessary to
@@ -711,7 +717,7 @@ def partition(coll, n, step=None, pad=None):
         # TODO
         raise NotImplementedError("Step != n is not supported for now.")
 
-    current_partition = []
+    current_partition: List[Union[T, T2]] = []
     partition_index = 0
     partition_end = n
 
@@ -725,8 +731,8 @@ def partition(coll, n, step=None, pad=None):
             partition_end = n
 
     if pad is not None and 0 < partition_index < partition_end:
-        for element in pad:
-            current_partition.append(element)
+        for pad_element in pad:
+            current_partition.append(pad_element)
             if partition_index == partition_end:
                 break
 

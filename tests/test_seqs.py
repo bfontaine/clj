@@ -219,6 +219,8 @@ class TestSeqs(unittest.TestCase):
 
     def test_shuffle(self):
         self.assertEquals([], list(c.shuffle([])))
+        self.assertEquals([], list(c.shuffle(c.range(0))))
+        self.assertEquals([1, 2, 3], sorted(list(c.shuffle({1, 2, 3}))))
 
         ls = [1, 2, 3, 4]
         ls_orig = ls[:]
