@@ -267,7 +267,7 @@ def flatten(x: Iterable) -> Iterable:
 
     # Avoid lookup at each loop without leaking [Iterable] in the module scope
     # by using [from collections import Iterable].
-    iterable_class = collections.Iterable
+    iterable_class = collections.abc.Iterable
     for e in x:
         if isinstance(e, iterable_class) and not isinstance(e, (bytes, str)):
             for sub_e in flatten(e):
@@ -294,7 +294,7 @@ def shuffle(coll: Iterable[T]) -> Iterable[T]:
 
 
 def _iter(coll, n=0):
-    if isinstance(coll, collections.Iterator):
+    if isinstance(coll, collections.abc.Iterator):
         return coll
     return coll[n:]
 
