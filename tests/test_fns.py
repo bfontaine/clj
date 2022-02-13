@@ -20,6 +20,18 @@ class TestFns(unittest.TestCase):
         self.assertEquals(1.0, c.dec(2.0))
         self.assertEquals(-2, c.dec(-1))
 
+    def test_even(self):
+        self.assertTrue(c.is_even(42))
+        self.assertFalse(c.is_even(1))
+        self.assertFalse(c.is_even(-1))
+        self.assertTrue(c.is_even(-2))
+
+    def test_odd(self):
+        self.assertTrue(c.is_odd(41))
+        self.assertFalse(c.is_odd(2))
+        self.assertTrue(c.is_odd(-1))
+        self.assertFalse(c.is_odd(-2))
+
     def test_comp(self):
         twice = lambda n: n * 2
 

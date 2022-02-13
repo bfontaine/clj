@@ -4,9 +4,16 @@ No change is breaking unless explicitly stated.
 
 ## 0.2.0 (unreleased)
 
+### Breaking changes
+
 * Drop support for Python 2.x
 * Drop support for Python 3.6 and below
+* No longer accept `None` as a valid parameter for `first`
+
+### Other changes
+
 * Add type hints to most functions
+* Add `is_even` and `is_odd`
 * Make `shuffle` work on all iterables, not just lists
 * Document the behavior of `last` on empty iterables
 

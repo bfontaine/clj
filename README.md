@@ -24,11 +24,9 @@ The library is oriented toward laziness and performance. Functions are implement
 
 ```python
 # Python
-from clj import count, distinct, inc
+from clj import count, distinct, inc, is_even
 
-even = lambda e: ~e & 1
-
-print(count(distinct(filter(even, map(inc, coll)))))
+print(count(distinct(filter(is_even, map(inc, coll)))))
 ```
 
 Note that `count()` works on both sequences in generators; in the latter case it doesn’t load everything in memory like

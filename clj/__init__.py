@@ -8,4 +8,4 @@ from clj.seqs import (
     map, mapcat, nfirst, not_any, not_every, nth, partition, range, reductions, remove, repeat, repeatedly, replace,
     rest, reverse, second, shuffle, some, split_at, split_with, take, take_nth, take_while, tree_seq, zipmap)
 
-from clj.fns import comp, complement, constantly, dec, identity, inc, juxt, is_distinct
+from clj.fns import comp, complement, constantly, dec, identity, inc, juxt, is_distinct, is_odd, is_even

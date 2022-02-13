@@ -27,6 +27,20 @@ def dec(x: Union[int, float]):
     return x - 1
 
 
+def is_even(x: int):
+    """
+    Return ``True`` if ``x`` is an even number.
+    """
+    return bool(~x & 1)
+
+
+def is_odd(x: int):
+    """
+    Return ``True`` if ``x`` is an odd number.
+    """
+    return not is_even(x)
+
+
 def comp(*fns) -> Callable:
     """
     Takes a set of functions and returns a function that is the composition of
