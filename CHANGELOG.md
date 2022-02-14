@@ -4,8 +4,16 @@ No change is breaking unless explicitly stated.
 
 ## Unreleased
 
-* `nth` no longer accepts negative indices (this mimicks the Clojure function). It doesn’t try to consume its argument
-  if such an index is given. The type hint of the parameter `not_found` is also now correct.
+### Breaking change
+
+* `nth` no longer accepts negative indices (this mimicks the Clojure function).
+
+### Other changes
+
+* `nth` doesn’t try to consume its argument if a negative index is given.
+  The type hint of the parameter `not_found` is now correct.
+* Eliminate a function call from `is_odd`
+* Improve some type hints
 
 ## 0.2.1 (2022/02/14)
 
