@@ -38,10 +38,10 @@ def is_odd(x: int):
     """
     Return ``True`` if ``x`` is an odd number.
     """
-    return not is_even(x)
+    return bool(x & 1)
 
 
-def comp(*fns) -> Callable:
+def comp(*fns: Callable) -> Callable:
     """
     Takes a set of functions and returns a function that is the composition of
     those functions. The returned function takes a variable number of args,
