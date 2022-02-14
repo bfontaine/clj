@@ -294,6 +294,7 @@ def shuffle(coll: Iterable[T]) -> Iterable[T]:
 
 
 def _iter(coll, n=0):
+    # If it's an iterator, we already consumed the beginning
     if isinstance(coll, collections.abc.Iterator):
         return coll
     return coll[n:]
@@ -595,7 +596,7 @@ def repeatedly(f: Union[Callable[[], T2], int], n: Optional[Union[int, Callable[
         n -= 1
 
 
-def iterate(f: Callable, x) -> Iterable:
+def iterate(f: Callable[[Any], Any], x) -> Iterable:
     """
     Returns a generator of ``x``, ``f(x)``, ``f(f(x))``, etc.
     """
@@ -616,7 +617,7 @@ def repeat(x: T, n: Optional[int] = None) -> Iterable[T]:
     return itertools.repeat(x, **kwargs)
 
 
-def range(*args) -> Iterator[int]:
+def range(*args: int) -> Iterator[int]:
     """
     Usage: range()
            range(end)
@@ -628,8 +629,7 @@ def range(*args) -> Iterator[int]:
     ``1``, and ``end`` to infinity. When ``step`` is equal to ``0``, returns an
     infinite sequence of ``start``.
 
-    Note that this delegates to Python’s built-in ``range`` (or ``xrange`` in
-    Python 2) if there are arguments.
+    Note that this delegates to Python’s built-in ``range`` if there are arguments.
     """
     if args:
         for e in _range(*args):
