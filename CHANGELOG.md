@@ -2,6 +2,11 @@
 
 No change is breaking unless explicitly stated.
 
+## Unreleased
+
+* `nth` no longer accepts negative indices (this mimicks the Clojure function). It doesn’t try to consume its argument
+  if such an index is given. The type hint of the parameter `not_found` is also now correct.
+
 ## 0.2.1 (2022/02/14)
 
 * Add `clj/py.typed` to indicate we support type checking (PEP 561)

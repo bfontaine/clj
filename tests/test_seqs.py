@@ -297,7 +297,8 @@ class TestSeqs(unittest.TestCase):
     def test_nth(self):
         nope = object()
         self.assertEquals(nope, c.nth([], 0, nope))
-        self.assertEquals(nope, c.nth([], -1, nope))
+        self.assertEquals(nope, c.nth([1, 2, 3, 4], -1, nope))
+        self.assertEquals(nope, c.nth(c.range(999999999), -2, nope))
         self.assertEquals(nope, c.nth([], 1, nope))
 
         self.assertEquals(1, c.nth([42, 1, 2, 3], 1))

@@ -444,24 +444,25 @@ def second(coll: Iterable[T]) -> Optional[T]:
     return first(rest(coll))
 
 
-def nth(coll, n, not_found=_nil):
+def nth(coll: Iterable[T], n: int, not_found: Any = _nil) -> Any:
     """
     Returns the value at the index. ``get`` returns ``None`` if the index is
     out of bounds, ``nth`` throws an exception unless ``not_found`` is
     supplied.  ``nth`` also works for strings, lists, tuples, and, in O(n)
     time, for other iterables.
     """
-    if hasattr(coll, "__getitem__"):
-        try:
-            return coll[n]
-        except IndexError:
-            if not_found is not _nil:
-                return not_found
-            raise
+    if n >= 0:
+        if hasattr(coll, "__getitem__"):
+            try:
+                return cast(list, coll)[n]
+            except IndexError:
+                if not_found is not _nil:
+                    return not_found
+                raise
 
-    for i, e in enumerate(coll):
-        if i == n:
-            return e
+        for i, e in enumerate(coll):
+            if i == n:
+                return e
 
     if not_found is _nil:
         raise IndexError("%s index out of range" % type(coll))
