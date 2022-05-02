@@ -106,7 +106,7 @@ lazy seqs). We don’t support transducers.
 | `rand-nth`        | -               | Use Python’s `random.choice`.                                                                                       |
 | `zipmap`          | `zipmap`        |                                                                                                                     |
 | `into`            | -               |                                                                                                                     |
-| `reduce`          | -               | Use Python’s built-in `reduce`.                                                                                     |
+| `reduce`          | -               | Use Python’s `functools.reduce`.                                                                                     |
 | `set`             | -               | Use Python’s `set`.                                                                                                 |
 | `vec`             | -               | Use Python’s `list`.                                                                                                |
 | `into-array`      | -               | Use Python’s `list`.                                                                                                |
