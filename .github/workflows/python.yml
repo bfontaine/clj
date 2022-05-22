@@ -19,13 +19,18 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Setup environment
-      run: pip install --upgrade pip poetry setuptools wheel twine mypy
-    - name: Unit tests
-      run: python tests/test.py
-    - name: Typing tests
-      run: mypy clj tests
-    - name: Packaging tests
+
+    - name: Install dependencies
       run: |
-        python setup.py sdist bdist_wheel
-        twine check dist/*
+        python -m pip install --upgrade pip
+        python -m pip install poetry
+        poetry install
+    - name: Lint with Mypy
+      run: |
+        poetry run clj tests
+    - name: Test build
+      run: |
+        poetry build
+    - name: Run Tests
+      run: |
+        poetry run python tests/test.py

@@ -15,6 +15,7 @@ No change is breaking unless explicitly stated.
 * Ensure `clj/py.typed` is included in the package
 * Eliminate an internal function call in `is_odd`
 * Improve some type hints
+* Remove deprecated `setup.py`
 
 ## 0.2.1 (2022/02/14)
 
