@@ -27,7 +27,7 @@ jobs:
         poetry install
     - name: Lint with Mypy
       run: |
-        poetry run clj tests
+        poetry run mypy clj tests
     - name: Test build
       run: |
         poetry build
