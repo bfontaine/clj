@@ -2,7 +2,7 @@
 
 No change is breaking unless explicitly stated.
 
-## Unreleased
+## 0.3.0 (2022/05/22)
 
 ### Breaking change
 
@@ -12,7 +12,8 @@ No change is breaking unless explicitly stated.
 
 * `nth` doesn’t try to consume its argument if a negative index is given.
   The type hint of the parameter `not_found` is now correct.
-* Eliminate a function call from `is_odd`
+* Ensure `clj/py.typed` is included in the package
+* Eliminate an internal function call in `is_odd`
 * Improve some type hints
 
 ## 0.2.1 (2022/02/14)
