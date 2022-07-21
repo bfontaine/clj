@@ -630,6 +630,14 @@ def range(*args: int) -> Iterator[int]:
     ``1``, and ``end`` to infinity. When ``step`` is equal to ``0``, returns an
     infinite sequence of ``start``.
 
+    This can be used to make an infinite int generator:
+
+        >>> gen = iter(clj.range())
+        >>> next(gen)
+        0
+        >>> next(gen)
+        1
+
     Note that this delegates to Python’s built-in ``range`` if there are arguments.
     """
     if args:
