@@ -489,3 +489,37 @@ class TestSeqs(unittest.TestCase):
 
         self.assertSequenceEqual([[1, 2, 3], [4, 5]], list((c.partition([1, 2, 3, 4], 3, pad=[5]))))
         self.assertSequenceEqual([[1, 2, 3], [4, 5, 6]], list((c.partition([1, 2, 3, 4], 3, pad=[5, 6]))))
+
+    def test_partition_by(self):
+        self.assertSequenceEqual([], list(c.partition_by(c.is_odd, [])))
+        self.assertSequenceEqual([[{"a": 2}], [False]], list(c.partition_by(c.identity, [{"a": 2}, False])))
+
+        # From the examples on https://clojuredocs.org/clojure.core/partition-by
+        # (partition-by #(= 3 %) [1 2 3 4 5]) ; => ((1 2) (3) (4 5))
+        self.assertSequenceEqual(
+            [[1, 2], [3], [4, 5]],
+            list(c.partition_by(lambda x: x == 3, [1, 2, 3, 4, 5]))
+        )
+
+        # (partition-by odd? [1 1 1 2 2 3 3])  ; => ((1 1 1) (2 2) (3 3))
+        self.assertSequenceEqual(
+            [[1, 1, 1], [2, 2], [3, 3]],
+            list(c.partition_by(c.is_odd, [1, 1, 1, 2, 2, 3, 3]))
+        )
+
+        # (partition-by even? [1 1 1 2 2 3 3]) ; => ((1 1 1) (2 2) (3 3))
+        self.assertSequenceEqual(
+            [[1, 1, 1], [2, 2], [3, 3]],
+            list(c.partition_by(c.is_even, [1, 1, 1, 2, 2, 3, 3]))
+        )
+
+        # (partition-by identity "Leeeeeerrroyyy") ; => ((\L) (\e \e \e \e \e \e) (\r \r \r) (\o) (\y \y \y))
+        self.assertSequenceEqual(
+            [["L"], ["e"] * 6, ["r"] * 3, ["o"], ["y"] * 3],
+            list(c.partition_by(c.identity, "Leeeeeerrroyyy"))
+        )
+
+        # (partition-by identity "ABBA") ; => ((\A) (\B \B) (\A))
+        self.assertSequenceEqual(
+            [["A"], ["B", "B"], ["A"]], list(c.partition_by(c.identity, "ABBA"))
+        )

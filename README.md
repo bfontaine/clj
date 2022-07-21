@@ -90,7 +90,7 @@ lazy seqs). We don’t support transducers.
 | `split-with`      | `split_with`    |                                                                                                                     |
 | `partition`       | `partition`     | `(partition n step pad coll)` becomes `partition(coll, n, step, pad)`. Only the case `step=n` is supported for now. |
 | `partition-all`   |                 |                                                                                                                     |
-| `partition-by`    |                 |                                                                                                                     |
+| `partition-by`    | `partition_by`  |                                                                                                                     |
 | `map`             | `map`           | Alias to Python’s built-in `map`.                                                                                   |
 | `pmap`            | -               |                                                                                                                     |
 | `replace`         | `replace`       |                                                                                                                     |

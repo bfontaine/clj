@@ -746,3 +746,25 @@ def partition(coll: Iterable[T], n: int, step: Optional[int] = None, pad: Option
                 break
 
         yield current_partition
+
+
+def partition_by(f: Callable[[T], Any], coll: Iterable[T]) -> Iterable[List[T]]:
+    current: List[T] = []
+    current_value = None
+    for element in coll:
+        if not current:
+            current_value = f(element)
+            current.append(element)
+            continue
+
+        value = f(element)
+        if value == current_value:
+            current.append(element)
+            continue
+
+        yield current
+        current = [element]
+        current_value = value
+
+    if current:
+        yield current

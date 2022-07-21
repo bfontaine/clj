@@ -2,6 +2,10 @@
 
 No change is breaking unless explicitly stated.
 
+## Unreleased
+
+* Add `clj.partition_by`
+
 ## 0.3.0 (2022/05/22)
 
 ### Breaking change
