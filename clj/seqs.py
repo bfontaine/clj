@@ -4,10 +4,10 @@ import collections
 import itertools
 import collections.abc as collections_abc
 
-# We use this as a default value for some arguments in order to check if they
-# were provided or not
 from typing import Iterable, TypeVar, Any, Callable, Iterator, Union, Tuple, Dict, Optional, List, Set, cast, Deque
 
+# We use this as a default value for some arguments in order to check if they
+# were provided or not
 _nil = object()
 
 # We redefine `range` below so keep a reference to the original one here
