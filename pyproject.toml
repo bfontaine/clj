@@ -3,6 +3,10 @@ name = "clj"
 version = "0.3.0"
 description = "Utilities for lazy iterables"
 authors = ["Baptiste Fontaine <b@ptistefontaine.fr>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/bfontaine/clj"
+homepage = "https://github.com/bfontaine/clj"
 include = ["clj/py.typed"]
 
 [tool.poetry.dependencies]
