@@ -418,14 +418,14 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals(1, c.count({"foo": "bar"}))
         self.assertEquals(10, c.count(c.take(10, test_infinite_range())))
 
-        class Uniterable:
+        class NotIterable:
             def __iter__(self):
                 raise RuntimeError("boom!")
 
             def __len__(self):
                 return 42
 
-        self.assertEquals(42, c.count(Uniterable()))
+        self.assertEquals(42, c.count(NotIterable()))
 
     def test_tree_seq(self):
         def boom(_):

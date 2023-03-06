@@ -16,6 +16,9 @@ class TestClj(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    # noinspection PyUnboundLocalVariable
+    here = here
+
     suite = unittest.defaultTestLoader.discover(here)
     t = unittest.TextTestRunner().run(suite)
     if not t.wasSuccessful():

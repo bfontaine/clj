@@ -42,6 +42,7 @@ def distinct(coll: Iterable[T]) -> Iterable[T]:
 
 
 # alias
+# noinspection PyShadowingBuiltins
 filter = filter
 
 
@@ -75,8 +76,7 @@ def keep_indexed(f: Callable[[int, T], Any], coll: Iterable[T]) -> Iterable[T]:
 def cons(x: T2, seq: Iterable[T]) -> Iterable[Union[T, T2]]:
     """
     Return a generator where ``x`` is the first element and ``seq`` is the
-    rest. Note, this differs from Clojure’s ``cons`` which returns a non-lazy
-    list.
+    rest. Note, this differs from Clojure’s ``cons`` which returns a non-lazy list.
     """
     yield x
     for e in seq:
@@ -85,8 +85,7 @@ def cons(x: T2, seq: Iterable[T]) -> Iterable[Union[T, T2]]:
 
 def concat(*xs):
     """
-    Returns a generator representing the concatenation of the elements in the
-    supplied colls.
+    Returns a generator representing the concatenation of the elements in the supplied collections.
 
     This is equivalent to ``itertools.chain``.
     """
@@ -94,6 +93,7 @@ def concat(*xs):
 
 
 # alias
+# noinspection PyShadowingBuiltins
 map = map
 
 
@@ -618,6 +618,7 @@ def repeat(x: T, n: Optional[int] = None) -> Iterable[T]:
     return itertools.repeat(x, **kwargs)
 
 
+# noinspection PyShadowingBuiltins
 def range(*args: int) -> Iterator[int]:
     """
     Usage: range()
@@ -632,6 +633,7 @@ def range(*args: int) -> Iterator[int]:
 
     This can be used to make an infinite int generator:
 
+        >>> import clj
         >>> gen = iter(clj.range())
         >>> next(gen)
         0
