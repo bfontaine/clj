@@ -15,6 +15,8 @@ Since 0.2.0, only Python 3.7+ is supported.
 
 ## Usage
 
+The library is considered stable and is used in production.
+
 ### Example
 
 ```clojure

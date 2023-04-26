@@ -2,7 +2,7 @@
 
 No change is breaking unless explicitly stated.
 
-## Unreleased
+## 0.3.1 (2023/04/26)
 
 * Add `clj.partition_by`
 * Add `clj.seq_gen` as an equivalent of `seq` that returns a generator rather than a sequence
@@ -11,7 +11,7 @@ No change is breaking unless explicitly stated.
 
 ### Breaking change
 
-* `nth` no longer accepts negative indices (this mimicks the Clojure function).
+* `nth` no longer accepts negative indices (this mimics the Clojure function).
 
 ### Other changes
 
@@ -66,7 +66,7 @@ No change is breaking unless explicitly stated.
 
 * Add `seqs.tree_seq`, `seqs.empty`
 * Import everything in `clj` as well so one can use `clj.inc` or `clj.first`;
-  no need to import sub-modules anymore.
+  no need to import submodules anymore.
 
 ## 0.1.1 (2018/01/12)
 
