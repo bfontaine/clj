@@ -106,7 +106,7 @@ lazy seqs). We don’t support transducers.
 | `rand-nth`        | -               | Use Python’s `random.choice`.                                                                                       |
 | `zipmap`          | `zipmap`        |                                                                                                                     |
 | `into`            | -               |                                                                                                                     |
-| `reduce`          | -               | Use Python’s `functools.reduce`.                                                                                     |
+| `reduce`          | -               | Use Python’s `functools.reduce`.                                                                                    |
 | `set`             | -               | Use Python’s `set`.                                                                                                 |
 | `vec`             | -               | Use Python’s `list`.                                                                                                |
 | `into-array`      | -               | Use Python’s `list`.                                                                                                |
@@ -126,7 +126,7 @@ lazy seqs). We don’t support transducers.
 | `dorun`           | `dorun`         |                                                                                                                     |
 | `doall`           | -               | Use Python’s `list`.                                                                                                |
 | `realized?`       | -               |                                                                                                                     |
-| `seq`             | -               |                                                                                                                     |
+| `seq`             | -               | Use Python’s `list`.                                                                                                |
 | `vals`            | -               | Use Python’s `dict.values`.                                                                                         |
 | `keys`            | -               | Use Python’s `dict.keys`.                                                                                           |
 | `rseq`            | -               |                                                                                                                     |
