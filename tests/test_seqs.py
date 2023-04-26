@@ -2,6 +2,7 @@
 
 import unittest
 from collections import OrderedDict, Counter, deque, defaultdict
+from typing import List, Iterable
 
 import clj as c
 
@@ -281,12 +282,14 @@ class TestSeqs(unittest.TestCase):
     def test_ffirst(self):
         self.assertEquals(None, c.ffirst([]))
         self.assertEquals(None, c.ffirst([[]]))
-        self.assertEquals(42, c.ffirst([[42, 1], 2]))
+        ls: List[int] = [42, 1]
+        self.assertEquals(42, c.ffirst([ls, 2]))
 
     def test_nfirst(self):
         self.assertEquals([], list(c.nfirst([])))
         self.assertEquals([], list(c.nfirst([[]])))
-        self.assertEquals([2, 3], list(c.nfirst([[1, 2, 3], 4])))
+        ls: List[int] = [1, 2, 3]
+        self.assertEquals([2, 3], list(c.nfirst([ls, 4])))
 
     def test_second(self):
         self.assertEquals(None, c.second([]))
@@ -460,6 +463,7 @@ class TestSeqs(unittest.TestCase):
         self.assertEquals(set(), c.empty(set()))
         self.assertEquals(set(), c.empty({1, 2}))
 
+        e: Iterable
         for e in ([], (), {}, set(), defaultdict(), deque(), Counter(),
                   OrderedDict()):
             self.assertEquals(e, c.empty(e))
