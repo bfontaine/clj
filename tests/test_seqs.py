@@ -523,3 +523,26 @@ class TestSeqs(unittest.TestCase):
         self.assertSequenceEqual(
             [["A"], ["B", "B"], ["A"]], list(c.partition_by(c.identity, "ABBA"))
         )
+
+    def test_seq_gen(self):
+        def gen(n):
+            for i in range(n):
+                yield f"gen-{i}"
+
+        for coll, expected in (
+                ([], None),
+                ({}, None),
+                ([1], [1]),
+                ([1, 2], [1, 2]),
+                ([1, 2, 3], [1, 2, 3]),
+                (gen(0), None),
+                (gen(1), ["gen-0"]),
+                (gen(2), ["gen-0", "gen-1"]),
+                (gen(3), ["gen-0", "gen-1", "gen-2"]),
+        ):
+            it = c.seq_gen(coll)
+            if expected is None:
+                self.assertIsNone(it)
+            else:
+                self.assertIsNotNone(it)
+                self.assertSequenceEqual(expected, list(it))

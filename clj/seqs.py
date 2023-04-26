@@ -6,6 +6,8 @@ import collections.abc as collections_abc
 
 from typing import Iterable, TypeVar, Any, Callable, Iterator, Union, Tuple, Dict, Optional, List, Set, cast, Deque
 
+import clj
+
 # We use this as a default value for some arguments in order to check if they
 # were provided or not
 _nil = object()
@@ -19,7 +21,7 @@ T2 = TypeVar('T2')
 
 def _is_collection_abc(x):
     return isinstance(x, collections_abc.Sized) and \
-           isinstance(x, collections_abc.Iterable)
+        isinstance(x, collections_abc.Iterable)
 
 
 def _make_gen(g: Iterable[T]) -> Iterator[T]:
@@ -770,3 +772,19 @@ def partition_by(f: Callable[[T], Any], coll: Iterable[T]) -> Iterable[List[T]]:
 
     if current:
         yield current
+
+
+def seq_gen(coll: Iterable[T]) -> Optional[Iterable[T]]:
+    """
+    Like Clojure’s ``seq``, but return a lazy iterable that’s equivalent to ``coll`` if not empty.
+
+    >>> seq_gen([])
+    None
+
+    >>> list(seq_gen([1, 2, 3]))
+    [1, 2, 3]
+    """
+    first_element, _is_empty = _first(coll)
+    if _is_empty:
+        return None
+    return clj.concat([first_element], _iter(coll, 1))

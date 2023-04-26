@@ -7,6 +7,8 @@ from clj.seqs import (
     filter, first, flatten, group_by, interleave, interpose, is_seq, iterate, keep, keep_indexed, last, map_indexed,
     map, mapcat, nfirst, not_any, not_every, nth, partition, partition_by, range, reductions, remove, repeat,
     repeatedly, replace,
-    rest, reverse, second, shuffle, some, split_at, split_with, take, take_nth, take_while, tree_seq, zipmap)
+    rest, reverse, second, shuffle, some, split_at, split_with, take, take_nth, take_while, tree_seq, zipmap,
+    seq_gen,
+)
 
 from clj.fns import comp, complement, constantly, dec, identity, inc, juxt, is_distinct, is_odd, is_even

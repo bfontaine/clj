@@ -5,6 +5,7 @@ No change is breaking unless explicitly stated.
 ## Unreleased
 
 * Add `clj.partition_by`
+* Add `clj.seq_gen` as an equivalent of `seq` that returns a generator rather than a sequence
 
 ## 0.3.0 (2022/05/22)
 
