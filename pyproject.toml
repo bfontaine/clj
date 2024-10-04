@@ -10,11 +10,11 @@ homepage = "https://github.com/bfontaine/clj"
 include = ["clj/py.typed"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.9"
 
 [tool.poetry.dev-dependencies]
 mypy = "^1"
-twine = "^3.8.0"
+twine = "^3.8"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
