@@ -102,7 +102,7 @@ def test_mapcat():
 
     g = c.mapcat(reversed, [[3, 2, 1, 0], [6, 5, 4], [9, 8, 7]])
     assert list(g) == list(range(10))
-    assert lambda _: infinite_range_fn(), [1, 2, 3] is not None
+    assert c.mapcat(lambda _: infinite_range_fn(), [1, 2, 3]) is not None
 
 
 def test_cycle():
@@ -312,15 +312,13 @@ def test_first():
 def test_ffirst():
     assert c.ffirst([]) is None
     assert c.ffirst([[]]) is None
-    ls = [42, 1]
-    assert c.ffirst([ls, 2]) == 42
+    assert c.ffirst([[42, 1], [3]]) == 42
 
 
 def test_nfirst():
     assert list(c.nfirst([])) == []
     assert list(c.nfirst([[]])) == []
-    ls = [1, 2, 3]
-    assert list(c.nfirst([ls, 4])) == [2, 3]
+    assert list(c.nfirst([[1, 2, 3], [4]])) == [2, 3]
 
 
 def test_second():
@@ -422,7 +420,7 @@ def test_dorun():
             yield x
 
     assert [] == els
-    assert c.dorun(_gen()) is None
+    assert c.dorun(_gen()) is None  # type: ignore[func-returns-value]
     assert list(range(10)) == els
 
 

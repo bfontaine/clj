@@ -27,7 +27,7 @@ jobs:
         poetry install
     - name: Lint with Mypy
       run: |
-        poetry run mypy clj tests
+        poetry run mypy --check-untyped-defs clj tests
     - name: Test build
       run: |
         poetry build
