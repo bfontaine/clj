@@ -11,7 +11,11 @@ The library is oriented toward laziness and performance. Functions are implement
 
     pip install clj
 
-Since 0.2.0, only Python 3.7+ is supported.
+Python requirement:
+* 0.4.x (upcoming version): Python 3.9+
+* 0.3.x: Python 3.7+
+* 0.2.x: Python 3.7+
+* 0.1.x: Python 2.7, 3.3+
 
 ## Usage
 
