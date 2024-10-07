@@ -4,7 +4,11 @@ No change is breaking unless explicitly stated.
 
 ## 0.4.0 (unreleased)
 
-* Add support for Python 3.12
+* Add support for Python 3.12 and 3.13
+* Rewrite `flatten` using a stack to support deeply-nested iterables
+
+### Breaking change
+
 * Drop support for Python 3.7 and 3.8
 
 ## 0.3.1 (2023/04/26)
