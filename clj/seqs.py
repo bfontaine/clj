@@ -164,7 +164,7 @@ def drop(n: int, coll: Iterable[T]) -> Iterable[T]:
     Returns a generator of all but the first ``n`` items in ``coll``.
     """
     if coll is None:
-        return None
+        return
 
     for i, e in enumerate(coll):
         if i >= n:
@@ -240,9 +240,8 @@ def drop_last(n: int, coll: Iterable[T]) -> Iterable[T]:
     Return a generator of all but the last ``n`` items in ``coll``.
     """
     if n == 1:
-        for e in butlast(coll):
-            yield e
-        return None
+        yield from butlast(coll)
+        return
 
     queue: Deque[T] = collections.deque()
     size = 0
@@ -370,7 +369,7 @@ def reductions(f: Callable, coll: Iterable[T], init: Any = _nil) -> Iterable:
             yield None
         else:
             yield init
-        return None
+        return
 
     first_value = cast(T, first_value)
 
@@ -651,7 +650,7 @@ def range(*args: int) -> Iterator[int]:
     if args:
         for e in _range(*args):
             yield e
-        return None
+        return
 
     n = 0
     while True:
@@ -728,7 +727,7 @@ def partition(coll: Iterable[T], n: int, step: Optional[int] = None, pad: Option
     Python implementation returns an empty generator if called with n≤0.
     """
     if n <= 0:
-        return None
+        return
 
     if step is not None and step != n:
         # TODO
@@ -790,5 +789,5 @@ def seq_gen(coll: Iterable[T]) -> Optional[Iterable[T]]:
     """
     first_element, _is_empty = _first(coll)
     if _is_empty:
-        return None
+        return
     return clj.concat([first_element], _iter(coll, 1))
