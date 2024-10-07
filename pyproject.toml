@@ -8,6 +8,11 @@ readme = "README.md"
 repository = "https://github.com/bfontaine/clj"
 homepage = "https://github.com/bfontaine/clj"
 include = ["clj/py.typed"]
+classifiers = [
+    'License :: OSI Approved :: MIT License',
+    "Development Status :: 5 - Production/Stable",
+    'Programming Language :: Python :: 3',
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"
