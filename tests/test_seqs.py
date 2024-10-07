@@ -246,7 +246,7 @@ def test_flatten_infinite_generators():
 
 
 def test_flatten_deep_list():
-    deep_list = ["foo"]
+    deep_list: list[Any] = ["foo"]
     for _ in range(200):
         deep_list = [[[[[deep_list]]]]]
 
