@@ -1,9 +1,8 @@
 # -*- coding: UTF-8 -*-
-import random
 import collections
-import itertools
 import collections.abc as collections_abc
-
+import itertools
+import random
 from typing import Iterable, TypeVar, Any, Callable, Iterator, Union, Tuple, Dict, Optional, List, Set, cast, Deque
 
 import clj
@@ -165,7 +164,7 @@ def drop(n: int, coll: Iterable[T]) -> Iterable[T]:
     Returns a generator of all but the first ``n`` items in ``coll``.
     """
     if coll is None:
-        return
+        return None
 
     for i, e in enumerate(coll):
         if i >= n:
@@ -188,7 +187,7 @@ def take(n: int, coll: Iterable[T]) -> Iterable[T]:
     there are fewer than ``n``.
     """
     if n <= 0:
-        return
+        return None
 
     for i, e in enumerate(coll):
         yield e
@@ -243,7 +242,7 @@ def drop_last(n: int, coll: Iterable[T]) -> Iterable[T]:
     if n == 1:
         for e in butlast(coll):
             yield e
-        return
+        return None
 
     queue: Deque[T] = collections.deque()
     size = 0
@@ -368,7 +367,7 @@ def reductions(f: Callable, coll: Iterable[T], init: Any = _nil) -> Iterable:
             yield None
         else:
             yield init
-        return
+        return None
 
     first_value = cast(T, first_value)
 
@@ -577,6 +576,8 @@ def dorun(coll: Iterable) -> None:
     for _ in coll:
         pass
 
+    return None
+
 
 def repeatedly(f: Union[Callable[[], T2], int], n: Optional[Union[int, Callable[[], T2]]] = None) \
         -> Iterable[T2]:
@@ -647,7 +648,7 @@ def range(*args: int) -> Iterator[int]:
     if args:
         for e in _range(*args):
             yield e
-        return
+        return None
 
     n = 0
     while True:
@@ -724,7 +725,7 @@ def partition(coll: Iterable[T], n: int, step: Optional[int] = None, pad: Option
     Python implementation returns an empty generator if called with n≤0.
     """
     if n <= 0:
-        return
+        return None
 
     if step is not None and step != n:
         # TODO
