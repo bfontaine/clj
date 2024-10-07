@@ -224,7 +224,7 @@ def butlast(coll: Iterable[T]) -> Iterable[T]:
     Return a generator of all but the last item in ``coll``, in linear time.
     """
     first_ = True
-    last_e: T | None = None
+    last_e: Union[T, None] = None
     for e in coll:
         if first_:
             last_e = e
@@ -396,7 +396,7 @@ def map_indexed(f: Callable[[int, T], T2], coll: Iterable[T]) -> Iterable[T2]:
     return map(lambda pair: f(pair[0], pair[1]), enumerate(coll))
 
 
-def _first(coll: Iterable[T]) -> tuple[T | None, bool]:
+def _first(coll: Iterable[T]) -> tuple[Union[T, None], bool]:
     """
     Like first(coll), but return a tuple of ``(first, is_empty)`` where `first` is either the first
     element of the collection or ``None`` and ``is_empty`` is a boolean that is ``True`` if the collection
@@ -409,18 +409,18 @@ def _first(coll: Iterable[T]) -> tuple[T | None, bool]:
     first_value: Union[T, object] = next(_make_gen(take(1, coll)), _flag)
     if first_value is _flag:
         return None, True
-    return cast(T | None, first_value), False
+    return cast(Union[T, None], first_value), False
 
 
-def first(coll: Iterable[T]) -> T | None:
+def first(coll: Iterable[T]) -> Union[T, None]:
     """
     Returns the first item in the collection. If ``coll`` is empty, returns ``None``.
     """
-    first_value: T | None = _first(coll)[0]
+    first_value: Union[T, None] = _first(coll)[0]
     return first_value
 
 
-def ffirst(x: Iterable[Iterable[T]]) -> T | None:
+def ffirst(x: Iterable[Iterable[T]]) -> Union[T, None]:
     """
     Same as ``first(first(x))``
     """
@@ -440,7 +440,7 @@ def nfirst(x: Iterable[Iterable[T]]) -> Iterable[T]:
     return rest(f)
 
 
-def second(coll: Iterable[T]) -> T | None:
+def second(coll: Iterable[T]) -> Union[T, None]:
     """
     Same as ``first(rest(coll))``.
     """
@@ -473,7 +473,7 @@ def nth(coll: Iterable[T], n: int, not_found: Any = _nil) -> Any:
     return not_found
 
 
-def last(coll: Iterable[T]) -> T | None:
+def last(coll: Iterable[T]) -> Union[T, None]:
     """
     Return the last item in ``coll``, in linear time. Return ``None`` if ``coll`` is empty.
     """
@@ -510,7 +510,7 @@ def _make_pred(pred: Union[Callable[[T], T2], set[T]]) -> Callable[[T], Union[T2
     return pred
 
 
-def some(pred: Union[Callable[[T], Any], set[T]], coll: Iterable[T]) -> T | None:
+def some(pred: Union[Callable[[T], Any], set[T]], coll: Iterable[T]) -> Union[T, None]:
     """
     Returns the first logical true value of ``pred(x)`` for any ``x`` in coll,
     else ``None``.
@@ -581,7 +581,7 @@ def dorun(coll: Iterable) -> None:
     return None
 
 
-def repeatedly(f: Union[Callable[[], T2], int], n: Union[int, Callable[[], T2]] | None = None) \
+def repeatedly(f: Union[Callable[[], T2], int], n: Union[int, Callable[[], Union[T2]], None] = None) \
         -> Iterable[T2]:
     """
     Takes a function of no args, presumably with side effects, and returns an
@@ -611,7 +611,7 @@ def iterate(f: Callable[[Any], Any], x) -> Iterable:
         x = f(x)
 
 
-def repeat(x: T, n: int | None = None) -> Iterable[T]:
+def repeat(x: T, n: Union[int, None] = None) -> Iterable[T]:
     """
     Returns a generator that indefinitely yields ``x`` (or ``n`` times if ``n`` is supplied).
 
@@ -688,7 +688,7 @@ def dedupe(coll: Iterable[T]) -> Iterable[T]:
         prev = e
 
 
-def empty(coll: T) -> T | None:
+def empty(coll: T) -> Union[T, None]:
     """
     Returns an empty collection of the same type as ``coll``, or ``None``.
     """
@@ -713,7 +713,7 @@ def count(coll: Iterable) -> int:
     return n
 
 
-def partition(coll: Iterable[T], n: int, step: int | None = None, pad: Iterable[T2] | None = None) \
+def partition(coll: Iterable[T], n: int, step: Union[int, None] = None, pad: Union[Iterable[T2], None] = None) \
         -> Iterator[list[Union[T, T2]]]:
     """
     Returns a generator of lists of ``n`` items each, at offsets ``step`` apart. If ``step`` is not supplied, defaults
@@ -777,7 +777,7 @@ def partition_by(f: Callable[[T], Any], coll: Iterable[T]) -> Iterable[list[T]]:
         yield current
 
 
-def seq_gen(coll: Iterable[T]) -> Iterable[T] | None:
+def seq_gen(coll: Iterable[T]) -> Union[Iterable[T], None]:
     """
     Like Clojure’s ``seq``, but return a lazy iterable that’s equivalent to ``coll`` if not empty.
 
