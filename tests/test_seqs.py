@@ -215,13 +215,27 @@ def test_drop_last():
     assert list(c.drop_last(3, [1, 2, 3, 4, 5])) == [1, 2]
 
 
-def test_flatten():
-    assert list(c.flatten([])) == []
-    assert list(c.flatten([[], [[[[], []], []]]])) == []
-    assert list(c.flatten([[], [1, [[[], [2, 3]], []], 4]])) \
-           == [1, 2, 3, 4]
-    assert list(c.flatten(["foo", "bar"])) == ["foo", "bar"]
+@pytest.mark.parametrize("xs, expected", [
+    ([], []),
+    ((), []),
+    ({}, []),
+    (set(), []),
+    ([[], [[[[], []], []]]], []),
+    ([1], [1]),
+    ([1, 2], [1, 2]),
+    ([[], [1]], [1]),
+    ([[], [1, [[[], [2, 3]], []], 4]], [1, 2, 3, 4]),
+    ([1, (n for n in range(2, 3 + 1)), 4], [1, 2, 3, 4]),
+    ([(), 1, [2, [3, 4], 5, []], 6, 7], [1, 2, 3, 4, 5, 6, 7]),
+    ([c.range(2) for _ in range(3)] + [2], [0, 1, 0, 1, 0, 1, 2]),
+    (["foo", "bar"], ["foo", "bar"]),
+    (["a", ["bc", 3, ["d"], "e"], False], ["a", "bc", 3, "d", "e", False]),
+])
+def test_flatten(xs, expected):
+    assert list(c.flatten(xs)) == expected
 
+
+def test_flatten_infinite_generators():
     assert list(c.take(3, c.flatten(c.range()))) == [0, 1, 2], \
         "infinite generator"
     assert list(c.take(3, c.flatten(c.range() for _ in c.range()))) == [0, 1, 2], \
@@ -229,13 +243,13 @@ def test_flatten():
     assert list(c.take(3, c.flatten([[1], c.range(), 42, c.range()]))) == [1, 0, 1], \
         "mix of single elements and infinite generators"
 
-    """
+
+def test_flatten_deep_list():
     deep_list = ["foo"]
     for _ in range(200):
         deep_list = [[[[[deep_list]]]]]
 
-    assert list(c.flatten(deep_list)) == ["foo"], "deep list"
-    """
+    assert list(c.flatten(deep_list)) == ["foo"]
 
 
 def test_reverse():

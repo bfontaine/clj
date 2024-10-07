@@ -262,19 +262,22 @@ def flatten(x: Iterable) -> Iterable:
     Takes any nested combination of sequential things (``list``s, ``tuple``s,
     etc.) and returns their contents as a single, flat sequence.
     """
-    # FIXME:
-    #   > RecursionError: maximum recursion depth exceeded in comparison
-    #   When called with a very deep list (~1000 levels of depth)
-
-    # Avoid lookup at each loop without leaking [Iterable] in the module scope
+    # Avoid lookup at each loop, but without leaking [Iterable] in the module scope
     # by using [from collections import Iterable].
     iterable_class = collections.abc.Iterable
-    for e in x:
-        if isinstance(e, iterable_class) and not isinstance(e, (bytes, str)):
-            for sub_e in flatten(e):
-                yield sub_e
-        else:
+
+    # Use a stack to support deeply-nested iterables
+    xs = collections.deque([iter(x)])
+
+    while xs:
+        for e in xs[0]:
+            if isinstance(e, iterable_class) and not isinstance(e, (bytes, str)):
+                xs.appendleft(iter(e))
+                break
+
             yield e
+        else:
+            xs.popleft()
 
 
 def reverse(coll: Iterable[T]) -> Iterable[T]:
