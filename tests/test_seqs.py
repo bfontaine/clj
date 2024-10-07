@@ -1,6 +1,6 @@
 import re
 from collections import OrderedDict, Counter, deque, defaultdict
-from typing import Iterable, Any
+from typing import Iterable, Any, cast
 
 import pytest
 
@@ -145,6 +145,7 @@ def test_rest():
 
 def test_drop():
     assert c.drop(10, infinite_range_fn()) is not None
+    assert list(c.drop(10, cast(Iterable, None))) == []
     assert list(c.drop(0, [])) == []
     assert list(c.drop(1000, [])) == []
     assert list(c.drop(1000, [1, 2, 3, 4])) == []
@@ -445,11 +446,21 @@ def test_repeatedly():
         els.append(42)
 
     c.dorun(c.take(3, c.repeatedly(add_el)))
-    assert els == [42, 42, 42]
+    assert els == [42] * 3
 
     els = []
     c.dorun(c.repeatedly(add_el, 2))
-    assert els == [42, 42]
+    assert els == [42] * 2
+
+
+def test_repeatedly_nf():
+    els = []
+
+    def add_el():
+        els.append(42)
+
+    c.dorun(c.repeatedly(3, add_el))
+    assert els == [42] * 3
 
 
 def test_iterate():

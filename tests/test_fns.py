@@ -34,6 +34,13 @@ def test_odd():
     assert not c.is_odd(-2)
 
 
+def test_comp_no_fn():
+    fn = c.comp()
+    assert fn() is None
+    assert fn(42) is None
+    assert fn("Hello, world!") is None
+
+
 def test_comp():
     def twice(n):
         return n * 2
