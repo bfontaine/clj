@@ -136,8 +136,8 @@ lazy seqs). We don’t support transducers.
 | `vals`            | -               | Use Python’s `dict.values`.                                                                                         |
 | `keys`            | -               | Use Python’s `dict.keys`.                                                                                           |
 | `rseq`            | -               |                                                                                                                     |
-| `subseq`          |                 |                                                                                                                     |
-| `rsubseq`         |                 |                                                                                                                     |
+| `subseq`          | -               |                                                                                                                     |
+| `rsubseq`         | -               |                                                                                                                     |
 | `repeatedly`      | `repeatedly`    |                                                                                                                     |
 | `iterate`         | `iterate`       |                                                                                                                     |
 | `repeat`          | `repeat`        | `(repeat n x)` becomes `repeat(x, n)`. Equivalent to `itertools.repeat`.                                            |
@@ -153,11 +153,11 @@ lazy seqs). We don’t support transducers.
 | `hash-map`        | -               | Use Python’s `dict`.                                                                                                |
 | `array-map`       | -               | Use Python’s `dict`.                                                                                                |
 | `sorted-map`      | -               | Use `collections.OrderedDict`.                                                                                      |
-| `sorted-map-by`   |                 |                                                                                                                     |
+| `sorted-map-by`   | -               |                                                                                                                     |
 | `hash-set`        | -               | Use Python’s `set`.                                                                                                 |
 | `set`             | -               | Use Python’s `set`.                                                                                                 |
-| `sorted-set`      |                 |                                                                                                                     |
-| `sorted-set-by`   |                 |                                                                                                                     |
+| `sorted-set`      | -               |                                                                                                                     |
+| `sorted-set-by`   | -               |                                                                                                                     |
 | `dedupe`          | `dedupe`        |                                                                                                                     |
 
 We also implemented `count`, which uses Python’s `len` when possible and fallbacks on a `for` loop for other cases.
