@@ -7,6 +7,7 @@ license = "MIT"
 readme = "README.md"
 repository = "https://github.com/bfontaine/clj"
 homepage = "https://github.com/bfontaine/clj"
+keywords = ["clj", "clojure", "lazy", "iterables", "generators"]
 include = ["clj/py.typed"]
 classifiers = [
     'License :: OSI Approved :: MIT License',
