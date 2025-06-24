@@ -33,7 +33,7 @@ def _make_gen(g: Iterable[T]) -> Iterator[T]:
 # The order of the functions here match the one in the Clojure docs:
 #     http://clojure.org/reference/sequences
 
-def distinct(coll: Iterable[T]) -> Iterable[T]:
+def distinct(coll: Iterable[T]) -> Iterator[T]:
     """
     Return a generator of the elements of ``coll`` with duplicates removed.
     """
@@ -57,7 +57,7 @@ def remove(pred: Callable[[T], Any], coll: Iterable[T]) -> Iterable[T]:
     return itertools.filterfalse(pred, coll)
 
 
-def keep(f: Callable[[T], Any], coll: Iterable[T]) -> Iterable[T]:
+def keep(f: Callable[[T], Any], coll: Iterable[T]) -> Iterator[T]:
     """
     Returns a generator of the non-``None`` results of ``f(item)``. Note, this
     means ``False`` return values will be included.
@@ -65,7 +65,7 @@ def keep(f: Callable[[T], Any], coll: Iterable[T]) -> Iterable[T]:
     return keep_indexed(lambda _, e: f(e), coll)
 
 
-def keep_indexed(f: Callable[[int, T], Any], coll: Iterable[T]) -> Iterable[T]:
+def keep_indexed(f: Callable[[int, T], Any], coll: Iterable[T]) -> Iterator[T]:
     """
     Returns a generator of the non-``None`` results of ``f(index, item)``.
     Note, this means ``False`` return values will be included.
@@ -76,7 +76,7 @@ def keep_indexed(f: Callable[[int, T], Any], coll: Iterable[T]) -> Iterable[T]:
             yield res
 
 
-def cons(x: T2, seq: Iterable[T]) -> Iterable[Union[T, T2]]:
+def cons(x: T2, seq: Iterable[T]) -> Iterator[Union[T, T2]]:
     """
     Return a generator where ``x`` is the first element and ``seq`` is the
     rest. Note, this differs from Clojure’s ``cons`` which returns a non-lazy list.
@@ -140,7 +140,7 @@ def interleave(*colls: Iterable[T]) -> Iterator[T]:
         pass
 
 
-def interpose(sep: T2, coll: Iterable[T]) -> Iterable[Union[T, T2]]:
+def interpose(sep: T2, coll: Iterable[T]) -> Iterator[Union[T, T2]]:
     """
     Returns a generator of the elements of ``coll`` separated by ``sep``.
     """
@@ -197,7 +197,7 @@ def take(n: int, coll: Iterable[T]) -> Iterator[T]:
             break
 
 
-def take_nth(n: int, coll: Iterable[T]) -> Iterable[T]:
+def take_nth(n: int, coll: Iterable[T]) -> Iterator[T]:
     """
     Returns a generator of every ``n``th item in ``coll``.
     """
@@ -221,7 +221,7 @@ def take_while(pred: Callable[[T], Any], coll: Iterable[T]) -> Iterable[T]:
     return itertools.takewhile(pred, coll)
 
 
-def butlast(coll: Iterable[T]) -> Iterable[T]:
+def butlast(coll: Iterable[T]) -> Iterator[T]:
     """
     Return a generator of all but the last item in ``coll``, in linear time.
     """
@@ -237,7 +237,7 @@ def butlast(coll: Iterable[T]) -> Iterable[T]:
         last_e = e
 
 
-def drop_last(n: int, coll: Iterable[T]) -> Iterable[T]:
+def drop_last(n: int, coll: Iterable[T]) -> Iterator[T]:
     """
     Return a generator of all but the last ``n`` items in ``coll``.
     """
@@ -259,7 +259,7 @@ def drop_last(n: int, coll: Iterable[T]) -> Iterable[T]:
 
 
 # Recursive generics are not supported yet -- https://github.com/python/mypy/issues/13693
-def flatten(x: Iterable[Any]) -> Iterable[Any]:
+def flatten(x: Iterable[Any]) -> Iterator[Any]:
     """
     Takes any nested combination of sequential things (``list``s, ``tuple``s,
     etc.) and returns their contents as a single, flat sequence.
@@ -356,7 +356,7 @@ def split_with(pred: Callable[[T], Any], coll: Union[Iterator[T], Sequence[T]]) 
     return taken, dropped_while()
 
 
-def replace(smap: dict[T, T2], coll: Iterable[T]) -> Iterable[Union[T, T2]]:
+def replace(smap: dict[T, T2], coll: Iterable[T]) -> Iterator[Union[T, T2]]:
     """
     Given a map of replacement pairs and a list/collection, yield a sequence
     where any element = a key in ``smap`` replaced with the corresponding val
@@ -367,7 +367,7 @@ def replace(smap: dict[T, T2], coll: Iterable[T]) -> Iterable[Union[T, T2]]:
 
 
 # TODO: stricter typing
-def reductions(f: Callable[[T, Any], Any], coll: Iterable[T], init: Union[T, _Nil] = _nil) -> Iterable[Any]:
+def reductions(f: Callable[[T, Any], Any], coll: Iterable[T], init: Union[T, _Nil] = _nil) -> Iterator[Any]:
     """
     Yield the intermediate values of the reduction (as per ``reduce``) of ``coll`` by ``f``, starting with ``init``.
     """
@@ -594,7 +594,7 @@ def dorun(coll: Iterable[Any]) -> None:
 
 
 def repeatedly(f: Union[Callable[[], T2], int], n: Union[int, Callable[[], Union[T2]], None] = None) \
-        -> Iterable[T2]:
+        -> Iterator[T2]:
     """
     Takes a function of no args, presumably with side effects, and returns an
     infinite (or length ``n`` if supplied) lazy sequence of calls to it.
@@ -688,7 +688,7 @@ def tree_seq(has_branch: Callable[[T], Any],
                 yield subchild
 
 
-def dedupe(coll: Iterable[T]) -> Iterable[T]:
+def dedupe(coll: Iterable[T]) -> Iterator[T]:
     """
     Returns a generator of the elements of coll with consecutive duplicates removed.
     """
@@ -768,7 +768,7 @@ def partition(coll: Iterable[T], n: int, step: Union[int, None] = None, pad: Uni
         yield current_partition
 
 
-def partition_by(f: Callable[[T], Any], coll: Iterable[T]) -> Iterable[list[T]]:
+def partition_by(f: Callable[[T], Any], coll: Iterable[T]) -> Iterator[list[T]]:
     current: list[T] = []
     current_value = None
     for element in coll:
