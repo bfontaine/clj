@@ -2,7 +2,9 @@
 
 No change is breaking unless explicitly stated.
 
-## 0.5.0 (unreleased)
+## 0.5.0 (2025/06/24)
+
+This release contains no runtime breaking changes, but very likely contain some breaking changes on types.
 
 * Add types where missing
 * Stricten some loose types

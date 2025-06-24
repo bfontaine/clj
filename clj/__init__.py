@@ -1,6 +1,4 @@
-# -*- coding: UTF-8 -*-
-
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 
 from clj.fns import comp, complement, constantly, dec, identity, inc, juxt, is_distinct, is_odd, is_even
 from clj.seqs import (
