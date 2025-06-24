@@ -1,12 +1,14 @@
-# -*- coding: UTF-8 -*-
+from typing import TypeVar, Callable, Hashable, Any
 
-# See http://clojure.org/reference/other_functions
-from typing import TypeVar, Callable, Hashable, Any, ParamSpec
+from typing_extensions import ParamSpec
 
 X = TypeVar('X')
 T = TypeVar('T')
 Params = ParamSpec('Params')
 Number = TypeVar('Number', int, float)
+
+
+# See http://clojure.org/reference/other_functions
 
 
 def identity(x: T) -> T:
