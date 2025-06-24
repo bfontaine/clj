@@ -32,7 +32,8 @@ jobs:
 
     - name: Lint with Mypy
       run: |
-        poetry run mypy --check-untyped-defs clj tests
+        poetry run mypy --check-untyped-defs --strict clj
+        poetry run mypy --check-untyped-defs tests
 
     - name: Run Tests
       run: |
