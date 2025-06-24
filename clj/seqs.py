@@ -18,7 +18,7 @@ T = TypeVar('T')
 T2 = TypeVar('T2')
 
 
-def _is_collection_abc(x):
+def _is_collection_abc(x) -> bool:
     return isinstance(x, collections_abc.Sized) and \
         isinstance(x, collections_abc.Iterable)
 
@@ -98,7 +98,7 @@ def concat(*xs):
 map = map
 
 
-def mapcat(f: Callable[[Any], Iterable], *colls):
+def mapcat(f: Callable[..., Iterable[T]], *colls: Iterable) -> Iterator[T]:
     """
     Returns a generator representing the result of applying concat to the
     result of applying ``map`` to ``f`` and ``colls``. Thus function ``f``
@@ -109,7 +109,7 @@ def mapcat(f: Callable[[Any], Iterable], *colls):
             yield e
 
 
-def cycle(coll: Iterable[T]) -> Iterable[T]:
+def cycle(coll: Iterable[T]) -> Iterator[T]:
     """
     Returns a (infinite!) generator which yields repetitions of the items in ``coll``.
     """
@@ -123,7 +123,7 @@ def cycle(coll: Iterable[T]) -> Iterable[T]:
             yield e
 
 
-def interleave(*colls) -> Iterable:
+def interleave(*colls: Iterable[T]) -> Iterator[T]:
     """
     Returns a generator of the first item in each coll, then the second etc.
     """
@@ -152,14 +152,14 @@ def interpose(sep: T2, coll: Iterable[T]) -> Iterable[Union[T, T2]]:
         yield e
 
 
-def rest(coll: Iterable[T]) -> Iterable[T]:
+def rest(coll: Iterable[T]) -> Iterator[T]:
     """
     Returns a possibly empty generator of the items after the first.
     """
     return drop(1, coll)
 
 
-def drop(n: int, coll: Iterable[T]) -> Iterable[T]:
+def drop(n: int, coll: Iterable[T]) -> Iterator[T]:
     """
     Returns a generator of all but the first ``n`` items in ``coll``.
     """
@@ -171,7 +171,7 @@ def drop(n: int, coll: Iterable[T]) -> Iterable[T]:
             yield e
 
 
-def drop_while(pred: Callable[[T], Any], coll: Iterable[T]) -> Iterable[T]:
+def drop_while(pred: Callable[[T], Any], coll: Iterable[T]) -> Iterator[T]:
     """
     Returns a generator of the items in ``coll`` starting from the first item
     for which ``pred(item)`` returns a falsy value.
@@ -181,7 +181,7 @@ def drop_while(pred: Callable[[T], Any], coll: Iterable[T]) -> Iterable[T]:
     return itertools.dropwhile(pred, coll)
 
 
-def take(n: int, coll: Iterable[T]) -> Iterable[T]:
+def take(n: int, coll: Iterable[T]) -> Iterator[T]:
     """
     Returns a generator of the first ``n`` items in ``coll``, or all items if
     there are fewer than ``n``.
@@ -256,7 +256,8 @@ def drop_last(n: int, coll: Iterable[T]) -> Iterable[T]:
         yield queue.popleft()
 
 
-def flatten(x: Iterable) -> Iterable:
+# TODO: recursive type
+def flatten(x: Iterable[Any]) -> Iterable[Any]:
     """
     Takes any nested combination of sequential things (``list``s, ``tuple``s,
     etc.) and returns their contents as a single, flat sequence.
@@ -279,7 +280,7 @@ def flatten(x: Iterable) -> Iterable:
             xs.popleft()
 
 
-def reverse(coll: Iterable[T]) -> Iterable[T]:
+def reverse(coll: Iterable[T]) -> Iterator[T]:
     """
     Return an iterator of the items in ``coll`` in reverse order. Not lazy.
     """
@@ -287,7 +288,7 @@ def reverse(coll: Iterable[T]) -> Iterable[T]:
         yield e
 
 
-def shuffle(coll: Iterable[T]) -> Iterable[T]:
+def shuffle(coll: Iterable[T]) -> list[T]:
     """
     Return a random permutation of ``coll``. Not lazy.
     """
@@ -296,7 +297,7 @@ def shuffle(coll: Iterable[T]) -> Iterable[T]:
     return coll
 
 
-def _iter(coll, n=0):
+def _iter(coll: Iterable[T], n: int = 0) -> Iterable[T]:
     # If it's an iterator, we already consumed the beginning
     if isinstance(coll, collections.abc.Iterator):
         return coll
