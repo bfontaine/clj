@@ -3,13 +3,15 @@ import collections
 import collections.abc as collections_abc
 import itertools
 import random
-from typing import Iterable, TypeVar, Any, Callable, Iterator, Union, cast, Deque
+from typing import Iterable, TypeVar, Any, Callable, Iterator, Union, cast, Deque, Sequence
 
-import clj
 
-# We use this as a default value for some arguments in order to check if they
-# were provided or not
-_nil = object()
+class _Nil(object):
+    pass
+
+
+# We use this as a default value for some arguments to check if they were provided or not
+_nil = _Nil()
 
 # We redefine `range` below so keep a reference to the original one here
 _range = range
@@ -18,7 +20,7 @@ T = TypeVar('T')
 T2 = TypeVar('T2')
 
 
-def _is_collection_abc(x) -> bool:
+def _is_collection_abc(x: Any) -> bool:
     return isinstance(x, collections_abc.Sized) and \
         isinstance(x, collections_abc.Iterable)
 
@@ -84,7 +86,7 @@ def cons(x: T2, seq: Iterable[T]) -> Iterable[Union[T, T2]]:
         yield e
 
 
-def concat(*xs):
+def concat(*xs: Iterable[T]) -> Iterator[T]:
     """
     Returns a generator representing the concatenation of the elements in the supplied collections.
 
@@ -98,7 +100,7 @@ def concat(*xs):
 map = map
 
 
-def mapcat(f: Callable[..., Iterable[T]], *colls: Iterable) -> Iterator[T]:
+def mapcat(f: Callable[..., Iterable[T]], *colls: Iterable[Any]) -> Iterator[T]:
     """
     Returns a generator representing the result of applying concat to the
     result of applying ``map`` to ``f`` and ``colls``. Thus function ``f``
@@ -187,7 +189,7 @@ def take(n: int, coll: Iterable[T]) -> Iterator[T]:
     there are fewer than ``n``.
     """
     if n <= 0:
-        return None
+        return
 
     for i, e in enumerate(coll):
         yield e
@@ -256,7 +258,7 @@ def drop_last(n: int, coll: Iterable[T]) -> Iterable[T]:
         yield queue.popleft()
 
 
-# TODO: recursive type
+# Recursive generics are not supported yet -- https://github.com/python/mypy/issues/13693
 def flatten(x: Iterable[Any]) -> Iterable[Any]:
     """
     Takes any nested combination of sequential things (``list``s, ``tuple``s,
@@ -297,14 +299,19 @@ def shuffle(coll: Iterable[T]) -> list[T]:
     return coll
 
 
-def _iter(coll: Iterable[T], n: int = 0) -> Iterable[T]:
+def _iter(coll: Union[Iterator[T], Sequence[T], Iterable[T]], n: int = 0) -> Iterable[T]:
     # If it's an iterator, we already consumed the beginning
     if isinstance(coll, collections.abc.Iterator):
         return coll
-    return coll[n:]
+
+    if isinstance(coll, collections.abc.Sequence):
+        return coll[n:]
+
+    # shouldn't happen
+    return drop(n, coll)
 
 
-def split_at(n: int, coll: Iterable[T]) -> tuple[Iterable[T], Iterable[T]]:
+def split_at(n: int, coll: Union[Iterator[T], Sequence[T]]) -> tuple[Iterable[T], Iterable[T]]:
     """
     Returns a tuple of ``(take(n, coll), drop(n coll))``.
     """
@@ -317,7 +324,7 @@ def split_at(n: int, coll: Iterable[T]) -> tuple[Iterable[T], Iterable[T]]:
     # Unfortunately we must consume all elements for the first case because
     # unlike Clojure's lazy lists, Python's generators yield their elements
     # only once.
-    taken = []
+    taken: list[T] = []
     for i, e in enumerate(coll):
         taken.append(e)
         if i + 1 >= n:
@@ -326,12 +333,12 @@ def split_at(n: int, coll: Iterable[T]) -> tuple[Iterable[T], Iterable[T]]:
     return taken, _iter(coll, n)
 
 
-def split_with(pred: Callable[[T], Any], coll: Iterable[T]) -> tuple[Iterable[T], Iterable[T]]:
+def split_with(pred: Callable[[T], Any], coll: Union[Iterator[T], Sequence[T]]) -> tuple[Iterable[T], Iterable[T]]:
     """
-    Returns a tuple of ``(take_while(pred, coll), drop_while(pred coll))``.
+    Returns a tuple of ``(take_while(pred, coll), drop_while(pred, coll))``.
     """
     # See note in split_at.
-    taken = []
+    taken: list[T] = []
     for i, e in enumerate(coll):
         if pred(e):
             taken.append(e)
@@ -341,7 +348,7 @@ def split_with(pred: Callable[[T], Any], coll: Iterable[T]) -> tuple[Iterable[T]
     else:
         return taken, []
 
-    def dropped_while():
+    def dropped_while() -> Iterator[T]:
         yield middle
         for el in _iter(coll, i + 1):
             yield el
@@ -359,14 +366,14 @@ def replace(smap: dict[T, T2], coll: Iterable[T]) -> Iterable[Union[T, T2]]:
         yield smap.get(e, e)
 
 
-def reductions(f: Callable, coll: Iterable[T], init: Any = _nil) -> Iterable:
+# TODO: stricter typing
+def reductions(f: Callable[[T, Any], Any], coll: Iterable[T], init: Union[T, _Nil] = _nil) -> Iterable[Any]:
     """
-    Yield the intermediate values of the reduction (as per ``reduce``) of
-    ``coll`` by ``f``, starting with ``init``.
+    Yield the intermediate values of the reduction (as per ``reduce``) of ``coll`` by ``f``, starting with ``init``.
     """
     first_value, is_empty = _first(coll)
     if is_empty:
-        if init is _nil:
+        if isinstance(init, _Nil):
             yield None
         else:
             yield init
@@ -374,7 +381,7 @@ def reductions(f: Callable, coll: Iterable[T], init: Any = _nil) -> Iterable:
 
     first_value = cast(T, first_value)
 
-    if init is _nil:
+    if isinstance(init, _Nil):
         init_value = first_value
     else:
         coll = cons(first_value, coll)
@@ -448,7 +455,7 @@ def second(coll: Iterable[T]) -> Union[T, None]:
     return first(rest(coll))
 
 
-def nth(coll: Iterable[T], n: int, not_found: Any = _nil) -> Any:
+def nth(coll: Iterable[T], n: int, not_found: Union[T2, _Nil] = _nil) -> Union[T, T2]:
     """
     Returns the value at the index. ``get`` returns ``None`` if the index is
     out of bounds, ``nth`` throws an exception unless ``not_found`` is
@@ -458,9 +465,9 @@ def nth(coll: Iterable[T], n: int, not_found: Any = _nil) -> Any:
     if n >= 0:
         if hasattr(coll, "__getitem__"):
             try:
-                return cast(list, coll)[n]
+                return cast(list[T], coll)[n]
             except IndexError:
-                if not_found is not _nil:
+                if not isinstance(not_found, _Nil):
                     return not_found
                 raise
 
@@ -468,7 +475,7 @@ def nth(coll: Iterable[T], n: int, not_found: Any = _nil) -> Any:
             if i == n:
                 return e
 
-    if not_found is _nil:
+    if isinstance(not_found, _Nil):
         raise IndexError("%s index out of range" % type(coll))
 
     return not_found
@@ -504,9 +511,13 @@ def group_by(f: Callable[[T], T2], coll: Iterable[T]) -> dict[T2, list[T]]:
     return dict(groups)
 
 
+# TODO: overrides
 def _make_pred(pred: Union[Callable[[T], T2], set[T]]) -> Callable[[T], Union[T2, bool]]:
     if isinstance(pred, set):
-        return lambda x: x in cast(set[T], pred)
+        def _pred(x: T) -> bool:
+            return x in pred
+
+        return _pred
 
     return pred
 
@@ -530,7 +541,7 @@ def some(pred: Union[Callable[[T], Any], set[T]], coll: Iterable[T]) -> Union[T,
     return None
 
 
-def is_seq(x):
+def is_seq(x: Any) -> bool:
     """
     Return ``True`` if ``x`` is a sequence.
     """
@@ -568,7 +579,7 @@ def not_any(pred: Union[Callable[[T], Any], set[T]], coll: Iterable[T]) -> bool:
     return every(lambda e: not pred2(e), coll)
 
 
-def dorun(coll: Iterable) -> None:
+def dorun(coll: Iterable[Any]) -> None:
     """
     When generators are produced via functions that have side effects, any
     effects other than those needed to produce the first element in the
@@ -603,7 +614,7 @@ def repeatedly(f: Union[Callable[[], T2], int], n: Union[int, Callable[[], Union
         n -= 1
 
 
-def iterate(f: Callable[[Any], Any], x) -> Iterable:
+def iterate(f: Callable[[T], T], x: T) -> Iterator[T]:
     """
     Returns a generator of ``x``, ``f(x)``, ``f(f(x))``, etc.
     """
@@ -659,8 +670,9 @@ def range(*args: int) -> Iterator[int]:
         n += 1
 
 
-def tree_seq(has_branch: Callable[[Any], Any], get_children: Callable[[Any], Iterable], root: Any) \
-        -> Iterable:
+def tree_seq(has_branch: Callable[[T], Any],
+             get_children: Callable[[T], Iterable[T]],
+             root: T) -> Iterator[T]:
     """
     Returns a generator of the nodes in a tree, via a depth-first walk.
     ``has_branch`` must be a function of one argument that returns ``True`` if
@@ -701,14 +713,14 @@ def empty(coll: T) -> Union[T, None]:
 # Not listed in http://clojure.org/reference/sequences but useful for
 # generators to avoid doing e.g. len(list(gen)) that loads everything in
 # memory.
-def count(coll: Iterable) -> int:
+def count(coll: Iterable[Any]) -> int:
     """
     Returns the number of items in the collection. Also works on strings.
     """
     if hasattr(coll, "__len__"):
-        return len(cast(list, coll))
+        return len(cast(list[Any], coll))
 
-    n = 0
+    n: int = 0
     for _ in coll:
         n += 1
     return n
@@ -788,7 +800,12 @@ def seq_gen(coll: Iterable[T]) -> Union[Iterable[T], None]:
     >>> list(seq_gen([1, 2, 3]))
     [1, 2, 3]
     """
+    if hasattr(coll, "__empty__"):
+        return None if coll.__empty__() else coll
+
     first_element, _is_empty = _first(coll)
     if _is_empty:
         return None
-    return clj.concat([first_element], _iter(coll, 1))
+
+    # first_element can't be None (unless None is part of T) as _is_empty is false
+    return concat([cast(T, first_element)], _iter(coll, 1))
