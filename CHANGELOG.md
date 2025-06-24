@@ -2,6 +2,16 @@
 
 No change is breaking unless explicitly stated.
 
+## 0.5.0 (unreleased)
+
+* Add types where missing
+* Stricten some loose types
+* `split_at`’s typing no longer accepts unordered arguments such as sets
+
+Performance improvements:
+
+* `seq_gen` now uses `__empty__` if available
+
 ## 0.4.0 (2024/11/29)
 
 * Add explicit support for Python 3.12 and 3.13
