@@ -1,10 +1,13 @@
 import re
 from collections import OrderedDict, Counter, deque, defaultdict
-from typing import Iterable, Any, cast
+from typing import Iterable, Any, cast, Union
 
 import pytest
 
 import clj as c
+
+IntNode = Union[int, list["IntNode"]]
+StrNode = Union[str, list["StrNode"]]
 
 
 def infinite_range_fn():
@@ -501,18 +504,25 @@ def test_count():
     assert c.count(NotIterable()) == 42
 
 
-def test_tree_seq():
+def test_tree_seq_no_children():
     def boom(_):
         raise RuntimeError("boom!")
 
     assert list(c.tree_seq(lambda _: False, boom, 42)) \
            == [42]
 
-    t = [[1, 2, [3]], [4]]
-    assert list(c.tree_seq(c.is_seq, c.identity, t)) \
+
+def test_tree_seq1():
+    def get_children(x: IntNode):
+        return cast(list[IntNode], x)
+
+    t: IntNode = [[1, 2, [3]], [4]]
+    assert list(c.tree_seq(c.is_seq, get_children, t)) \
            == [t, [1, 2, [3]], 1, 2, [3], 3, [4], 4]
 
-    t = ["C", ["l", ["o"], ["j"]], ["u", ["r"]], ["e"]]
+
+def test_tree_seq2():
+    t: StrNode = ["C", ["l", ["o"], ["j"]], ["u", ["r"]], ["e"]]
     assert list(map(c.first, c.tree_seq(c.rest, c.rest, t))) \
            == ["C", "l", "o", "j", "u", "r", "e"]
 

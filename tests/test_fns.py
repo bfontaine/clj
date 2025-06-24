@@ -72,7 +72,9 @@ def test_constantly():
 
 def test_juxt():
     fn = c.juxt(c.inc, c.identity, c.dec)
-    assert fn(2) == [3, 2, 1]
+    # FIXME:
+    #  > Revealed type is "def (x: Never) -> builtins.list[builtins.object]"
+    assert fn(2) == [3, 2, 1]  # type: ignore
 
     assert c.juxt(c.inc)(42) == [43]
 
