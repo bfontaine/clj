@@ -2,8 +2,7 @@
 
 ## Run the tests
 
-    poetry run mypy clj tests
-    poetry run python tests/test.py
+    ./ci.sh
 
 ## Release a new version
 

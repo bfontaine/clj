@@ -9,36 +9,34 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     strategy:
       matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14", "3.15.0-rc.1"]
+        # See https://github.com/actions/python-versions/releases for available versions
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14", "3.15.0-rc.2"]
 
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v5
 
-    - name: Install Poetry
-      run: |
-        pipx install poetry
+      - name: Install uv
+        run: |
+          pipx install uv
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
-        cache: 'poetry'
+      - name: Set up uv and Python ${{ matrix.python-version }}
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: Install dependencies
-      run: |
-        poetry install
+      - name: Install dependencies
+        run: |
+          uv sync --frozen
 
-    - name: Lint with Mypy
-      run: |
-        poetry run mypy --check-untyped-defs --strict clj
-        poetry run mypy --check-untyped-defs tests
+      - name: Test
+        run: |
+          ./ci.sh
 
-    - name: Run Tests
-      run: |
-        poetry run pytest
+      - name: Test build
+        run: |
+          uv build
 
-    - name: Test build
-      run: |
-        poetry build
