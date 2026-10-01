@@ -1,6 +1,6 @@
 [project]
 name = "clj"
-version = "0.5.0"
+version = "0.6.0"
 description = "Utilities for lazy iterables"
 authors = [{ name = "Baptiste Fontaine", email = "b@ptistefontaine.fr" }]
 requires-python = ">=3.11,<4"

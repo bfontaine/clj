@@ -4,7 +4,8 @@ No change is breaking unless explicitly stated.
 
 ## Unreleased
 
-* Drop support for Python 3.9
+* Drop support for Python 3.9, 3.10
+* Use `uv` instead of Poetry
 
 ## 0.5.0 (2025/06/24)
 

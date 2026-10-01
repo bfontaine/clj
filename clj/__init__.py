@@ -1,4 +1,4 @@
-__version__ = "0.5.0"
+__version__ = "0.6.0"
 
 from clj.fns import comp, complement, constantly, dec, identity, inc, juxt, is_distinct, is_odd, is_even
 from clj.seqs import (
