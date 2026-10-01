@@ -3,7 +3,7 @@ import pytest
 import clj as c
 
 
-@pytest.mark.parametrize("e", (True, None, [3], {4: 2}, (24,), 1, -1, 1e9, object(), "a"))
+@pytest.mark.parametrize("e", [True, None, [3], {4: 2}, (24,), 1, -1, 1e9, object(), "a"])
 def test_identity(e):
     assert c.identity(e) == e
 

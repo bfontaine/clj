@@ -3,7 +3,7 @@ name = "clj"
 version = "0.5.0"
 description = "Utilities for lazy iterables"
 authors = [{ name = "Baptiste Fontaine", email = "b@ptistefontaine.fr" }]
-requires-python = ">=3.10,<4"
+requires-python = ">=3.11,<4"
 readme = "README.md"
 license = "MIT"
 keywords = [
@@ -17,7 +17,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -47,3 +46,37 @@ source-include = ["clj/py.typed"]
 [build-system]
 requires = ["uv_build>=0.12.5,<0.13.0"]
 build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+[tool.ruff.lint]
+select = [
+    "D", # docstrings
+    "PERF", # Performance
+    "W",
+    "F",
+    "UP", # deprecated Python
+    # Flake8
+    "A",
+    "B",
+    "C4",
+    "PIE800",
+    "PT",
+    "SIM",
+    "SLOT",
+    "YTT",
+
+    "PLE",
+    "FURB",
+    "PLC0207",
+]
+ignore = [
+    "A001", "A004", # shadowed builtins
+    "B007", # TODO: mark the code instead
+
+    "D100", # "Missing docstring in public module"
+    "D104", # "Missing docstring in public package"
+    "D205", # "1 blank line required between summary line and description",
+    "D401", # "First line of docstring should be in imperative mood"
+]

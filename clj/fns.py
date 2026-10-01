@@ -1,4 +1,5 @@
-from typing import TypeVar, Callable, Hashable, Any
+from typing import TypeVar, Any
+from collections.abc import Callable, Hashable
 
 from typing_extensions import ParamSpec
 
@@ -12,44 +13,33 @@ Number = TypeVar('Number', int, float)
 
 
 def identity(x: T) -> T:
-    """
-    Returns its argument.
-    """
+    """Returns its argument."""
     return x
 
 
 def inc(x: Number) -> Number:
-    """
-    Returns a number one greater than num.
-    """
+    """Returns a number one greater than num."""
     return x + 1
 
 
 def dec(x: Number) -> Number:
-    """
-    Returns a number one less than num.
-    """
+    """Returns a number one less than num."""
     return x - 1
 
 
 def is_even(x: int) -> bool:
-    """
-    Return ``True`` if ``x`` is an even number.
-    """
+    """Return ``True`` if ``x`` is an even number."""
     return bool(~x & 1)
 
 
 def is_odd(x: int) -> bool:
-    """
-    Return ``True`` if ``x`` is an odd number.
-    """
+    """Return ``True`` if ``x`` is an odd number."""
     return bool(x & 1)
 
 
 # TODO: better typing
 def comp(*fns: Callable[..., Any]) -> Callable[..., Any]:
-    """
-    Takes a set of functions and returns a function that is the composition of
+    """Takes a set of functions and returns a function that is the composition of
     those functions. The returned function takes a variable number of args,
     applies the rightmost of functions to the args, the next function
     (right-to-left) to the result, etc.
@@ -69,8 +59,7 @@ def comp(*fns: Callable[..., Any]) -> Callable[..., Any]:
 
 
 def complement(f: Callable[Params, Any]) -> Callable[Params, bool]:
-    """
-    Takes a function ``f`` and returns a function that takes the same arguments
+    """Takes a function ``f`` and returns a function that takes the same arguments
     as ``f``, has the same effects, if any, and returns the opposite truth
     value.
     """
@@ -82,9 +71,7 @@ def complement(f: Callable[Params, Any]) -> Callable[Params, bool]:
 
 
 def constantly(x: T) -> Callable[..., T]:
-    """
-    Returns a function that takes any number of arguments and returns ``x``.
-    """
+    """Returns a function that takes any number of arguments and returns ``x``."""
 
     def _fn(*_args: Any, **_kw: Any) -> T:
         return x
@@ -93,15 +80,13 @@ def constantly(x: T) -> Callable[..., T]:
 
 
 def juxt(*fns: Callable[Params, T]) -> Callable[Params, list[T]]:
-    """
-    Takes a set of functions and returns a function that is the juxtaposition
+    """Takes a set of functions and returns a function that is the juxtaposition
     of those functions. The returned function takes a variable number of
     arguments, and returns a list containing the result of applying each
     function to the arguments (left-to-right).
 
         juxt(f, g, h)(x) # => [f(x), g(x), h(x)]
     """
-
     # Note we accept zero argument while Clojure wants at least one.
 
     def _fn(*args: Any, **kw: Any) -> list[T]:
@@ -111,6 +96,7 @@ def juxt(*fns: Callable[Params, T]) -> Callable[Params, list[T]]:
 
 
 def is_distinct(*args: Hashable) -> bool:
+    """Return True if all arguments are distinct."""
     s = set()
     for arg in args:
         if arg in s:

@@ -1,6 +1,7 @@
 import re
 from collections import OrderedDict, Counter, deque, defaultdict
-from typing import Iterable, Any, cast, Union
+from typing import Any, cast, Union
+from collections.abc import Iterable
 
 import pytest
 
@@ -219,7 +220,7 @@ def test_drop_last():
     assert list(c.drop_last(3, [1, 2, 3, 4, 5])) == [1, 2]
 
 
-@pytest.mark.parametrize("xs, expected", [
+@pytest.mark.parametrize(("xs", "expected"), [
     ([], []),
     ((), []),
     ({}, []),
@@ -265,11 +266,11 @@ def test_reverse():
 def test_shuffle():
     assert list(c.shuffle([])) == []
     assert list(c.shuffle(c.range(0))) == []
-    assert sorted(list(c.shuffle({1, 2, 3}))) == [1, 2, 3]
+    assert sorted(c.shuffle({1, 2, 3})) == [1, 2, 3]
 
     ls = [1, 2, 3, 4]
     ls_orig = ls[:]
-    assert list(sorted(c.shuffle(ls))) == ls
+    assert sorted(c.shuffle(ls)) == ls
     assert ls == ls_orig  # ensure it's not modified
 
 
@@ -437,7 +438,7 @@ def test_dorun():
             els.append(x)
             yield x
 
-    assert [] == els
+    assert els == []
     assert c.dorun(_gen()) is None  # type: ignore[func-returns-value]
     assert list(range(10)) == els
 
@@ -536,7 +537,7 @@ def test_dedupe():
     assert list(c.dedupe([1, 1, 2, 2, 1])) == [1, 2, 1]
 
 
-@pytest.mark.parametrize("x", (0, 42, None, True, False, lambda: 1, re))
+@pytest.mark.parametrize("x", [0, 42, None, True, False, lambda: 1, re])
 def test_empty_none(x):
     assert c.empty(x) is None
 
@@ -564,19 +565,19 @@ def test_partition():
     for n in (0, -1, -200):
         assert list(c.partition([1, 2, 3, 4], n)) == []
 
-    assert list((c.partition([1, 2, 3], 1))) == [[1], [2], [3]]
-    assert list((c.partition([1, 2, 3], 2))) == [[1, 2]]
-    assert list((c.partition([1, 2, 3, 4], 2))) == [[1, 2], [3, 4]]
-    assert list((c.partition([1, 2, 3], 3))) == [[1, 2, 3]]
+    assert list(c.partition([1, 2, 3], 1)) == [[1], [2], [3]]
+    assert list(c.partition([1, 2, 3], 2)) == [[1, 2]]
+    assert list(c.partition([1, 2, 3, 4], 2)) == [[1, 2], [3, 4]]
+    assert list(c.partition([1, 2, 3], 3)) == [[1, 2, 3]]
 
     # pad
-    assert list((c.partition([1, 2, 3], 1, pad=[4]))) == [[1], [2], [3]]
-    assert list((c.partition([1, 2, 3], 2, pad=[4]))) == [[1, 2], [3, 4]]
-    assert list((c.partition([1, 2, 3, 4], 2, pad=[5]))) == [[1, 2], [3, 4]]
-    assert list((c.partition([1, 2, 3], 3, pad=[4]))) == [[1, 2, 3]]
+    assert list(c.partition([1, 2, 3], 1, pad=[4])) == [[1], [2], [3]]
+    assert list(c.partition([1, 2, 3], 2, pad=[4])) == [[1, 2], [3, 4]]
+    assert list(c.partition([1, 2, 3, 4], 2, pad=[5])) == [[1, 2], [3, 4]]
+    assert list(c.partition([1, 2, 3], 3, pad=[4])) == [[1, 2, 3]]
 
-    assert list((c.partition([1, 2, 3, 4], 3, pad=[5]))) == [[1, 2, 3], [4, 5]]
-    assert list((c.partition([1, 2, 3, 4], 3, pad=[5, 6]))) == [[1, 2, 3], [4, 5, 6]]
+    assert list(c.partition([1, 2, 3, 4], 3, pad=[5])) == [[1, 2, 3], [4, 5]]
+    assert list(c.partition([1, 2, 3, 4], 3, pad=[5, 6])) == [[1, 2, 3], [4, 5, 6]]
 
 
 def test_partition_by():
@@ -604,7 +605,7 @@ def test_partition_by():
     assert list(c.partition_by(c.identity, "ABBA")) == [["A"], ["B", "B"], ["A"]]
 
 
-@pytest.mark.parametrize("coll", ([], {}, (0 for _ in range(0))))
+@pytest.mark.parametrize("coll", [[], {}, (0 for _ in range(0))])
 def test_seq_gen_none(coll):
     assert c.seq_gen(coll) is None
 

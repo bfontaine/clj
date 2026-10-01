@@ -2,6 +2,10 @@
 
 No change is breaking unless explicitly stated.
 
+## Unreleased
+
+* Drop support for Python 3.9
+
 ## 0.5.0 (2025/06/24)
 
 This release contains no runtime breaking changes, but very likely contain some breaking changes on types.
